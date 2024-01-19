@@ -9,7 +9,7 @@ interface LoginForm {
   email: "";
   password: "";
 }
-
+//jajaja averga
 const Landing = () => {
   const navigate = useNavigate();
   const [loginForm, setLoginForm] = useState<LoginForm>({
