@@ -13,7 +13,7 @@
     height: 50%;
     box-shadow: var(--boxShadow);
     background-color: var(--color5);
-    border: solid var(--color4) 1px;
+    border: var(--containerBorder);
 
     label {
       @include flex(space-around, stretch, column);

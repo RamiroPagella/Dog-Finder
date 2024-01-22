@@ -1,6 +1,6 @@
 @import '../../index.scss';
 
-.Landing {
+.Login {
   @include flex(center, center, column);
   height: 100%;
   width: 100%;
@@ -27,7 +27,10 @@
     background: none;
     box-shadow: var(--boxShadow);
     background-color: var(--color5);
-    border: solid var(--color4) 1px;
+    border: var(--containerBorder);
+    animation: move;
+    animation-duration: 0.7s;
+
 
     label {
       @include flex(space-around, stretch, column);
@@ -73,4 +76,15 @@
 
 }
 
+@keyframes move {
+  from {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translate(0px);
+    opacity: 1;
+  }
+}
 

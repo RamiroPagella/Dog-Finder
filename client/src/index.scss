@@ -18,7 +18,10 @@
   --color7: #495057;
   --color8: #343a40;
   --color9: #212529;
+
   --boxShadow: 0px 0px 10px rgb(129, 129, 129);
+  --boxShadowBottom: 0px 5px 10px rgb(129, 129, 129);
+  --containerBorder: solid var(--color4) 1px;
 
   background-color: var(--color4);
 }
@@ -81,3 +84,5 @@
   border: none;
   background-color: var(--color4);
 }
+
+

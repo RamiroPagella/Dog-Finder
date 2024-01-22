@@ -1,0 +1,15 @@
+.createDog {
+  animation: move;
+  animation-duration: 0.3s;
+  border: solid black;
+  flex: 1
+}
+
+@keyframes move {
+  from {
+    transform: translateX(100vw);
+  }
+  to {
+    transform: translateX(0);
+  }
+}

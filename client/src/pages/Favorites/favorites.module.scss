@@ -1,14 +1,8 @@
-.Home {
+.Favorites {
   flex: 1;
+  border: solid black;
   animation: move;
   animation-duration: 0.2s;
-  padding: 15px 35px;
-}
-
-.Filters {
-  width: 100%;
-  border: solid var(--color7) 1px;
-  box-shadow: var(--boxShadowBottom);
 }
 
 @keyframes move {

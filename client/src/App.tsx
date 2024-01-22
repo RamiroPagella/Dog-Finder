@@ -1,19 +1,53 @@
 import "./App.css";
-import { Routes, Route } from 'react-router-dom';
-import Landing from "./pages/Landing/Landing";
+import { Routes, Route, useNavigate } from "react-router-dom";
+import Landing from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Home from "./pages/Home/Home";
-
+import { useEffect } from "react";
+import NotFound from "./pages/NotFound/NotFound";
+import axiosInstance from "./axios";
+import { useDispatch } from "react-redux";
+import { setIsAuthenticated, setUser } from "./redux/userSlice";
+import NavBar from "./components/NavBar/NavBar";
+import Favorites from "./pages/Favorites/Favorites";
+import CreateDog from "./pages/CreateDog/CreateDog";
 
 function App() {
-  
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("jwtToken");
+    if (token) {
+      dispatch(setIsAuthenticated(true));
+      axiosInstance
+        .get("/user", { headers: { Authorization: token } })
+        .then((res) => {
+          if (!res.data.username) throw new Error("Unauthorized");
+          const { username, email, id } = res.data;
+          dispatch(setUser({ username, email, id }));
+          navigate("/");
+        })
+        .catch((err) => console.log(err));
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="App">
+
+      <NavBar />
+
       <Routes>
-        <Route path="/" element={<Landing />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/favorites" element={<Favorites />} />
+        <Route path="/create-dog" element={<CreateDog />} /> 
+
         <Route path="/register" element={<Register />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/login" element={<Landing />} />
+
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );

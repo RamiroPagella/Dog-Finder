@@ -1,0 +1,83 @@
+@import "../../index.scss";
+
+@mixin navBar_Icon($width: 50px, $height: 50px) {
+  height: $height;
+  width: $width;
+  padding: 5px;
+  border-radius: 100px;
+  color: var(--color9);
+}
+
+//
+
+.NavBar {
+  @include flex(center, center, row);
+  height: 70px;
+  max-height: 80px;
+  width: 100%;
+  border-bottom: var(--containerBorder);
+  box-shadow: var(--boxShadow);
+  background-color: var(--color5);
+
+  .Container1 {
+    @include flex(center, center, row);
+    flex: 1;
+    height: 100%;
+    gap: 50px;
+
+    .icon {
+      @include navBar_Icon ();
+      transition: color, background-color, 0.2s;
+    }
+    .icon:hover {
+      color: var(--color4);
+      background-color: var(--color7);
+      cursor: pointer;
+    }
+    .selected {
+      color: var(--color4);
+      background-color: var(--color7);
+      box-shadow: var(--boxShadow);
+    }
+  }
+
+  .Container2 {
+    @include flex(center, center, row);
+    flex: 1;
+    height: 100%;
+    gap: 35px;
+
+    .input {
+      @include input();
+      width: 70%;
+    }
+
+    .icon {
+      @include navBar_Icon (40px, 40px);
+    }
+    .icon:hover {
+      color: var(--color4);
+      background-color: var(--color7);
+      cursor: pointer;
+    }
+  }
+
+  .Container3 {
+    @include flex (center, center);
+    flex: 1;
+    height: 100%;
+
+    .icon {
+      @include navBar_Icon ();
+    }
+    .icon:hover {
+      color: var(--color4);
+      background-color: var(--color7);
+      cursor: pointer;
+    }
+  }
+}
+
+
+
+
