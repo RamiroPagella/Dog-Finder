@@ -3,16 +3,16 @@ import { Register, Login, UserInfo } from "../handlers/userHandlers";
 import { verifyToken } from "../middlewares/verifyToken";
 
 
-const router = Router();
+const userRouter = Router();
 
 
-router.post('/register', Register);
+userRouter.post('/register', Register);
 
-router.post('/login', Login)
+userRouter.post('/login', Login)
 
-router.get('/user', verifyToken, UserInfo);
-
-
+userRouter.get('/user/info', verifyToken, UserInfo);
 
 
-export default router;
+
+
+export default userRouter;

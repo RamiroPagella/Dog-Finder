@@ -1,21 +1,107 @@
+@import "../../index.scss";
+
 .Home {
+  @include flex(flex-start, flex-start);
+  display: flex;
+  flex-direction: column;
   flex: 1;
-  animation: move;
+  animation: home-animation;
   animation-duration: 0.2s;
   padding: 15px 35px;
+
+  .Presentation {
+    position: relative;
+    width: 100%;
+    padding-bottom: 5px;
+
+    button {
+      @include button();
+      position: absolute;
+      bottom: 5px;
+      right: 0;
+      padding: 5px 10px;
+      transition: color, background-color 0.3s;
+      min-width: 120px;
+    }
+    button:hover {
+      background-color: var(--color7);
+      color: var(--color4);
+    }
+  }
+
+  .Filters {
+    height: 50px;
+    padding: 4px;
+    width: 100%;
+    transition: height 0.3s;
+    border-top: solid var(--color7);
+    position: relative;
+    border-bottom: solid rgba(255, 255, 255, 0);
+    transition: border-bottom 0.3s;
+    overflow: hidden;
+
+    .filters {
+      @include flex(center, center);
+      padding: 5px;
+      height: 100%;
+      width: 100%;
+      gap: 20px;
+      position: relative;
+      top: -50px;
+      animation: filters-close 0.3s;
+      background-color: var(--color5);
+      border-radius: 150px;
+
+      div {
+        width: 30%;
+        height: 100%;
+        border-radius: 100px;
+        text-align: center;
+        background-color: var(--color4)
+      }
+    }
+    .filters_open {
+      @extend .filters;
+      position: static;
+      animation: filters-open 0.3s;
+      
+    }
+  }
+  .Filters_open {
+    @extend .Filters;
+    border-bottom: solid var(--color7);
+  }
+
+  .Cards {
+    @include flex(center, center, column);
+    width: 100%;
+    flex: 1;
+    gap: 50px;
+  }
 }
 
-.Filters {
-  width: 100%;
-  border: solid var(--color7) 1px;
-  box-shadow: var(--boxShadowBottom);
-}
-
-@keyframes move {
+@keyframes home-animation {
   from {
     transform: translateX(100vw);
   }
   to {
     transform: translateX(0px);
+  }
+}
+
+@keyframes filters-open {
+  from {
+    transform: translateY(-50px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes filters-close {
+  from {
+    transform: translateY(50px);
+  }
+  to {
+    transform: translateY(0);
   }
 }

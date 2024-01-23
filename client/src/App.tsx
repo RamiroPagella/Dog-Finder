@@ -1,5 +1,5 @@
 import "./App.css";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import Landing from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import Home from "./pages/Home/Home";
@@ -15,6 +15,7 @@ import CreateDog from "./pages/CreateDog/CreateDog";
 function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   useEffect(() => {
     const token = localStorage.getItem("jwtToken");
@@ -36,8 +37,9 @@ function App() {
 
   return (
     <div className="App">
-
-      <NavBar />
+      {
+        pathname !== '/login' && pathname !== '/register' ? <NavBar /> : null
+      }
 
       <Routes>
         <Route path="/" element={<Home />} />

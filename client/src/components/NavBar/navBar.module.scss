@@ -12,8 +12,8 @@
 
 .NavBar {
   @include flex(center, center, row);
-  height: 70px;
-  max-height: 80px;
+  min-height: 70px;
+  max-height: 70px;
   width: 100%;
   border-bottom: var(--containerBorder);
   box-shadow: var(--boxShadow);
