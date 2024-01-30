@@ -1,6 +1,7 @@
-import { DogType } from "./src/types/dog.types";
+import { NonIdDog } from "./src/types/dog.types";
 
-const data: Omit<DogType, 'id'>[] = [
+
+const data: NonIdDog[] = [
   {
     name: "Affenpinscher",
     img: "https://cdn2.thedogapi.com/images/BJa4kxc4X.jpg",
@@ -2581,4 +2582,6 @@ const data: Omit<DogType, 'id'>[] = [
     breedGroup: "Toy",
   },
 ];
+
+
 export default data;

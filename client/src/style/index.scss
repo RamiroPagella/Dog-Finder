@@ -1,0 +1,41 @@
+@import './fonts.scss';
+:root {
+  font-family: Raleway, Monsterrat, Inter, system-ui, Avenir, Helvetica, Arial,
+    sans-serif;
+  line-height: 1.5;
+  font-weight: 500;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --color1: #f8f9fa;
+  --color2: #e9ecef;
+  --color3: #dee2e6;
+  --color4: #ced4da;
+  --color5: #adb5bd;
+  --color6: #6c757d;
+  --color7: #495057;
+  --color8: #343a40;
+  --color9: #212529;
+
+  --boxShadow: 0px 0px 10px rgb(129, 129, 129);
+  --boxShadowBottom: 0px 5px 10px rgb(129, 129, 129);
+  --containerBorder: solid var(--color4) 1px;
+
+  background-color: var(--color4);
+}
+
+$avergaston: green;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#root {
+  height: 100vh;
+  width: 100vw;
+}

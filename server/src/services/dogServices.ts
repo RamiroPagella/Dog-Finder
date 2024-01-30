@@ -11,5 +11,6 @@ export const dogByName = async (name: string): Promise<DogType | null> => {
       }
     }
   })
-  return dogFound
+  return dogFound;
 }
+

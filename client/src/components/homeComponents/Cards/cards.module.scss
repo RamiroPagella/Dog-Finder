@@ -1,0 +1,17 @@
+
+.Cards {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  max-width: 100%;
+  flex-wrap: wrap;
+
+  .loaderContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 250px;
+  }
+}
+

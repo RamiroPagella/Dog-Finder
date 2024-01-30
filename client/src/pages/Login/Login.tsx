@@ -50,7 +50,7 @@ const Login = () => {
         <button
           disabled={btnDisabled}
           onClick={handleClick}
-          style={btnDisabled ? { pointerEvents: "none" } : {}}
+          className={`${style.button} ${btnDisabled ? style.button_disabled : ''}`}
         >
           Iniciar sesión
         </button>

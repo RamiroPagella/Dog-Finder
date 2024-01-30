@@ -1,4 +1,4 @@
-@import "../../index.scss";
+@import "../../style//mixins.scss";
 
 .Home {
   @include flex(flex-start, flex-start);
@@ -32,6 +32,7 @@
   .Filters {
     height: 50px;
     padding: 4px;
+    margin-bottom: 10px;
     width: 100%;
     transition: height 0.3s;
     border-top: solid var(--color7);
@@ -51,6 +52,7 @@
       animation: filters-close 0.3s;
       background-color: var(--color5);
       border-radius: 150px;
+      
 
       div {
         width: 30%;

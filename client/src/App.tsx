@@ -5,12 +5,12 @@ import Register from "./pages/Register/Register";
 import Home from "./pages/Home/Home";
 import { useEffect } from "react";
 import NotFound from "./pages/NotFound/NotFound";
-import axiosInstance from "./axios";
 import { useDispatch } from "react-redux";
 import { setIsAuthenticated, setUser } from "./redux/userSlice";
 import NavBar from "./components/NavBar/NavBar";
 import Favorites from "./pages/Favorites/Favorites";
 import CreateDog from "./pages/CreateDog/CreateDog";
+import Axios from "./axios";
 
 function App() {
   const dispatch = useDispatch();
@@ -21,7 +21,7 @@ function App() {
     const token = localStorage.getItem("jwtToken");
     if (token) {
       dispatch(setIsAuthenticated(true));
-      axiosInstance
+      Axios
         .get("/user", { headers: { Authorization: token } })
         .then((res) => {
           if (!res.data.username) throw new Error("Unauthorized");

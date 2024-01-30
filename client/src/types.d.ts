@@ -14,3 +14,11 @@ export interface DogType {
   breedGroup: string | "Unknown";
   temperaments: string[] | "Unknown"
 }
+
+interface GetDogsResponse {
+  dogs: DogType[];
+  message: string;
+}
+export interface Response {
+  getDogs: getDogs
+}

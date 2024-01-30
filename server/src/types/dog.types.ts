@@ -8,3 +8,5 @@ export interface DogType {
   breedGroup: string | "Unknown";
   temperaments: string[] | "Unknown"
 }
+
+export type NonIdDog = Omit<DogType, 'id'>

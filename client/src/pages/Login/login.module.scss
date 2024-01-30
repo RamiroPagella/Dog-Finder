@@ -1,4 +1,4 @@
-@import '../../index.scss';
+@import '../../style/mixins.scss';
 
 .Login {
   @include flex(center, center, column);
@@ -51,10 +51,14 @@
       }
     }
 
-    button {
+    .button {
       @include button();
       width: 26%;
       height: 30px;
+      transition: color, background-color 0.2s;
+    }
+    .button_disabled {
+      @include disabledButton;
     }
     button:hover {
       background-color: var(--color8);
@@ -68,6 +72,7 @@
     width: 120px;
     color: inherit;
     text-decoration: none;
+    transition: color, background-color 0.2s;
   }
   .Register:hover {
     background-color: var(--color8);

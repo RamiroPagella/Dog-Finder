@@ -1,0 +1,36 @@
+
+@mixin flex($just, $align, $dir: row) {
+  display: flex;
+  justify-content: $just;
+  align-items: $align;
+  flex-direction: $dir;
+}
+@mixin input() {
+  height: 27px;
+  border: none;
+  border-radius: 100px;
+  background-color: var(--color4);
+  padding: 0 5px;
+  box-shadow: var(--boxShadow);
+}
+
+@mixin button() {
+  font-size: 0.95em;
+  font-family: inherit;
+  font-weight: inherit;
+  cursor: pointer;
+  border-radius: 100px;
+  padding: 5px;
+  text-align: center;
+  box-shadow: var(--boxShadow);
+  border: none;
+  background-color: var(--color4);
+  color: var(--color9);
+}
+@mixin disabledButton () {
+  color: var(--color7);
+  font-weight: lighter;
+  pointer-events: none;
+}
+
+

@@ -1,4 +1,4 @@
-@import "../../index.scss";
+@import "../../style/mixins.scss";
 
 .Register {
   @include flex(center, center, column);
@@ -39,6 +39,7 @@
       @include button();
       width: 26%;
       height: 30px;
+      transition: color, background-color 0.3s;
     }
     button:hover {
       background-color: var(--color8);

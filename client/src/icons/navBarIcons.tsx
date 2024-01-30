@@ -46,7 +46,7 @@ export function Profile(props: SVGProps<SVGSVGElement>) {
       <g fill="none">
         <path
           stroke="currentColor"
-          stroke-width="1.5"
+          strokeWidth="1.5"
           d="M21 12a8.958 8.958 0 0 1-1.526 5.016A8.991 8.991 0 0 1 12 21a8.991 8.991 0 0 1-7.474-3.984A9 9 0 1 1 21 12Z"
         />
         <path

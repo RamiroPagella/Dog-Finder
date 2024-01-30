@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { setUser, setIsAuthenticated } from "../redux/userSlice";
 import { useState } from "react";
-import axiosInstance from "../axios";
+import Axios from "../axios";
 import { useNavigate } from "react-router-dom";
 
 interface LoginForm {
@@ -42,7 +42,7 @@ const useLoginForm = () => {
     const { email, password } = loginForm;
     if (!email || !password) return;
 
-    axiosInstance
+    Axios
       .post("/login", { email, password })
       .then(({ data }) => {
         if (!data.authenticated) {

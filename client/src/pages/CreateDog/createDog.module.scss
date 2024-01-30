@@ -1,7 +1,9 @@
 .createDog {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   animation: move;
   animation-duration: 0.3s;
-  border: solid black;
   flex: 1
 }
 

@@ -1,4 +1,4 @@
-import axiosInstance from "../axios";
+import Axios from "../axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "../redux/userSlice";
@@ -47,7 +47,7 @@ const useRegisterForm = () => {
     const { email, username, password } = registerForm;
     if (!email || !username || !password || btnDisabled) return;
 
-    axiosInstance
+    Axios
       .post("/register", { email, username, password })
       .then(({ data }) => {
         if (!data.authenticated) {
