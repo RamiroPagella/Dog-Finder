@@ -23,8 +23,6 @@ export const GetDogs: RequestHandler = async (req, res) => {
       .status(200)
       .json({ message: "Data fetched succesfully", dogs, hasNextPage });
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 };
-
-

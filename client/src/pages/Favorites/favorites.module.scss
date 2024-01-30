@@ -1,18 +1,25 @@
+@import '../../style/mixins.scss';
+
 .Favorites {
+  @include flex(space-around, center, row);
   flex: 1;
-  animation: move;
-  animation-duration: 0.2s;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  .container {
-    height: 300px;
-    width: 300px;
+  .el1 {
+    height: 200px;
+    width: 200px;
     background-color: black;
-    position: relative;
+    color: white;
+  }
 
- 
+  .el2 {
+    height: 200px;
+    width: 200px;
+    background-color: black;
+    color: white;
+
+  }
+
+  .el1:hover + .el2 {
+    background-color: red;
   }
 }

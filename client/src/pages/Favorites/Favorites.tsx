@@ -9,8 +9,11 @@ const Favorites = () => {
   
   return (
     <div className={style.Favorites}>
-      <NoSession path={"favorites"} />
+      {/* <NoSession path={"favorites"} /> */}
       
+      <div className={style.el1}>el1</div>
+
+      <div className={style.el2}>el2</div>
 
     </div>
   );

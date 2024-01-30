@@ -1,12 +1,13 @@
-import { Ref, forwardRef } from "react";
+import { Ref, forwardRef, useState } from "react";
 import { DogType } from "../../../types";
 import style from "./card.module.scss";
-
-
+import { Heart } from "../../../icons/navBarIcons";
 
 const Card = forwardRef((props: DogType, ref: Ref<HTMLDivElement>) => {
+  const [hover, setHover] = useState<boolean>(false);
+
   const content = (
-    <>
+    <div className={hover ? style.content_on : style.content}>
       <div className={style.blurImgContainer}>
         <img src={props.img} />
       </div>
@@ -24,15 +25,37 @@ const Card = forwardRef((props: DogType, ref: Ref<HTMLDivElement>) => {
           <p>{props.breedGroup}</p>
         </div>
       </div>
-    </>
+    </div>
+  );
+
+  const hoverContent = (
+    <div
+      className={style.hoverContent}
+      onMouseEnter={() => {
+        setHover(true);
+      }}
+      onMouseLeave={() => {
+        setHover(false);
+      }}
+    >
+      <Heart className={hover ? style.icon_on : style.icon}/>
+
+      <p className={style.text}>
+        Click para ver mas
+      </p>
+    </div>
   );
 
   return ref ? (
     <div className={style.Card} ref={ref}>
       {content}
+      {hoverContent}
     </div>
   ) : (
-    <div className={style.Card}>{content}</div>
+    <div className={style.Card}>
+      {content}
+      {hoverContent}
+    </div>
   );
 });
 

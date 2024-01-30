@@ -1,69 +1,123 @@
 @import "./../../../style/mixins.scss";
 
 .Card {
-  width: auto;
-  border-radius: 15px;
-  overflow: hidden;
   max-height: 300px;
   max-width: 300px;
   height: 300px;
   width: 300px;
+  position: relative;
   border: solid var(--color4) 1px;
   box-shadow: var(--boxShadow);
-  position: relative;
-  transition: filter 0.2s;
+  border-radius: 15px;
+  overflow: hidden;
+  z-index: 1;
 
-  &:hover {
-    filter: blur(4px);
-    cursor: pointer;
-  }
-
-  .blurImgContainer {
-    z-index: -10;
+  .content {
+    max-height: 100%;
+    height: 100%;
+    max-width: 100%;
     width: 100%;
-    height: 70%;
-    max-height: 70%;
-    position: absolute;
-    @include flex(center, center);
-    top: 0;
-    filter: blur(5px);
-
-    img {
-      max-width: 100%;
-    }
-  }
-  .imgContainer {
-    @include flex(center, center);
-    width: 100%;
-    max-height: 70%;
-    height: 70%;
+    transition: filter 0.2s;
     overflow: hidden;
+    transition: filter 0.2s;
 
-    img {
-      max-height: 100%;
+    .icon {
+      position: absolute;
+      height: 50px;
+      width: 50px;
     }
-  }
 
-  .Description {
-    @include flex(center, stretch, column);
-    background-color: var(--color5);
-    height: 30%;
-    user-select: none;
+    .blurImgContainer {
+      z-index: -10;
+      width: 100%;
+      height: 70%;
+      max-height: 70%;
+      position: absolute;
+      @include flex(center, center);
+      top: 0;
+      filter: blur(5px);
 
-    div {
-      @include flex(space-between, center, row);
-      margin: 5px;
-      border-radius: 100px;
-      padding: 0 5px;
-      background-color: var(--color4);
-      box-shadow: var(--boxShadow);
+      img {
+        max-width: 100%;
+      }
+    }
+    .imgContainer {
+      @include flex(center, center);
+      width: 100%;
+      max-height: 70%;
+      height: 70%;
+      overflow: hidden;
 
-      p {
-        max-width: 70%;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+      img {
+        max-height: 100%;
+      }
+    }
+
+    .Description {
+      @include flex(center, stretch, column);
+      background-color: var(--color5);
+      height: 30%;
+      user-select: none;
+
+      div {
+        @include flex(space-between, center, row);
+        margin: 5px;
+        border-radius: 100px;
+        padding: 0 5px;
+        background-color: var(--color4);
+
+        p {
+          max-width: 70%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
       }
     }
   }
+  .content_on {
+    @extend .content;
+    filter: blur(3px)
+  }
+
+  .hoverContent {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    transition: background-color 0.2s;
+    cursor: pointer;
+
+    .icon {
+      position: absolute;
+      color: var(--color4);
+      top: 8%;
+      right: 8%;
+      height: 40px;
+      width: 40px;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .icon_on {
+      @extend .icon;
+      opacity: 1
+    }
+
+    .text {
+      border-top: solid var(--color3) 1px;
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 70%;
+      text-align: center;
+      color: var(--color4);
+      padding: 5px;
+    }
+  }
+  .hoverContent:hover {
+    background-color: rgba(0, 0, 0, 0.516)
+  }
+  
 }
