@@ -40,7 +40,7 @@ const Card = forwardRef((props: DogType, ref: Ref<HTMLDivElement>) => {
     >
       <Heart className={hover ? style.icon_on : style.icon}/>
 
-      <p className={style.text}>
+      <p className={hover ? style.text_on : style.text}>
         Click para ver mas
       </p>
     </div>
