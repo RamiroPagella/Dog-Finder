@@ -1,15 +1,15 @@
-import style from "./home.module.scss";
+import style from "./explore.module.scss";
 import { useState } from "react";
-import Cards from "../../components/homeComponents/Cards/Cards";
+import Cards from "../../components/exploreComponents/Cards/Cards";
 
-const Home = () => {
+const Explore = () => {
   const [filtersOpen, setfiltersOpen] = useState<boolean>(false);
 
 
   return (
-    <div className={style.Home}>
+    <div className={style.Explore}>
       <div className={style.Presentation}>
-        <h1>Home</h1>
+        <h1>Explore</h1>
 
         <p>
           En esta seccion podras explorar dentro de un universo de caninos con
@@ -40,4 +40,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Explore;

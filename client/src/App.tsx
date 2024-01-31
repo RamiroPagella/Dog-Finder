@@ -2,7 +2,7 @@ import "./App.css";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import Landing from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
-import Home from "./pages/Home/Home";
+import Explore from "./pages/Explore/Explore";
 import { useEffect } from "react";
 import NotFound from "./pages/NotFound/NotFound";
 import { useDispatch } from "react-redux";
@@ -42,7 +42,7 @@ function App() {
       }
 
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Explore />} />
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/create-dog" element={<CreateDog />} /> 
 

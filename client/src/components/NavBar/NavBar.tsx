@@ -8,49 +8,92 @@ import {
 } from "../../icons/navBarIcons";
 import { useLocation, useNavigate } from "react-router-dom";
 import "react-tooltip/dist/react-tooltip.css";
-import { Tooltip } from "react-tooltip";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+
+interface target extends EventTarget {
+  id?: string;
+}
 
 const NavBar = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.userState.isAuthenticated
+  );
 
+  const [showTooltip, setShowTooltip] = useState({
+    createDog: false,
+    explore: false,
+    favorites: false,
+  });
   const selectedPath = {
     createDog: pathname === "/create-dog",
-    home: pathname === "/",
+    explore: pathname === "/",
     favorites: pathname === "/favorites",
+  };
+
+  const onMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+    const target: target = e.target;
+
+    if (!target.id) return;
+
+    setShowTooltip({ ...showTooltip, [target.id]: true });
+  };
+  const onMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+    const target: target = e.target;
+
+    if (!target.id) return;
+
+    setShowTooltip({ ...showTooltip, [target.id]: false });
   };
 
   return (
     <div className={style.NavBar}>
       <div className={style.Container1}>
-        <DogPaw
-          className={`${style.icon} ${
-            selectedPath.createDog ? style.selected : ""
-          }`}
+        <div
+          className={style.iconContainer}
+          id="createDog"
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
           onClick={() => navigate("/create-dog")}
-          data-tooltip-id="create-dog"
-          data-tooltip-content="Crear perro"
-        />
-        <Tooltip id="create-dog" />
+        >
+          <DogPaw
+            className={`${style.icon} ${
+              selectedPath.createDog ? style.icon_on : ""
+            }`}
+          />
+          {showTooltip.createDog ? <p>Crear perro</p> : null}
+        </div>
 
-        <DogHouse
-          className={`${style.icon} ${selectedPath.home ? style.selected : ""}`}
+        <div
+          className={style.iconContainer}
+          id="explore"
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
           onClick={() => navigate("/")}
-          data-tooltip-id="home"
-          data-tooltip-content="Home"
-        />
-        <Tooltip id="home" />
+        >
+          <DogHouse
+            className={`${style.icon} ${selectedPath.explore ? style.icon_on : ""}`}
+          />
+          {showTooltip.explore ? <p>Explorar</p> : null}
+        </div>
 
-        <Heart
-          className={`${style.icon} ${
-            selectedPath.favorites ? style.selected : ""
-          }`}
+        <div
+          className={style.iconContainer}
+          id="favorites"
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
           onClick={() => navigate("/favorites")}
-          data-tooltip-id="favorites"
-          data-tooltip-content="Favoritos"
-        />
-        <Tooltip id="favorites" style={{userSelect: 'none'}}/>
-
+        >
+          <Heart
+            className={`${style.icon} ${
+              selectedPath.favorites ? style.icon_on : ""
+            }`}
+          />
+          {showTooltip.favorites ? <p>Favoritos</p> : null}
+        </div>
       </div>
       <div className={style.Container2}>
         <input type="text" className={style.input} />
@@ -58,7 +101,11 @@ const NavBar = () => {
       </div>
 
       <div className={style.Container3}>
-        <Profile className={style.icon} />
+        {isAuthenticated ? (
+          <Profile className={style.icon} />
+        ) : (
+          <button className={style.button}>Iniciar sesión</button>
+        )}
       </div>
     </div>
   );

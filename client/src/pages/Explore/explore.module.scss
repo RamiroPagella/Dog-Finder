@@ -1,11 +1,11 @@
 @import "../../style//mixins.scss";
 
-.Home {
+.Explore {
   @include flex(flex-start, flex-start);
   display: flex;
   flex-direction: column;
   flex: 1;
-  animation: home-animation;
+  animation: explore-animation;
   animation-duration: 0.2s;
   padding: 15px 35px;
 
@@ -82,7 +82,7 @@
   }
 }
 
-@keyframes home-animation {
+@keyframes explore-animation {
   from {
     transform: translateX(100vw);
   }

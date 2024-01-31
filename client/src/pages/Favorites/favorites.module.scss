@@ -4,22 +4,13 @@
   @include flex(space-around, center, row);
   flex: 1;
 
-  .el1 {
-    height: 200px;
-    width: 200px;
-    background-color: black;
-    color: white;
+}
+
+@keyframes appear {
+  from {
+    opacity: 0
   }
-
-  .el2 {
-    height: 200px;
-    width: 200px;
-    background-color: black;
-    color: white;
-
-  }
-
-  .el1:hover + .el2 {
-    background-color: red;
+  to {
+    opacity: 1;
   }
 }
