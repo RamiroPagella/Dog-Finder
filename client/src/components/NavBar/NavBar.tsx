@@ -6,8 +6,7 @@ import {
   DogPaw,
   Search,
 } from "../../icons/navBarIcons";
-import { useLocation, useNavigate } from "react-router-dom";
-import "react-tooltip/dist/react-tooltip.css";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
@@ -104,7 +103,7 @@ const NavBar = () => {
         {isAuthenticated ? (
           <Profile className={style.icon} />
         ) : (
-          <button className={style.button}>Iniciar sesión</button>
+          <Link to='/login' className={style.button}>Iniciar sesión</Link>
         )}
       </div>
     </div>

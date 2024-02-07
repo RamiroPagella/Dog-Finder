@@ -5,20 +5,18 @@ import morgan from "morgan";
 import Dog from "./models/Dog.model";
 import data from "../data";
 import { config } from "dotenv";
-import cors from 'cors';
+import cors from "cors";
 import dogRouter from "./routes/dog.routes";
 
 const server = express();
 
 config();
 
-server.use(cors())
+server.use(cors());
 server.use(morgan("dev"));
-server.use(express.urlencoded({extended: false}))
+server.use(express.urlencoded({ extended: false }));
 server.use(express.json());
 server.use("/", userRouter, dogRouter);
-
-
 
 const PORT = 3000;
 
@@ -30,9 +28,7 @@ conn
     });
 
     Dog.count().then((count) => {
-      if (count === 0) {
-        Dog.bulkCreate(data)
-      }
+      if (count === 0) Dog.bulkCreate(data as any);
     });
   })
   .catch((err) => {

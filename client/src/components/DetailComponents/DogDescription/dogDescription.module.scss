@@ -1,0 +1,32 @@
+@import '../../../style/mixins.scss';
+
+.DogDescription {
+  @include flex (space-around, flex-start, column);
+  border-radius: 15px;
+  height: 100%;
+  width: 40%;
+
+  .infoContainer {
+    @include flex (space-around, flex-start, column);
+    border: solid var(--color4) 1px;
+    background-color: var(--color5);
+    border-radius: 15px;
+    height: 18%;
+    width: 100%;
+    padding: 0 10px;
+
+    .propertyName {
+      padding: 0 7px;
+      width: 170px;
+      border-radius: 15px;
+      box-shadow: var(--boxShadow);
+      background-color: var(--color4)
+    }
+
+    .propertyValue {
+      @extend .propertyName;
+      width: 100%;
+    }
+  }
+}
+

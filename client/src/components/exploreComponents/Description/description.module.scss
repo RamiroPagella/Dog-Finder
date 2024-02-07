@@ -1,0 +1,21 @@
+@import '../../../style/mixins.scss';
+
+.Description {
+  position: relative;
+  width: 100%;
+  padding-bottom: 5px;
+
+  button {
+    @include button();
+    position: absolute;
+    bottom: 5px;
+    right: 0;
+    padding: 5px 10px;
+    transition: color, background-color 0.3s;
+    min-width: 120px;
+  }
+  button:hover {
+    background-color: var(--color7);
+    color: var(--color4);
+  }
+}

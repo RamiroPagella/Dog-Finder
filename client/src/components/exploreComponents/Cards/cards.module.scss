@@ -1,17 +1,17 @@
+@import '../../../style/mixins.scss';
 
 .Cards {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
+  @include flex (center, center);
+  gap: 40px;
+  min-width: 100%;
   max-width: 100%;
+  min-height: 700px;
   flex-wrap: wrap;
 
   .loaderContainer {
+    @include flex (center, center);
+    height: 100%;
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 250px;
   }
 }
 

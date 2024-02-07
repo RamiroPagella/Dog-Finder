@@ -42,12 +42,23 @@
         @include input();
       }
 
-      .Icon {
+      .IconContainer {
+        @include flex(center, center);
         position: absolute;
-        height: 2em;
-        right: -50px;
+        height: 35px;
+        width: 35px;
+        right: -60px;
         top: 27px;
-        user-select: none;
+
+        .icon {
+          height: 100%;
+          width: 100%;
+        }
+
+        p {
+          @include toolTip ();
+          top: -30px;
+        }
       }
     }
 

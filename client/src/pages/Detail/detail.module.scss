@@ -1,0 +1,45 @@
+@import "../../style/mixins.scss";
+
+.Detail {
+  @include flex(flex-start, center, column);
+  flex: 1;
+  padding: 15px 35px;
+
+  .description {
+    width: 100%;
+    border-bottom: solid var(--color7);
+    height: 50px;
+    margin-bottom: 10px;
+  }
+
+  .content {
+    @include flex(space-around, center);
+    width: 100%;
+    padding: 15px;
+    max-height: 600px;
+    height: 600px;
+
+    .imageContainer {
+      @include flex(center, center);
+      height: 100%;
+      width: 40%;
+      overflow: hidden;
+      border-radius: 15px;
+      cursor: pointer;
+      background-color: var(--color5);
+
+      img {
+        max-width: 100%;
+      }
+    }
+    
+  }
+}
+
+.loaderContainer {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  width: 100%;
+}
+

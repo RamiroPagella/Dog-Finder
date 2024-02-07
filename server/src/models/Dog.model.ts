@@ -13,14 +13,14 @@ import {
 class DogModel extends Model {
   @PrimaryKey
   @Column({
-    type: DataType.UUID,
-    defaultValue: DataType.UUIDV4,
+    type: DataType.INTEGER,
+    allowNull: false
   })
-  id!: string;
+  id!: number;
 
   @Column({
     type: DataType.STRING,
-    allowNull: false,
+    allowNull: false
   })
   name!: string;
 

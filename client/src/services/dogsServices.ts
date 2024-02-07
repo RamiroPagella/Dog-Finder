@@ -1,9 +1,15 @@
 import { AxiosRequestConfig } from 'axios';
 import Axios from '../axios';
-import { Response } from '../types';
+import { Dog as DogType } from '../types';
 
+interface GetDogsResponse {
+  dogs: DogType[];
+  message: string;
+  totalPages: number;
+}
 
-export const getDogs = async (pageNum: number = 1, options: AxiosRequestConfig = {}): Promise<Response['getDogs']> => {
-  const response = await Axios.get<Response['getDogs']>(`/dogs?page=${pageNum}`, options)
+export const getDogs = async (pageNum: number = 1, options: AxiosRequestConfig = {}): Promise<GetDogsResponse> => {
+  const response = await Axios.get<GetDogsResponse>(`/dogs?page=${pageNum}`, options)
   return response.data;
 }
+

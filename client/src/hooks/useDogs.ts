@@ -1,27 +1,31 @@
 import { useState, useEffect } from "react";
 import { DogType } from "../types";
 import { getDogs } from "../services/dogsServices";
+import { usePagingContext } from "./contextHooks";
 
-const useDogs = (pageNum = 1) => {
+const useDogs = (currentPage = 1) => {
   const [dogs, setDogs] = useState<DogType[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
-  const [error, setError] = useState<unknown>();
-  const [hasNextPage, setHasNextPage] = useState<boolean>();
+  const [error, setError] = useState<Error | null>(null);
+  const [hasNextPage, setHasNextPage] = useState<boolean>(false);
+
+  const {setTotalPages} = usePagingContext();
 
   useEffect(() => {
     setIsLoading(true);
     setIsError(false);
-    setError({});
+    setError(null);
 
     const controller = new AbortController();
     const { signal } = controller;
 
-    getDogs(pageNum, { signal })
+    getDogs(currentPage, { signal })
       .then((data) => {
-        setDogs([...dogs, ...data.dogs]);
+        setDogs(data.dogs);
         setIsLoading(false);
-        setHasNextPage(data.hasNextPage);
+        setHasNextPage(currentPage <= data.totalPages);
+        setTotalPages(data.totalPages)
       })
       .catch((err) => {
         setIsLoading(false);
@@ -33,7 +37,7 @@ const useDogs = (pageNum = 1) => {
 
     return () => controller.abort();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pageNum]);
+  }, [currentPage]);
 
   return { dogs, isLoading, isError, error, hasNextPage };
 };

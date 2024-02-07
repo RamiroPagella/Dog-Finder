@@ -1,5 +1,5 @@
-export interface DogType {
-  id: string;
+export interface Dog {
+  id: number;
   name: string;
   img: string;
   height: string;
@@ -9,4 +9,4 @@ export interface DogType {
   temperaments: string[] | "Unknown"
 }
 
-export type NonIdDog = Omit<DogType, 'id'>
+export type NonIdDog = Omit<Dog, 'id'>

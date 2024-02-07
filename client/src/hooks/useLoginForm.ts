@@ -16,7 +16,7 @@ const useLoginForm = () => {
     email: "",
     password: "",
   });
-  const [showToolTip, setShowToolTip] = useState({
+  const [showError, setShowError] = useState({
     email: false,
     password: false,
   });
@@ -35,7 +35,7 @@ const useLoginForm = () => {
   };
 
   const handleClick = () => {
-    setShowToolTip({
+    setShowError({
       email: false,
       password: false,
     });
@@ -58,14 +58,14 @@ const useLoginForm = () => {
         console.log(err);
         if (err.response) {
           if (err.response.status === 404)
-            setShowToolTip({ email: true, password: false });
+            setShowError({ email: true, password: false });
           if (err.response.status === 401)
-            setShowToolTip({ email: false, password: true });
+            setShowError({ email: false, password: true });
         }
       });
   };
 
-  return {handleClick, handleChange, showToolTip, btnDisabled, loginForm}
+  return {handleClick, handleChange, showError, btnDisabled, loginForm}
 
 }
 

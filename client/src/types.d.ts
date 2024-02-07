@@ -4,7 +4,7 @@ export interface User {
   id: string;
 }
 
-export interface DogType {
+export interface Dog {
   id: string;
   name: string;
   img: string;
@@ -15,10 +15,19 @@ export interface DogType {
   temperaments: string[] | "Unknown"
 }
 
-interface GetDogsResponse {
-  dogs: DogType[];
-  message: string;
+export interface PagingContext {
+  currentPage: number;
+  totalPages: number;
+  setCurrentPage: (currentPage: number) => void;
+  setTotalPages: (totalPages: number) => void;
 }
-export interface Response {
-  getDogs: getDogs
+
+export interface UserContext {
+  User: User;
+  setUser: (User) => void;
+  isAuthenticated: boolean;
+  setIsAuthenticated: (isAuthenticated: boolean) => void;
 }
+
+
+

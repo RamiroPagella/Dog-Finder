@@ -1,7 +1,6 @@
-import { NonIdDog } from "./src/types/dog.types";
+import { Dog } from "./src/types/dog.types";
 
-
-const data: NonIdDog[] = [
+const data: Dog[] = [
   {
     name: "Affenpinscher",
     img: "https://cdn2.thedogapi.com/images/BJa4kxc4X.jpg",
@@ -17,6 +16,7 @@ const data: NonIdDog[] = [
       "Fun-loving",
     ],
     breedGroup: "Toy",
+    id: 1,
   },
   {
     name: "Afghan Hound",
@@ -26,6 +26,7 @@ const data: NonIdDog[] = [
     lifeSpan: "10 - 13 years",
     temperaments: ["Aloof", "Clownish", "Dignified", "Independent", "Happy"],
     breedGroup: "Hound",
+    id: 2,
   },
   {
     name: "African Hunting Dog",
@@ -35,6 +36,7 @@ const data: NonIdDog[] = [
     lifeSpan: "11 years",
     temperaments: ["Wild", "Hardworking", "Dutiful"],
     breedGroup: "Unknown",
+    id: 3,
   },
   {
     name: "Airedale Terrier",
@@ -51,6 +53,7 @@ const data: NonIdDog[] = [
       "Courageous",
     ],
     breedGroup: "Terrier",
+    id: 4,
   },
   {
     name: "Akbash Dog",
@@ -60,6 +63,7 @@ const data: NonIdDog[] = [
     lifeSpan: "10 - 12 years",
     temperaments: ["Loyal", "Independent", "Intelligent", "Brave"],
     breedGroup: "Working",
+    id: 5,
   },
   {
     name: "Akita",
@@ -79,6 +83,7 @@ const data: NonIdDog[] = [
       "Courageous",
     ],
     breedGroup: "Working",
+    id: 6,
   },
   {
     name: "Alapaha Blue Blood Bulldog",
@@ -94,6 +99,7 @@ const data: NonIdDog[] = [
       "Responsible",
     ],
     breedGroup: "Mixed",
+    id: 7,
   },
   {
     name: "Alaskan Husky",
@@ -103,6 +109,7 @@ const data: NonIdDog[] = [
     lifeSpan: "10 - 13 years",
     temperaments: ["Friendly", "Energetic", "Loyal", "Gentle", "Confident"],
     breedGroup: "Mixed",
+    id: 8,
   },
   {
     name: "Alaskan Malamute",
@@ -119,6 +126,7 @@ const data: NonIdDog[] = [
       "Playful",
     ],
     breedGroup: "Working",
+    id: 9,
   },
   {
     name: "American Bulldog",
@@ -136,6 +144,7 @@ const data: NonIdDog[] = [
       "Dominant",
     ],
     breedGroup: "Working",
+    id: 10,
   },
   {
     name: "American Bully",
@@ -155,6 +164,7 @@ const data: NonIdDog[] = [
       "Courageous",
     ],
     breedGroup: "Unknown",
+    id: 11,
   },
   {
     name: "American Eskimo Dog",
@@ -170,6 +180,7 @@ const data: NonIdDog[] = [
       "Protective",
     ],
     breedGroup: "Non-Sporting",
+    id: 12,
   },
   {
     name: "American Eskimo Dog (Miniature)",
@@ -185,6 +196,7 @@ const data: NonIdDog[] = [
       "Protective",
     ],
     breedGroup: "Unknown",
+    id: 13,
   },
   {
     name: "American Foxhound",
@@ -201,6 +213,7 @@ const data: NonIdDog[] = [
       "Loving",
     ],
     breedGroup: "Hound",
+    id: 14,
   },
   {
     name: "American Pit Bull Terrier",
@@ -220,6 +233,7 @@ const data: NonIdDog[] = [
       "Courageous",
     ],
     breedGroup: "Terrier",
+    id: 15,
   },
   {
     name: "American Staffordshire Terrier",
@@ -236,6 +250,7 @@ const data: NonIdDog[] = [
       "Courageous",
     ],
     breedGroup: "Terrier",
+    id: 16,
   },
   {
     name: "American Water Spaniel",
@@ -252,6 +267,7 @@ const data: NonIdDog[] = [
       "Trainable",
     ],
     breedGroup: "Sporting",
+    id: 17,
   },
   {
     name: "Anatolian Shepherd Dog",
@@ -268,6 +284,7 @@ const data: NonIdDog[] = [
       "Proud",
     ],
     breedGroup: "Working",
+    id: 18,
   },
   {
     name: "Appenzeller Sennenhund",
@@ -283,6 +300,7 @@ const data: NonIdDog[] = [
       "Self-assured",
     ],
     breedGroup: "Unknown",
+    id: 19,
   },
   {
     name: "Australian Cattle Dog",
@@ -299,6 +317,7 @@ const data: NonIdDog[] = [
       "Brave",
     ],
     breedGroup: "Herding",
+    id: 20,
   },
   {
     name: "Australian Kelpie",
@@ -315,6 +334,7 @@ const data: NonIdDog[] = [
       "Eager",
     ],
     breedGroup: "Herding",
+    id: 21,
   },
   {
     name: "Australian Shepherd",
@@ -330,6 +350,7 @@ const data: NonIdDog[] = [
       "Protective",
     ],
     breedGroup: "Herding",
+    id: 22,
   },
   {
     name: "Australian Terrier",
@@ -346,6 +367,7 @@ const data: NonIdDog[] = [
       "Courageous",
     ],
     breedGroup: "Terrier",
+    id: 23,
   },
   {
     name: "Azawakh",
@@ -362,6 +384,7 @@ const data: NonIdDog[] = [
       "Refined",
     ],
     breedGroup: "Hound",
+    id: 24,
   },
   {
     name: "Barbet",
@@ -371,6 +394,7 @@ const data: NonIdDog[] = [
     lifeSpan: "13 - 15 years",
     temperaments: ["Obedient", "Companionable", "Intelligent", "Joyful"],
     breedGroup: "Unknown",
+    id: 25,
   },
   {
     name: "Basenji",
@@ -387,6 +411,7 @@ const data: NonIdDog[] = [
       "Intelligent",
     ],
     breedGroup: "Hound",
+    id: 26,
   },
   {
     name: "Basset Bleu de Gascogne",
@@ -403,6 +428,7 @@ const data: NonIdDog[] = [
       "Active",
     ],
     breedGroup: "Hound",
+    id: 27,
   },
   {
     name: "Basset Hound",
@@ -419,6 +445,7 @@ const data: NonIdDog[] = [
       "Gentle",
     ],
     breedGroup: "Hound",
+    id: 28,
   },
   {
     name: "Beagle",
@@ -435,6 +462,7 @@ const data: NonIdDog[] = [
       "Intelligent",
     ],
     breedGroup: "Hound",
+    id: 29,
   },
   {
     name: "Bearded Collie",
@@ -451,6 +479,7 @@ const data: NonIdDog[] = [
       "Active",
     ],
     breedGroup: "Herding",
+    id: 30,
   },
   {
     name: "Beauceron",
@@ -460,6 +489,7 @@ const data: NonIdDog[] = [
     lifeSpan: "10 - 12 years",
     temperaments: ["Fearless", "Friendly", "Intelligent", "Protective", "Calm"],
     breedGroup: "Herding",
+    id: 31,
   },
   {
     name: "Bedlington Terrier",
@@ -469,6 +499,7 @@ const data: NonIdDog[] = [
     lifeSpan: "14 - 16 years",
     temperaments: ["Affectionate", "Spirited", "Intelligent", "Good-tempered"],
     breedGroup: "Terrier",
+    id: 32,
   },
   {
     name: "Belgian Malinois",
@@ -487,6 +518,7 @@ const data: NonIdDog[] = [
       "Protective",
     ],
     breedGroup: "Herding",
+    id: 33,
   },
   {
     name: "Belgian Tervuren",
@@ -503,6 +535,7 @@ const data: NonIdDog[] = [
       "Protective",
     ],
     breedGroup: "Herding",
+    id: 34,
   },
   {
     name: "Bernese Mountain Dog",
@@ -512,6 +545,7 @@ const data: NonIdDog[] = [
     lifeSpan: "7 - 10 years",
     temperaments: ["Affectionate", "Loyal", "Intelligent", "Faithful"],
     breedGroup: "Working",
+    id: 35,
   },
   {
     name: "Bichon Frise",
@@ -528,6 +562,7 @@ const data: NonIdDog[] = [
       "Sensitive",
     ],
     breedGroup: "Non-Sporting",
+    id: 36,
   },
   {
     name: "Black and Tan Coonhound",
@@ -544,6 +579,7 @@ const data: NonIdDog[] = [
       "Lovable",
     ],
     breedGroup: "Hound",
+    id: 37,
   },
   {
     name: "Bloodhound",
@@ -553,6 +589,7 @@ const data: NonIdDog[] = [
     lifeSpan: "8 - 10 years",
     temperaments: ["Stubborn", "Affectionate", "Gentle", "Even Tempered"],
     breedGroup: "Hound",
+    id: 38,
   },
   {
     name: "Bluetick Coonhound",
@@ -562,6 +599,7 @@ const data: NonIdDog[] = [
     lifeSpan: "12 - 14 years",
     temperaments: ["Friendly", "Intelligent", "Active"],
     breedGroup: "Hound",
+    id: 39,
   },
   {
     name: "Boerboel",
@@ -577,6 +615,7 @@ const data: NonIdDog[] = [
       "Territorial",
     ],
     breedGroup: "Working",
+    id: 40,
   },
   {
     name: "Border Collie",
@@ -593,6 +632,7 @@ const data: NonIdDog[] = [
       "Intelligent",
     ],
     breedGroup: "Herding",
+    id: 41,
   },
   {
     name: "Border Terrier",
@@ -609,6 +649,7 @@ const data: NonIdDog[] = [
       "Even Tempered",
     ],
     breedGroup: "Terrier",
+    id: 42,
   },
   {
     name: "Boston Terrier",
@@ -618,6 +659,7 @@ const data: NonIdDog[] = [
     lifeSpan: "11 - 13 years",
     temperaments: ["Friendly", "Lively", "Intelligent"],
     breedGroup: "Non-Sporting",
+    id: 43,
   },
   {
     name: "Bouvier des Flandres",
@@ -634,6 +676,7 @@ const data: NonIdDog[] = [
       "Rational",
     ],
     breedGroup: "Herding",
+    id: 44,
   },
   {
     name: "Boxer",
@@ -656,6 +699,7 @@ const data: NonIdDog[] = [
       "Calm",
     ],
     breedGroup: "Working",
+    id: 45,
   },
   {
     name: "Boykin Spaniel",
@@ -672,6 +716,7 @@ const data: NonIdDog[] = [
       "Trainable",
     ],
     breedGroup: "Sporting",
+    id: 46,
   },
   {
     name: "Bracco Italiano",
@@ -688,6 +733,7 @@ const data: NonIdDog[] = [
       "Trainable",
     ],
     breedGroup: "Sporting",
+    id: 47,
   },
   {
     name: "Briard",
@@ -704,6 +750,7 @@ const data: NonIdDog[] = [
       "Protective",
     ],
     breedGroup: "Herding",
+    id: 48,
   },
   {
     name: "Brittany",
@@ -720,6 +767,7 @@ const data: NonIdDog[] = [
       "Happy",
     ],
     breedGroup: "Sporting",
+    id: 49,
   },
   {
     name: "Bull Terrier",
@@ -735,6 +783,7 @@ const data: NonIdDog[] = [
       "Active",
     ],
     breedGroup: "Terrier",
+    id: 50,
   },
   {
     name: "Bull Terrier (Miniature)",
@@ -751,6 +800,7 @@ const data: NonIdDog[] = [
       "Territorial",
     ],
     breedGroup: "Unknown",
+    id: 51,
   },
   {
     name: "Bullmastiff",
@@ -772,6 +822,7 @@ const data: NonIdDog[] = [
       "Courageous",
     ],
     breedGroup: "Working",
+    id: 52,
   },
   {
     name: "Cairn Terrier",
@@ -788,6 +839,7 @@ const data: NonIdDog[] = [
       "Active",
     ],
     breedGroup: "Terrier",
+    id: 53,
   },
   {
     name: "Cane Corso",
@@ -804,6 +856,7 @@ const data: NonIdDog[] = [
       "Calm",
     ],
     breedGroup: "Working",
+    id: 54,
   },
   {
     name: "Cardigan Welsh Corgi",
@@ -820,6 +873,7 @@ const data: NonIdDog[] = [
       "Active",
     ],
     breedGroup: "Herding",
+    id: 55,
   },
   {
     name: "Catahoula Leopard Dog",
@@ -836,6 +890,7 @@ const data: NonIdDog[] = [
       "Loving",
     ],
     breedGroup: "Herding",
+    id: 56,
   },
   {
     name: "Caucasian Shepherd (Ovcharka)",
@@ -845,6 +900,7 @@ const data: NonIdDog[] = [
     lifeSpan: "10 - 12 years",
     temperaments: ["Alert", "Quick", "Dominant", "Powerful", "Calm", "Strong"],
     breedGroup: "Working",
+    id: 57,
   },
   {
     name: "Cavalier King Charles Spaniel",
@@ -861,6 +917,7 @@ const data: NonIdDog[] = [
       "Adaptable",
     ],
     breedGroup: "Toy",
+    id: 58,
   },
   {
     name: "Chesapeake Bay Retriever",
@@ -877,6 +934,7 @@ const data: NonIdDog[] = [
       "Protective",
     ],
     breedGroup: "Sporting",
+    id: 59,
   },
   {
     name: "Chinese Crested",
@@ -893,6 +951,7 @@ const data: NonIdDog[] = [
       "Happy",
     ],
     breedGroup: "Toy",
+    id: 60,
   },
   {
     name: "Chinese Shar-Pei",
@@ -909,6 +968,7 @@ const data: NonIdDog[] = [
       "Loving",
     ],
     breedGroup: "Non-Sporting",
+    id: 61,
   },
   {
     name: "Chinook",
@@ -918,6 +978,7 @@ const data: NonIdDog[] = [
     lifeSpan: "12 - 15 years",
     temperaments: ["Friendly", "Alert", "Dignified", "Intelligent", "Calm"],
     breedGroup: "Working",
+    id: 62,
   },
   {
     name: "Chow Chow",
@@ -927,6 +988,7 @@ const data: NonIdDog[] = [
     lifeSpan: "12 - 15 years",
     temperaments: ["Aloof", "Loyal", "Independent", "Quiet"],
     breedGroup: "Non-Sporting",
+    id: 63,
   },
   {
     name: "Clumber Spaniel",
@@ -943,6 +1005,7 @@ const data: NonIdDog[] = [
       "Great-hearted",
     ],
     breedGroup: "Sporting",
+    id: 64,
   },
   {
     name: "Cocker Spaniel",
@@ -959,6 +1022,7 @@ const data: NonIdDog[] = [
       "Faithful",
     ],
     breedGroup: "Sporting",
+    id: 65,
   },
   {
     name: "Cocker Spaniel (American)",
@@ -975,6 +1039,7 @@ const data: NonIdDog[] = [
       "Merry",
     ],
     breedGroup: "Sporting",
+    id: 66,
   },
   {
     name: "Coton de Tulear",
@@ -991,6 +1056,7 @@ const data: NonIdDog[] = [
       "Vocal",
     ],
     breedGroup: "Non-Sporting",
+    id: 67,
   },
   {
     name: "Dalmatian",
@@ -1008,6 +1074,7 @@ const data: NonIdDog[] = [
       "Active",
     ],
     breedGroup: "Non-Sporting",
+    id: 68,
   },
   {
     name: "Doberman Pinscher",
@@ -1025,6 +1092,7 @@ const data: NonIdDog[] = [
       "Intelligent",
     ],
     breedGroup: "Working",
+    id: 69,
   },
   {
     name: "Dogo Argentino",
@@ -1041,6 +1109,7 @@ const data: NonIdDog[] = [
       "Protective",
     ],
     breedGroup: "Working",
+    id: 70,
   },
   {
     name: "Dutch Shepherd",
@@ -1057,6 +1126,7 @@ const data: NonIdDog[] = [
       "Trainable",
     ],
     breedGroup: "Unknown",
+    id: 71,
   },
   {
     name: "English Setter",
@@ -1078,6 +1148,7 @@ const data: NonIdDog[] = [
       "People-Oriented",
     ],
     breedGroup: "Sporting",
+    id: 72,
   },
   {
     name: "English Shepherd",
@@ -1094,6 +1165,7 @@ const data: NonIdDog[] = [
       "Bossy",
     ],
     breedGroup: "Working",
+    id: 73,
   },
   {
     name: "English Springer Spaniel",
@@ -1110,6 +1182,7 @@ const data: NonIdDog[] = [
       "Active",
     ],
     breedGroup: "Sporting",
+    id: 74,
   },
   {
     name: "English Toy Spaniel",
@@ -1126,6 +1199,7 @@ const data: NonIdDog[] = [
       "Loving",
     ],
     breedGroup: "Toy",
+    id: 75,
   },
   {
     name: "English Toy Terrier",
@@ -1142,6 +1216,7 @@ const data: NonIdDog[] = [
       "Trainable",
     ],
     breedGroup: "Unknown",
+    id: 76,
   },
   {
     name: "Eurasier",
@@ -1158,6 +1233,7 @@ const data: NonIdDog[] = [
       "Calm",
     ],
     breedGroup: "Non-Sporting",
+    id: 77,
   },
   {
     name: "Field Spaniel",
@@ -1174,6 +1250,7 @@ const data: NonIdDog[] = [
       "Familial",
     ],
     breedGroup: "Sporting",
+    id: 78,
   },
   {
     name: "Finnish Lapphund",
@@ -1183,6 +1260,7 @@ const data: NonIdDog[] = [
     lifeSpan: "12 - 15 years",
     temperaments: ["Friendly", "Keen", "Faithful", "Calm", "Courageous"],
     breedGroup: "Herding",
+    id: 79,
   },
   {
     name: "Finnish Spitz",
@@ -1199,6 +1277,7 @@ const data: NonIdDog[] = [
       "Vocal",
     ],
     breedGroup: "Non-Sporting",
+    id: 80,
   },
   {
     name: "French Bulldog",
@@ -1219,6 +1298,7 @@ const data: NonIdDog[] = [
       "Bright",
     ],
     breedGroup: "Non-Sporting",
+    id: 81,
   },
   {
     name: "German Pinscher",
@@ -1235,6 +1315,7 @@ const data: NonIdDog[] = [
       "Familial",
     ],
     breedGroup: "Working",
+    id: 82,
   },
   {
     name: "German Shepherd Dog",
@@ -1253,6 +1334,7 @@ const data: NonIdDog[] = [
       "Courageous",
     ],
     breedGroup: "Herding",
+    id: 83,
   },
   {
     name: "German Shorthaired Pointer",
@@ -1269,6 +1351,7 @@ const data: NonIdDog[] = [
       "Trainable",
     ],
     breedGroup: "Sporting",
+    id: 84,
   },
   {
     name: "Giant Schnauzer",
@@ -1285,6 +1368,7 @@ const data: NonIdDog[] = [
       "Powerful",
     ],
     breedGroup: "Working",
+    id: 85,
   },
   {
     name: "Glen of Imaal Terrier",
@@ -1301,6 +1385,7 @@ const data: NonIdDog[] = [
       "Courageous",
     ],
     breedGroup: "Terrier",
+    id: 86,
   },
   {
     name: "Golden Retriever",
@@ -1317,6 +1402,7 @@ const data: NonIdDog[] = [
       "Confident",
     ],
     breedGroup: "Sporting",
+    id: 87,
   },
   {
     name: "Gordon Setter",
@@ -1326,6 +1412,7 @@ const data: NonIdDog[] = [
     lifeSpan: "10 - 12 years",
     temperaments: ["Fearless", "Alert", "Loyal", "Confident", "Gay", "Eager"],
     breedGroup: "Sporting",
+    id: 88,
   },
   {
     name: "Great Dane",
@@ -1342,6 +1429,7 @@ const data: NonIdDog[] = [
       "Loving",
     ],
     breedGroup: "Working",
+    id: 89,
   },
   {
     name: "Great Pyrenees",
@@ -1358,6 +1446,7 @@ const data: NonIdDog[] = [
       "Confident",
     ],
     breedGroup: "Working",
+    id: 90,
   },
   {
     name: "Greyhound",
@@ -1374,6 +1463,7 @@ const data: NonIdDog[] = [
       "Even Tempered",
     ],
     breedGroup: "Hound",
+    id: 91,
   },
   {
     name: "Griffon Bruxellois",
@@ -1390,6 +1480,7 @@ const data: NonIdDog[] = [
       "Watchful",
     ],
     breedGroup: "Unknown",
+    id: 92,
   },
   {
     name: "Harrier",
@@ -1406,6 +1497,7 @@ const data: NonIdDog[] = [
       "Active",
     ],
     breedGroup: "Hound",
+    id: 93,
   },
   {
     name: "Havanese",
@@ -1422,6 +1514,7 @@ const data: NonIdDog[] = [
       "Intelligent",
     ],
     breedGroup: "Toy",
+    id: 94,
   },
   {
     name: "Irish Setter",
@@ -1438,6 +1531,7 @@ const data: NonIdDog[] = [
       "Companionable",
     ],
     breedGroup: "Sporting",
+    id: 95,
   },
   {
     name: "Irish Terrier",
@@ -1454,6 +1548,7 @@ const data: NonIdDog[] = [
       "Trainable",
     ],
     breedGroup: "Terrier",
+    id: 96,
   },
   {
     name: "Irish Wolfhound",
@@ -1470,6 +1565,7 @@ const data: NonIdDog[] = [
       "Generous",
     ],
     breedGroup: "Hound",
+    id: 97,
   },
   {
     name: "Italian Greyhound",
@@ -1486,6 +1582,7 @@ const data: NonIdDog[] = [
       "Intelligent",
     ],
     breedGroup: "Toy",
+    id: 98,
   },
   {
     name: "Japanese Chin",
@@ -1502,6 +1599,7 @@ const data: NonIdDog[] = [
       "Cat-like",
     ],
     breedGroup: "Toy",
+    id: 99,
   },
   {
     name: "Japanese Spitz",
@@ -1518,6 +1616,7 @@ const data: NonIdDog[] = [
       "Proud",
     ],
     breedGroup: "Unknown",
+    id: 100,
   },
   {
     name: "Keeshond",
@@ -1527,6 +1626,7 @@ const data: NonIdDog[] = [
     lifeSpan: "12 - 15 years",
     temperaments: ["Agile", "Obedient", "Playful", "Quick", "Sturdy", "Bright"],
     breedGroup: "Non-Sporting",
+    id: 101,
   },
   {
     name: "Komondor",
@@ -1543,6 +1643,7 @@ const data: NonIdDog[] = [
       "Calm",
     ],
     breedGroup: "Working",
+    id: 102,
   },
   {
     name: "Kooikerhondje",
@@ -1559,6 +1660,7 @@ const data: NonIdDog[] = [
       "Territorial",
     ],
     breedGroup: "Sporting",
+    id: 103,
   },
   {
     name: "Kuvasz",
@@ -1575,6 +1677,7 @@ const data: NonIdDog[] = [
       "Protective",
     ],
     breedGroup: "Working",
+    id: 104,
   },
   {
     name: "Labrador Retriever",
@@ -1592,6 +1695,7 @@ const data: NonIdDog[] = [
       "Even Tempered",
     ],
     breedGroup: "Sporting",
+    id: 105,
   },
   {
     name: "Lagotto Romagnolo",
@@ -1608,6 +1712,7 @@ const data: NonIdDog[] = [
       "Trainable",
     ],
     breedGroup: "Sporting",
+    id: 106,
   },
   {
     name: "Lancashire Heeler",
@@ -1617,6 +1722,7 @@ const data: NonIdDog[] = [
     lifeSpan: "12 - 15 years",
     temperaments: ["Clever", "Friendly", "Alert", "Intelligent"],
     breedGroup: "Unknown",
+    id: 107,
   },
   {
     name: "Leonberger",
@@ -1633,6 +1739,7 @@ const data: NonIdDog[] = [
       "Loving",
     ],
     breedGroup: "Working",
+    id: 108,
   },
   {
     name: "Lhasa Apso",
@@ -1655,6 +1762,7 @@ const data: NonIdDog[] = [
       "Intelligent",
     ],
     breedGroup: "Non-Sporting",
+    id: 109,
   },
   {
     name: "Maltese",
@@ -1676,6 +1784,7 @@ const data: NonIdDog[] = [
       "Active",
     ],
     breedGroup: "Toy",
+    id: 110,
   },
   {
     name: "Miniature American Shepherd",
@@ -1685,6 +1794,7 @@ const data: NonIdDog[] = [
     lifeSpan: "12 - 15 years",
     temperaments: ["Energetic", "Loyal", "Intelligent", "Trainable"],
     breedGroup: "Herding",
+    id: 111,
   },
   {
     name: "Miniature Pinscher",
@@ -1701,6 +1811,7 @@ const data: NonIdDog[] = [
       "Playful",
     ],
     breedGroup: "Toy",
+    id: 112,
   },
   {
     name: "Miniature Schnauzer",
@@ -1717,6 +1828,7 @@ const data: NonIdDog[] = [
       "Intelligent",
     ],
     breedGroup: "Terrier",
+    id: 113,
   },
   {
     name: "Newfoundland",
@@ -1726,6 +1838,7 @@ const data: NonIdDog[] = [
     lifeSpan: "8 - 10 years",
     temperaments: ["Sweet-Tempered", "Gentle", "Trainable"],
     breedGroup: "Working",
+    id: 114,
   },
   {
     name: "Norfolk Terrier",
@@ -1742,6 +1855,7 @@ const data: NonIdDog[] = [
       "Lovable",
     ],
     breedGroup: "Terrier",
+    id: 115,
   },
   {
     name: "Norwich Terrier",
@@ -1757,6 +1871,7 @@ const data: NonIdDog[] = [
       "Intelligent",
     ],
     breedGroup: "Terrier",
+    id: 116,
   },
   {
     name: "Nova Scotia Duck Tolling Retriever",
@@ -1766,6 +1881,7 @@ const data: NonIdDog[] = [
     lifeSpan: "12 - 14 years",
     temperaments: ["Outgoing", "Alert", "Patient", "Intelligent", "Loving"],
     breedGroup: "Sporting",
+    id: 117,
   },
   {
     name: "Old English Sheepdog",
@@ -1782,6 +1898,7 @@ const data: NonIdDog[] = [
       "Loving",
     ],
     breedGroup: "Herding",
+    id: 118,
   },
   {
     name: "Olde English Bulldogge",
@@ -1798,6 +1915,7 @@ const data: NonIdDog[] = [
       "Strong",
     ],
     breedGroup: "Unknown",
+    id: 119,
   },
   {
     name: "Papillon",
@@ -1814,6 +1932,7 @@ const data: NonIdDog[] = [
       "Happy",
     ],
     breedGroup: "Toy",
+    id: 120,
   },
   {
     name: "Pekingese",
@@ -1830,6 +1949,7 @@ const data: NonIdDog[] = [
       "Intelligent",
     ],
     breedGroup: "Toy",
+    id: 121,
   },
   {
     name: "Pembroke Welsh Corgi",
@@ -1846,6 +1966,7 @@ const data: NonIdDog[] = [
       "Protective",
     ],
     breedGroup: "Herding",
+    id: 122,
   },
   {
     name: "Perro de Presa Canario",
@@ -1855,6 +1976,7 @@ const data: NonIdDog[] = [
     lifeSpan: "10 - 12 years",
     temperaments: ["Strong Willed", "Suspicious", "Gentle", "Dominant", "Calm"],
     breedGroup: "Working",
+    id: 123,
   },
   {
     name: "Pharaoh Hound",
@@ -1871,6 +1993,7 @@ const data: NonIdDog[] = [
       "Trainable",
     ],
     breedGroup: "Hound",
+    id: 124,
   },
   {
     name: "Plott",
@@ -1880,6 +2003,7 @@ const data: NonIdDog[] = [
     lifeSpan: "12 - 14 years",
     temperaments: ["Bold", "Alert", "Loyal", "Intelligent"],
     breedGroup: "Hound",
+    id: 125,
   },
   {
     name: "Pomeranian",
@@ -1896,6 +2020,7 @@ const data: NonIdDog[] = [
       "Active",
     ],
     breedGroup: "Toy",
+    id: 126,
   },
   {
     name: "Poodle (Miniature)",
@@ -1905,6 +2030,7 @@ const data: NonIdDog[] = [
     lifeSpan: "12 - 15 years",
     temperaments: [],
     breedGroup: "Unknown",
+    id: 127,
   },
   {
     name: "Poodle (Toy)",
@@ -1914,6 +2040,7 @@ const data: NonIdDog[] = [
     lifeSpan: "18 years",
     temperaments: [],
     breedGroup: "Unknown",
+    id: 128,
   },
   {
     name: "Pug",
@@ -1932,6 +2059,7 @@ const data: NonIdDog[] = [
       "Attentive",
     ],
     breedGroup: "Toy",
+    id: 129,
   },
   {
     name: "Puli",
@@ -1948,6 +2076,7 @@ const data: NonIdDog[] = [
       "Faithful",
     ],
     breedGroup: "Herding",
+    id: 130,
   },
   {
     name: "Pumi",
@@ -1964,6 +2093,7 @@ const data: NonIdDog[] = [
       "Vocal",
     ],
     breedGroup: "Herding",
+    id: 131,
   },
   {
     name: "Rat Terrier",
@@ -1980,6 +2110,7 @@ const data: NonIdDog[] = [
       "Loving",
     ],
     breedGroup: "Terrier",
+    id: 132,
   },
   {
     name: "Redbone Coonhound",
@@ -1996,6 +2127,7 @@ const data: NonIdDog[] = [
       "Unflappable",
     ],
     breedGroup: "Hound",
+    id: 133,
   },
   {
     name: "Rhodesian Ridgeback",
@@ -2012,6 +2144,7 @@ const data: NonIdDog[] = [
       "Intelligent",
     ],
     breedGroup: "Hound",
+    id: 134,
   },
   {
     name: "Rottweiler",
@@ -2032,6 +2165,7 @@ const data: NonIdDog[] = [
       "Courageous",
     ],
     breedGroup: "Working",
+    id: 135,
   },
   {
     name: "Russian Toy",
@@ -2041,6 +2175,7 @@ const data: NonIdDog[] = [
     lifeSpan: "10 - 12 years",
     breedGroup: "Toy",
     temperaments: [],
+    id: 136,
   },
   {
     name: "Saint Bernard",
@@ -2050,6 +2185,7 @@ const data: NonIdDog[] = [
     lifeSpan: "7 - 10 years",
     temperaments: ["Friendly", "Lively", "Gentle", "Watchful", "Calm"],
     breedGroup: "Working",
+    id: 137,
   },
   {
     name: "Saluki",
@@ -2059,6 +2195,7 @@ const data: NonIdDog[] = [
     lifeSpan: "12 - 14 years",
     temperaments: ["Aloof", "Reserved", "Intelligent", "Quiet"],
     breedGroup: "Hound",
+    id: 138,
   },
   {
     name: "Samoyed",
@@ -2075,6 +2212,7 @@ const data: NonIdDog[] = [
       "Playful",
     ],
     breedGroup: "Working",
+    id: 139,
   },
   {
     name: "Schipperke",
@@ -2091,6 +2229,7 @@ const data: NonIdDog[] = [
       "Faithful",
     ],
     breedGroup: "Non-Sporting",
+    id: 140,
   },
   {
     name: "Scottish Deerhound",
@@ -2100,6 +2239,7 @@ const data: NonIdDog[] = [
     lifeSpan: "8 - 10 years",
     temperaments: ["Docile", "Friendly", "Dignified", "Gentle"],
     breedGroup: "Hound",
+    id: 141,
   },
   {
     name: "Scottish Terrier",
@@ -2116,6 +2256,7 @@ const data: NonIdDog[] = [
       "Self-assured",
     ],
     breedGroup: "Terrier",
+    id: 142,
   },
   {
     name: "Shetland Sheepdog",
@@ -2138,6 +2279,7 @@ const data: NonIdDog[] = [
       "Strong",
     ],
     breedGroup: "Herding",
+    id: 143,
   },
   {
     name: "Shiba Inu",
@@ -2154,6 +2296,7 @@ const data: NonIdDog[] = [
       "Faithful",
     ],
     breedGroup: "Non-Sporting",
+    id: 144,
   },
   {
     name: "Shih Tzu",
@@ -2179,6 +2322,7 @@ const data: NonIdDog[] = [
       "Courageous",
     ],
     breedGroup: "Toy",
+    id: 145,
   },
   {
     name: "Shiloh Shepherd",
@@ -2195,6 +2339,7 @@ const data: NonIdDog[] = [
       "Trainable",
     ],
     breedGroup: "Unknown",
+    id: 146,
   },
   {
     name: "Siberian Husky",
@@ -2204,6 +2349,7 @@ const data: NonIdDog[] = [
     lifeSpan: "12 years",
     temperaments: ["Outgoing", "Friendly", "Alert", "Gentle", "Intelligent"],
     breedGroup: "Working",
+    id: 147,
   },
   {
     name: "Silky Terrier",
@@ -2220,6 +2366,7 @@ const data: NonIdDog[] = [
       "Joyful",
     ],
     breedGroup: "Toy",
+    id: 148,
   },
   {
     name: "Smooth Fox Terrier",
@@ -2236,6 +2383,7 @@ const data: NonIdDog[] = [
       "Active",
     ],
     breedGroup: "Terrier",
+    id: 149,
   },
   {
     name: "Soft Coated Wheaten Terrier",
@@ -2252,6 +2400,7 @@ const data: NonIdDog[] = [
       "Faithful",
     ],
     breedGroup: "Terrier",
+    id: 150,
   },
   {
     name: "Spanish Water Dog",
@@ -2268,6 +2417,7 @@ const data: NonIdDog[] = [
       "Intelligent",
     ],
     breedGroup: "Sporting",
+    id: 151,
   },
   {
     name: "Spinone Italiano",
@@ -2284,6 +2434,7 @@ const data: NonIdDog[] = [
       "Gentle",
     ],
     breedGroup: "Sporting",
+    id: 152,
   },
   {
     name: "Staffordshire Bull Terrier",
@@ -2301,6 +2452,7 @@ const data: NonIdDog[] = [
       "Courageous",
     ],
     breedGroup: "Terrier",
+    id: 153,
   },
   {
     name: "Standard Schnauzer",
@@ -2317,6 +2469,7 @@ const data: NonIdDog[] = [
       "Intelligent",
     ],
     breedGroup: "Working",
+    id: 154,
   },
   {
     name: "Swedish Vallhund",
@@ -2333,6 +2486,7 @@ const data: NonIdDog[] = [
       "Watchful",
     ],
     breedGroup: "Herding",
+    id: 155,
   },
   {
     name: "Thai Ridgeback",
@@ -2349,6 +2503,7 @@ const data: NonIdDog[] = [
       "Familial",
     ],
     breedGroup: "Hound",
+    id: 156,
   },
   {
     name: "Tibetan Mastiff",
@@ -2365,6 +2520,7 @@ const data: NonIdDog[] = [
       "Protective",
     ],
     breedGroup: "Working",
+    id: 157,
   },
   {
     name: "Tibetan Spaniel",
@@ -2382,6 +2538,7 @@ const data: NonIdDog[] = [
       "Happy",
     ],
     breedGroup: "Non-Sporting",
+    id: 158,
   },
   {
     name: "Tibetan Terrier",
@@ -2398,6 +2555,7 @@ const data: NonIdDog[] = [
       "Sensitive",
     ],
     breedGroup: "Non-Sporting",
+    id: 159,
   },
   {
     name: "Toy Fox Terrier",
@@ -2414,6 +2572,7 @@ const data: NonIdDog[] = [
       "Intelligent",
     ],
     breedGroup: "Toy",
+    id: 160,
   },
   {
     name: "Treeing Walker Coonhound",
@@ -2430,6 +2589,7 @@ const data: NonIdDog[] = [
       "Trainable",
     ],
     breedGroup: "Hound",
+    id: 161,
   },
   {
     name: "Vizsla",
@@ -2439,6 +2599,7 @@ const data: NonIdDog[] = [
     lifeSpan: "10 - 14 years",
     temperaments: ["Affectionate", "Energetic", "Loyal", "Gentle", "Quiet"],
     breedGroup: "Sporting",
+    id: 162,
   },
   {
     name: "Weimaraner",
@@ -2457,6 +2618,7 @@ const data: NonIdDog[] = [
       "Fast",
     ],
     breedGroup: "Sporting",
+    id: 163,
   },
   {
     name: "Welsh Springer Spaniel",
@@ -2473,6 +2635,7 @@ const data: NonIdDog[] = [
       "Active",
     ],
     breedGroup: "Sporting",
+    id: 164,
   },
   {
     name: "West Highland White Terrier",
@@ -2490,6 +2653,7 @@ const data: NonIdDog[] = [
       "Courageous",
     ],
     breedGroup: "Terrier",
+    id: 165,
   },
   {
     name: "Whippet",
@@ -2506,6 +2670,7 @@ const data: NonIdDog[] = [
       "Quiet",
     ],
     breedGroup: "Hound",
+    id: 166,
   },
   {
     name: "White Shepherd",
@@ -2522,6 +2687,7 @@ const data: NonIdDog[] = [
       "Eager",
     ],
     breedGroup: "Unknown",
+    id: 167,
   },
   {
     name: "Wire Fox Terrier",
@@ -2531,6 +2697,7 @@ const data: NonIdDog[] = [
     lifeSpan: "13 - 14 years",
     temperaments: ["Fearless", "Friendly", "Bold", "Keen", "Alert", "Quick"],
     breedGroup: "Unknown",
+    id: 168,
   },
   {
     name: "Wirehaired Pointing Griffon",
@@ -2540,6 +2707,7 @@ const data: NonIdDog[] = [
     lifeSpan: "12 - 14 years",
     temperaments: ["Loyal", "Gentle", "Vigilant", "Trainable", "Proud"],
     breedGroup: "Sporting",
+    id: 169,
   },
   {
     name: "Wirehaired Vizsla",
@@ -2549,6 +2717,7 @@ const data: NonIdDog[] = [
     lifeSpan: "12 - 14 years",
     breedGroup: "Sporting",
     temperaments: [],
+    id: 170,
   },
   {
     name: "Xoloitzcuintli",
@@ -2565,6 +2734,7 @@ const data: NonIdDog[] = [
       "Calm",
     ],
     breedGroup: "Non-Sporting",
+    id: 171,
   },
   {
     name: "Yorkshire Terrier",
@@ -2580,8 +2750,8 @@ const data: NonIdDog[] = [
       "Courageous",
     ],
     breedGroup: "Toy",
+    id: 172,
   },
 ];
-
 
 export default data;

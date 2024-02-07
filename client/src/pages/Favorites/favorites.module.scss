@@ -1,16 +1,47 @@
-@import '../../style/mixins.scss';
+@import "../../style/mixins.scss";
 
 .Favorites {
   @include flex(space-around, center, row);
   flex: 1;
+  animation: favorites-animation 0.2s;
 
+  .container {
+    @include flex(center, stretch, row);
+    border: solid black;
+    height: 200px;
+
+    .left, .right {
+      @include flex (center, center);
+      width: 40px;
+      
+    }
+
+    .center {
+      @include flex (flex-start, center, row);
+      border: solid blue;
+      overflow: hidden;
+      min-width: 550px;
+      max-width: 550px;
+
+      .pageNumber_container {
+        @include flex(center, center);
+        border: solid red 1px;
+        margin: 0 10px;
+        height: 30px;
+  
+        
+      }
+    }
+  }
+
+  
 }
 
-@keyframes appear {
+@keyframes favorites-animation {
   from {
-    opacity: 0
+    transform: translateX(100vw);
   }
   to {
-    opacity: 1;
+    transform: translateX(0);
   }
 }

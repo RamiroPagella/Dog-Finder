@@ -1,33 +1,18 @@
 import style from "./explore.module.scss";
 import { useState } from "react";
 import Cards from "../../components/exploreComponents/Cards/Cards";
+import PaginationBar from "../../components/PagintationBar/PaginationBar";
+import Description from "../../components/exploreComponents/Description/Description";
 
 const Explore = () => {
-  const [filtersOpen, setfiltersOpen] = useState<boolean>(false);
-
+  const [filtersOpen, setFiltersOpen] = useState<boolean>(false);
 
   return (
     <div className={style.Explore}>
-      <div className={style.Presentation}>
-        <h1>Explore</h1>
+      
+      <Description filtersOpen={filtersOpen} setFiltersOpen={(boolean) => {setFiltersOpen(boolean)}}/>
 
-        <p>
-          En esta seccion podras explorar dentro de un universo de caninos con
-          caracteristicas unicas.
-        </p>
-
-        <button
-          onClick={() => {
-            setfiltersOpen(!filtersOpen);
-          }}
-        >
-          {
-            filtersOpen ? "Cerrar filtros" : "Abrir Filtros"
-          }
-        </button>
-      </div>
-
-      <div className={filtersOpen ? style.Filters_open : style.Filters} >
+      <div className={filtersOpen ? style.Filters_open : style.Filters}>
         <div className={filtersOpen ? style.filters_open : style.filters}>
           <div>Filtro 1</div>
           <div>Filtro 2</div>
@@ -35,9 +20,13 @@ const Explore = () => {
         </div>
       </div>
 
-      <Cards />
+      <Cards/>
+
+      <PaginationBar />
     </div>
   );
 };
 
 export default Explore;
+
+

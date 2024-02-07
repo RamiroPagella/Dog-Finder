@@ -1,17 +1,14 @@
 import { Router } from "express";
-import { GetDogs } from "../handlers/dogHandlers";
+import { GetDogs, getDogById } from "../handlers/dogHandlers";
 import data from "../../data";
+import { Dog } from "../types/dog.types";
 
 const dogRouter = Router();
 
 dogRouter.get('/dogs', GetDogs);
 
-dogRouter.get('/perros', (req, res) => {
-  try {
-    res.json(data);
-  } catch (error) {
-    console.log(error)
-  }
-})
+dogRouter.get('/dogs/:id', getDogById)
+
+
 
 export default dogRouter;

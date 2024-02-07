@@ -1,4 +1,5 @@
 @import './fonts.scss';
+
 :root {
   font-family: Raleway, Monsterrat, Inter, system-ui, Avenir, Helvetica, Arial,
     sans-serif;
@@ -27,8 +28,6 @@
   background-color: var(--color4);
 }
 
-$avergaston: green;
-
 * {
   margin: 0;
   padding: 0;
@@ -38,4 +37,5 @@ $avergaston: green;
 #root {
   height: 100vh;
   width: 100vw;
+  overflow: scroll;
 }

@@ -1,7 +1,5 @@
 import style from "./register.module.scss";
 import { FormValidationError as ErrorIcon } from "../../icons/FormValidationError";
-import { Tooltip } from "react-tooltip";
-import "react-tooltip/dist/react-tooltip.css";
 import useRegisterForm from "../../hooks/useRegisterForm";
 
 
@@ -29,7 +27,7 @@ const Register = () => {
               data-tooltip-content={"Ingresa un nombre de usuario"}
             />
           ) : null}
-          <Tooltip id="username" />
+
         </label>
         <label>
           Correo electronico
@@ -46,7 +44,7 @@ const Register = () => {
               data-tooltip-content={"Ingresa un correo electronico valido"}
             />
           ) : null}
-          <Tooltip id="email" />
+
         </label>
         <label>
           Contraseña
@@ -63,7 +61,7 @@ const Register = () => {
               data-tooltip-content="Ingresa una contraseña mayor a 6 caracteres"
             />
           ) : null}
-          <Tooltip id="password" />
+
         </label>
 
         <button

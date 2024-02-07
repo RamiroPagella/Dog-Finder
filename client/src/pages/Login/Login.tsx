@@ -1,11 +1,16 @@
 import style from "./login.module.scss";
 import { Link } from "react-router-dom";
-import { Tooltip } from "react-tooltip";
 import { FormValidationError as ErrorIcon } from "../../icons/FormValidationError";
 import useLoginForm from "../../hooks/useLoginForm";
+import { useState } from "react";
 
 const Login = () => {
-  const {handleClick, handleChange, btnDisabled, showToolTip, loginForm} = useLoginForm();
+  const { handleClick, handleChange, btnDisabled, showError, loginForm } =
+    useLoginForm();
+  const [showToolTip, setShowToolTip] = useState({
+    email: false,
+    password: false,
+  });
 
   return (
     <div className={style.Login}>
@@ -20,15 +25,23 @@ const Login = () => {
             value={loginForm.email}
             onChange={handleChange}
           />
-          <Tooltip id="email" />
-          {showToolTip.email ? (
-            <ErrorIcon
-              className={style.Icon}
-              data-tooltip-id="email"
-              data-tooltip-content={"No existe tal usuario."}
-            />
+
+          {showError.email ? (
+            <div
+              className={style.IconContainer}
+              onMouseEnter={() => {
+                setShowToolTip({ ...showToolTip, email: true });
+              }}
+              onMouseLeave={() => {
+                setShowToolTip({ ...showToolTip, email: false });
+              }}
+            >
+              <ErrorIcon className={style.icon} />
+              {showToolTip.email ? <p>No existe ese usuario</p> : null}
+            </div>
           ) : null}
         </label>
+
         <label>
           <p className={style.InputTitle}>Contraseña</p>
           <input
@@ -37,20 +50,26 @@ const Login = () => {
             value={loginForm.password}
             onChange={handleChange}
           />
-          <Tooltip id="password" />
-          {showToolTip.password ? (
-            <ErrorIcon
-              className={style.Icon}
-              data-tooltip-id="password"
-              data-tooltip-content={"Contraseña incorrecta."}
-            />
+          {showError.password ? (
+            <div
+              className={style.IconContainer}
+              onMouseEnter={() => {
+                setShowToolTip({ ...showToolTip, password: true });
+              }}
+              onMouseLeave={() => {
+                setShowToolTip({ ...showToolTip, password: false });
+              }}
+            >
+              <ErrorIcon className={style.icon} />
+              {showToolTip.password ? <p>Contraseña incorrecta</p> : null}
+            </div>
           ) : null}
         </label>
 
         <button
           disabled={btnDisabled}
           onClick={handleClick}
-          className={`${style.button} ${btnDisabled ? style.button_disabled : ''}`}
+          className={`${style.button} ${btnDisabled ? style.button_disabled : ""}`}
         >
           Iniciar sesión
         </button>

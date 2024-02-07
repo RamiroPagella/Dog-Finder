@@ -1,33 +1,11 @@
 @import "../../style//mixins.scss";
 
 .Explore {
-  @include flex(flex-start, flex-start);
-  display: flex;
-  flex-direction: column;
+  @include flex(flex-start, center, column);
   flex: 1;
   animation: explore-animation;
   animation-duration: 0.2s;
   padding: 15px 35px;
-
-  .Presentation {
-    position: relative;
-    width: 100%;
-    padding-bottom: 5px;
-
-    button {
-      @include button();
-      position: absolute;
-      bottom: 5px;
-      right: 0;
-      padding: 5px 10px;
-      transition: color, background-color 0.3s;
-      min-width: 120px;
-    }
-    button:hover {
-      background-color: var(--color7);
-      color: var(--color4);
-    }
-  }
 
   .Filters {
     height: 50px;
@@ -74,12 +52,6 @@
     border-bottom: solid var(--color7);
   }
 
-  .Cards {
-    @include flex(center, center, column);
-    width: 100%;
-    flex: 1;
-    gap: 50px;
-  }
 }
 
 @keyframes explore-animation {
