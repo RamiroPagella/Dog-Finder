@@ -1,8 +1,7 @@
-import { useDispatch } from "react-redux";
-import { setUser, setIsAuthenticated } from "../redux/userSlice";
 import { useState } from "react";
 import Axios from "../axios";
 import { useNavigate } from "react-router-dom";
+import { useUserContext } from "./contextHooks";
 
 interface LoginForm {
   email: "";
@@ -10,8 +9,9 @@ interface LoginForm {
 }
 
 const useLoginForm = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { setUser, setIsAuthenticated } = useUserContext();
+
   const [loginForm, setLoginForm] = useState<LoginForm>({
     email: "",
     password: "",
@@ -50,8 +50,8 @@ const useLoginForm = () => {
         }
         console.log(data);
         localStorage.setItem('jwtToken', data.token);
-        dispatch(setIsAuthenticated(true));
-        dispatch(setUser(data.user))
+        setIsAuthenticated(true)
+        setUser(data.user)
         navigate("/");
       })
       .catch((err) => {

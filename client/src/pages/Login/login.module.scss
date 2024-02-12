@@ -5,6 +5,7 @@
   height: 100%;
   width: 100%;
   gap: 60px;
+  
 
   .Title {
     text-align: center;
@@ -78,18 +79,28 @@
 
   }
 
-  .Register {
-    @include button();
-    width: 120px;
-    color: inherit;
-    text-decoration: none;
-    transition: color, background-color 0.2s;
-  }
-  .Register:hover {
-    background-color: var(--color8);
-    color: var(--color4)
+  .bottomButtons {
+    @include flex (center, center);
+    gap: 40px;
   }
 
+  .bottomButton {
+    @include button();
+  }
+}
+
+.Login::after {
+  content: '';
+  position: absolute;
+  max-height: 100vh;
+  max-width: 100vw;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  right: 0;
+  background-image: url(../../assets/images/loginBackground.jpeg);
+  z-index: -10;
+  filter: brightness(80%);
 }
 
 @keyframes move {

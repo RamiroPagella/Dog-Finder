@@ -1,13 +1,13 @@
-import style from "./description.module.scss";
+import style from './exploreHeader.module.scss';
 
 interface Props {
   filtersOpen: boolean;
   setFiltersOpen: (boolean: boolean) => void;
 }
 
-const Description = ({ filtersOpen, setFiltersOpen }: Props) => {
+const ExploreHeader = ({ filtersOpen, setFiltersOpen }: Props) => {
   return (
-    <div className={style.Description}>
+    <div className={style.ExploreHeader}>
       <h1>Explorar</h1>
 
       <p>
@@ -26,4 +26,4 @@ const Description = ({ filtersOpen, setFiltersOpen }: Props) => {
   );
 };
 
-export default Description;
+export default ExploreHeader;

@@ -16,15 +16,17 @@
     padding: 0 10px;
 
     .propertyName {
+      @include flex (center, center);
       padding: 0 7px;
-      width: 170px;
+      width: 185px;
       border-radius: 15px;
       box-shadow: var(--boxShadow);
-      background-color: var(--color4)
+      background-color: var(--color4);
     }
 
     .propertyValue {
       @extend .propertyName;
+      @include flex(center, center);
       width: 100%;
     }
   }

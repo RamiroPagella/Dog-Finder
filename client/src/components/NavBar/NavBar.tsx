@@ -5,11 +5,11 @@ import {
   DogHouse,
   DogPaw,
   Search,
-} from "../../icons/navBarIcons";
+} from "../../assets/icons/navBarIcons";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
+import { useUserContext } from "../../hooks/contextHooks";
+import SearchBar from "./SearchBar/SearchBar";
 
 interface target extends EventTarget {
   id?: string;
@@ -18,9 +18,7 @@ interface target extends EventTarget {
 const NavBar = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.userState.isAuthenticated
-  );
+  const { isAuthenticated } = useUserContext();
 
   const [showTooltip, setShowTooltip] = useState({
     createDog: false,
@@ -94,8 +92,9 @@ const NavBar = () => {
           {showTooltip.favorites ? <p>Favoritos</p> : null}
         </div>
       </div>
+      
       <div className={style.Container2}>
-        <input type="text" className={style.input} />
+        <SearchBar />
         <Search className={style.icon} />
       </div>
 

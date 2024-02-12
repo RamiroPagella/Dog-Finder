@@ -2,11 +2,13 @@
 
 .Cards {
   @include flex (center, center);
-  gap: 40px;
+  gap: 30px;
   min-width: 100%;
   max-width: 100%;
-  min-height: 700px;
+  min-height: 650px;
   flex-wrap: wrap;
+  transition: transform 0.2s;
+  transform: translateY(-50px);
 
   .loaderContainer {
     @include flex (center, center);
@@ -14,4 +16,12 @@
     width: 100%;
   }
 }
+
+.Cards_moved {
+  transform: translateY(0);
+}
+
+
+
+
 

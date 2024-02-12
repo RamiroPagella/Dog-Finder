@@ -83,7 +83,6 @@ export const UserInfo: RequestHandler = async (req: CustomRequest, res) => {
     return res.status(200).json(user);
 
   } catch (error) {
-    console.log(error);
     if (error instanceof Error) return res.status(500).json({error: error.name, message: error.message});
     res.status(500)
   }

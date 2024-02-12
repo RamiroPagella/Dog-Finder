@@ -1,9 +1,7 @@
 import Axios from "../axios";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { setUser } from "../redux/userSlice";
-import { setIsAuthenticated } from "../redux/userSlice";
 import { useState } from "react";
+import { useUserContext } from "./contextHooks";
 
 export interface RegisterForm {
   email: "";
@@ -18,8 +16,9 @@ export interface Validations {
 }
 
 const useRegisterForm = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { setUser, setIsAuthenticated } = useUserContext();
+
   const [registerForm, setRegisterForm] = useState<RegisterForm>({
     email: "",
     username: "",
@@ -53,8 +52,8 @@ const useRegisterForm = () => {
         if (!data.authenticated) {
           throw new Error(data.message);
         }
-        dispatch(setUser(data.user));
-        dispatch(setIsAuthenticated(true));
+        setUser(data.user)
+        setIsAuthenticated(true)
         localStorage.setItem('jwtToken', data.token);
         navigate("/");
       })

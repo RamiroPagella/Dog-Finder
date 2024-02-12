@@ -14,21 +14,13 @@
   animation: appear 0.2s;
 
   .button {
+    @include button();
     position: absolute;
     top: 8%;
     right: 8%;
     height: 50px;
     width: 50px;
-    border-radius: 100px;
-    cursor: pointer;
-    background-color: var(--color4);
     padding: 10px;
-    box-shadow: var(--boxShadow);
-
-    &:hover {
-      background-color: var(--color9);
-      color: var(--color4);
-    }
   }
 
   .imageContainer {

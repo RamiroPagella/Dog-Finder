@@ -1,6 +1,6 @@
 import style from "./card.module.scss";
 import { useState } from "react";
-import { Heart } from "../../../icons/navBarIcons";
+import { Heart } from "../../../assets/icons/navBarIcons";
 import { useUserContext } from "../../../hooks/contextHooks";
 import toast, { Toaster } from "react-hot-toast";
 import { Dog } from "../../../types";
@@ -12,14 +12,15 @@ const Card = (props: Dog) => {
 
   const handleFav = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
-    if (!isAuthenticated)
+    if (!isAuthenticated) {
       toast.error("Debes iniciar sesión", {
         style: {
-          backgroundColor: "var(--color8)",
+          backgroundColor: "var(--color7)",
           color: "var(--color4)",
-          pointerEvents: 'none',
+          pointerEvents: "none",
         },
       });
+    }
   };
 
   const content = (
@@ -63,8 +64,7 @@ const Card = (props: Dog) => {
   );
 
   return (
-    <Link className={style.Card} to={`/dog/:${props.id}`}>
-      <Toaster />
+    <Link className={style.Card} to={`/dog/${props.id}`}>
       {content}
       {hoverContent}
     </Link>

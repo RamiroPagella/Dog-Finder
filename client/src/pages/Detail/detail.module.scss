@@ -4,13 +4,9 @@
   @include flex(flex-start, center, column);
   flex: 1;
   padding: 15px 35px;
+  user-select: none;
 
-  .description {
-    width: 100%;
-    border-bottom: solid var(--color7);
-    height: 50px;
-    margin-bottom: 10px;
-  }
+  
 
   .content {
     @include flex(space-around, center);
@@ -32,7 +28,25 @@
         max-width: 100%;
       }
     }
-    
+
+    .iconContainer {
+      position: relative;
+      @include flex (center, center);
+
+      .favIcon {
+        cursor: pointer; 
+        height: 60px;
+        width: 60px;
+        color: var(--color7);
+      }
+
+      .favTooltip {
+        @include toolTip;
+        top: -30px;
+      }
+    }
+
+   
   }
 }
 

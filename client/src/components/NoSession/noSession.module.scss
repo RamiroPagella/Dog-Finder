@@ -1,4 +1,4 @@
-@import '../../style/mixins.scss';
+@import "../../style/mixins.scss";
 
 .NoSession {
   @include flex(space-evenly, center, column);
@@ -21,22 +21,10 @@
       right: -65px;
       top: -11px;
       height: 50px;
-
     }
   }
 
   .button {
     @include button();
-    @include flex(center, center);
-    width: 120px;
-    height: 30px;
-    text-decoration: none;
-    color: var(--color9);
-    transition: background-color, color 0.2s;
-
-  }
-  .button:hover {
-    background-color: var(--color7);
-    color: var(--color4);
   }
 }

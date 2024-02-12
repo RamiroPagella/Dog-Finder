@@ -25,7 +25,15 @@
   box-shadow: var(--boxShadow);
   border: none;
   background-color: var(--color4);
-  color: var(--color9);
+  color: var(--color7);
+  transition: color, background-color 0.2s;
+  padding: 5px 20px;
+  height: 28px;
+
+  &:hover {
+    background-color: var(--color7);
+    color: var(--color4);
+  }
 }
 @mixin disabledButton() {
   color: var(--color7);

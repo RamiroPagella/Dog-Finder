@@ -1,33 +1,32 @@
 import "./style/App.css";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
-import Landing from "./pages/Login/Login";
-import Register from "./pages/Register/Register";
-import Explore from "./pages/Explore/Explore";
+import Landing from "./Pages/Login/Login";
+import Register from "./Pages/Register/Register";
+import Explore from "./Pages/Explore/Explore";
 import { useEffect } from "react";
-import NotFound from "./pages/NotFound/NotFound";
-import { useDispatch } from "react-redux";
-import { setIsAuthenticated, setUser } from "./redux/userSlice";
+import NotFound from "./Pages/NotFound/NotFound";
 import NavBar from "./components/NavBar/NavBar";
-import Favorites from "./pages/Favorites/Favorites";
-import CreateDog from "./pages/CreateDog/CreateDog";
+import Favorites from "./Pages/Favorites/Favorites";
+import CreateDog from "./Pages/CreateDog/CreateDog";
 import Axios from "./axios";
-import Detail from "./pages/Detail/Detail";
+import Detail from "./Pages/Detail/Detail";
+import { useUserContext } from "./hooks/contextHooks";
+import { Toaster } from "react-hot-toast";
 
 function App() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { setIsAuthenticated, setUser } = useUserContext();
 
   useEffect(() => {
     const token = localStorage.getItem("jwtToken");
     if (token) {
-      Axios
-        .get("/user/info", { headers: { Authorization: token } })
+      Axios.get("/user/info", { headers: { Authorization: token } })
         .then((res) => {
           if (!res.data.username) throw new Error("Unauthorized");
           const { username, email, id } = res.data;
           setIsAuthenticated(true);
-          dispatch(setUser({ username, email, id }));
+          setUser({ username, email, id });
           navigate("/");
         })
         .catch((err) => {
@@ -41,15 +40,15 @@ function App() {
 
   return (
     <div className="App">
-      {
-        pathname !== '/login' && pathname !== '/register' ? <NavBar /> : null
-      }
+      {pathname !== "/login" && pathname !== "/register" ? <NavBar /> : null}
+
+      <Toaster />
 
       <Routes>
         <Route path="/" element={<Explore />} />
         <Route path="/favorites" element={<Favorites />} />
-        <Route path="/create-dog" element={<CreateDog />} /> 
-        <Route path="/dog/:id" element={<Detail />}/>
+        <Route path="/create-dog" element={<CreateDog />} />
+        <Route path="/dog/:id" element={<Detail />} />
 
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Landing />} />

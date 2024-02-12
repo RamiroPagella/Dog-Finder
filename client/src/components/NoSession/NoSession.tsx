@@ -1,12 +1,12 @@
-import { Link } from "react-router-dom";
-import { AttentionIcon } from "../../icons/ErrorIcons";
 import style from "./noSession.module.scss";
+import { Link } from "react-router-dom";
+import { AttentionIcon } from "../../assets/icons/ErrorIcons";
 
 interface Props {
   path: "favorites" | "create-dog";
 }
 
-const NoSession = ({ path }) => {
+const NoSession = ({ path }: Props) => {
   return (
     <div className={style.NoSession}>
       <div className={style.Title}>

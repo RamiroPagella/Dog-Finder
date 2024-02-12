@@ -1,6 +1,7 @@
 import style from "./fullSizeImage.module.scss";
 import { createPortal } from "react-dom";
-import { CloseButton } from "../../../icons/OtherIcons";
+import { CloseButton } from "../../../assets/icons/OtherIcons";
+
 
 interface Props {
   img: string | undefined;
@@ -9,16 +10,17 @@ interface Props {
 
 const FullSizeImage = ({ img, setIsImageOpen }: Props) => {
   const rootElement: Element = document.querySelector("#root") as Element;
+  
 
   return createPortal(
     <div className={style.container}>
-      <div className={style.button}>
-        <CloseButton
-          className={style.buttonIcon}
-          onClick={() => {
-            setIsImageOpen(false);
-          }}
-        />
+      <div
+        className={style.button}
+        onClick={() => {
+          setIsImageOpen(false);
+        }}
+      >
+        <CloseButton className={style.buttonIcon} />
       </div>
 
       <div className={style.imageContainer}>

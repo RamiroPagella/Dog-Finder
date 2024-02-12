@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
-import { DogType } from "../types";
+import { Dog as DogType } from "../types";
 import { getDogs } from "../services/dogsServices";
 import { usePagingContext } from "./contextHooks";
 
 const useDogs = (currentPage = 1) => {
   const [dogs, setDogs] = useState<DogType[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
   const [hasNextPage, setHasNextPage] = useState<boolean>(false);
 
-  const {setTotalPages} = usePagingContext();
+  const { setTotalPages } = usePagingContext();
 
   useEffect(() => {
     setIsLoading(true);
@@ -25,14 +25,14 @@ const useDogs = (currentPage = 1) => {
         setDogs(data.dogs);
         setIsLoading(false);
         setHasNextPage(currentPage <= data.totalPages);
-        setTotalPages(data.totalPages)
+        setTotalPages(data.totalPages);
       })
       .catch((err) => {
         setIsLoading(false);
         if (signal.aborted) return;
         setIsError(true);
         setError(err);
-        console.log(err)
+        console.log(err);
       });
 
     return () => controller.abort();

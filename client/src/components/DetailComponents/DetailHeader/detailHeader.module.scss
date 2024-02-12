@@ -1,0 +1,21 @@
+@import '../../../style/mixins.scss';
+
+.pageHeader {
+  @include flex (flex-start, center);
+  position: relative;
+  width: 100%;
+  border-bottom: solid var(--color7);
+  height: 50px;
+  margin-bottom: 10px;
+
+  .headerButtons {
+    @include flex (space-between, center);
+    gap: 20px;
+    position: absolute;
+    right: 0;
+
+    button {
+      @include button ();
+    }
+  }
+}

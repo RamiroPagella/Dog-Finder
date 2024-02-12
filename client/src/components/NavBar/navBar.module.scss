@@ -5,7 +5,7 @@
   width: $width;
   padding: 5px;
   border-radius: 100px;
-  color: var(--color9);
+  color: var(--color8);
 }
 
 //
@@ -63,11 +63,6 @@
     height: 100%;
     gap: 35px;
 
-    .input {
-      @include input();
-      width: 70%;
-    }
-
     .icon {
       @include navBar_Icon(40px, 40px);
     }
@@ -95,14 +90,6 @@
 
     .button {
       @include button ();
-      width: 160px;
-      transition: color, background-color 0.2s;
-      height: 30px;
-
-      &:hover {
-        background-color: var(--color8);
-        color: var(--color4);
-      }
     }
   }
 }
