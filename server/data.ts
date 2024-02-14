@@ -2754,4 +2754,5 @@ const data: Dog[] = [
   },
 ];
 
+
 export default data;

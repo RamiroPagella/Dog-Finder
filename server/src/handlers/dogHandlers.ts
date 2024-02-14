@@ -2,7 +2,7 @@ import { RequestHandler } from "express";
 import Dog from "../models/Dog.model";
 import { Dog as DogType } from "../types/dog.types";
 import data from "../../data";
-import { getDogs, validateFilters } from "../services/dogServices";
+import { getDogs, validateFilters, filterDogs } from "../services/dogServices";
 
 export const GetDogsHandler: RequestHandler = async (req, res) => {
   const { page, search, weight, height, temperaments, breedGroup, lifeSpan } =
@@ -16,12 +16,13 @@ export const GetDogsHandler: RequestHandler = async (req, res) => {
     lifeSpan,
   };
   try {
-    const {} = getDogs(Number(page), validateFilters(filters));
+    const { dogs } = await getDogs();
+    const { dogsPage, totalPages} = filterDogs(dogs, validateFilters(filters), Number(page))
 
     //
     res.status(200).json({
       dogs: dogsPage,
-      totalPages: Math.ceil(totalDogsLength / limit),
+      totalPages,
       message: "Data fetched succesfully",
     });
   } catch (error) {

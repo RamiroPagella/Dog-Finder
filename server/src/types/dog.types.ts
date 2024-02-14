@@ -12,9 +12,9 @@ export interface Dog {
 export type NonIdDog = Omit<Dog, 'id'>;
 
 export interface DogFilters {
-  search: string | undefined;
-  height: `${number} - ${number}` | `${number}` | '';
-  weight: `${number} - ${number}` | `${number}` | '';
+  search: string;
+  height: `${number} - ${number}` | '';
+  weight: `${number} - ${number}` | '';
   temperaments: string[] | '';
   breedGroup: string | '';
   lifeSpan: `${number} - ${number} years` | `${number} years` | '';
