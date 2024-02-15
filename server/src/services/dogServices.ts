@@ -2,18 +2,6 @@ import Dog from "../models/Dog.model";
 import { DogFilters, Dog as DogType } from "../types/dog.types";
 import { Op } from "sequelize";
 
-export const getDogs = async () => {
-  const dogs: DogType[] = await Dog.findAll();
-
-  const totalDogsLength: number = await Dog.count();
-  const dogsPerPage: number = 8;
-
-  return {
-    dogs,
-    totalPages: Math.ceil(totalDogsLength / dogsPerPage),
-  };
-};
-
 export const filterDogs = (
   dogs: DogType[],
   filters: DogFilters,
@@ -60,6 +48,8 @@ export const filterDogs = (
   }
   //si no es un string vacio, es un array
   if (temperaments !== "") {
+    console.log(temperaments);
+
     dogs = dogs.filter((dog) => {
       for (let i = 0; i < temperaments.length; i++) {
         if (dog.temperaments.includes(temperaments[i])) return true;
@@ -74,6 +64,8 @@ export const filterDogs = (
   }
 
   if (lifeSpan !== "") {
+    console.log("aver4");
+
     const selectedLifeSpan = lifeSpan
       .split(" ")
       .filter((e) => (!isNaN(Number(e)) ? true : false))
@@ -103,13 +95,14 @@ export const filterDogs = (
   const pagedDogs: DogType[][] = [];
 
   for (let i = 0; i < dogs.length; i += itemsPerPage) {
-    pagedDogs.push(dogs.slice(i, itemsPerPage));
+    const slice = dogs.slice(i, i + itemsPerPage);
+    pagedDogs.push(slice);
   }
 
   return {
     dogsPage: pagedDogs[page - 1],
-    totalPages: pagedDogs.length
-  }
+    totalPages: pagedDogs.length,
+  };
 };
 
 export const validateFilters = (dogFilters: unknown): DogFilters => {
@@ -149,6 +142,9 @@ const parseTemperaments = (
   temperaments: unknown,
 ): DogFilters["temperaments"] => {
   if (!isString(temperaments)) throw new Error("Incorrect data");
+
+  if (temperaments === "") return temperaments;
+
   return temperaments.split(",").map((temp) => {
     if (!isString(temp)) throw new Error("Incorrect data");
     return temp;

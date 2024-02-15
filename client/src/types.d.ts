@@ -15,19 +15,19 @@ export interface Dog {
   temperaments: string[] | "Unknown"
 }
 
-export interface PagingContext {
-  currentPage: number;
-  totalPages: number;
-  setCurrentPage: (currentPage: number) => void;
-  setTotalPages: (totalPages: number) => void;
+
+export interface Filters {
+  search: string;
+  weight: string;
+  height: string;
+  temperaments: string[];
+  breedGroup: string;
+  lifeSpan: string;
 }
 
-export interface UserContext {
-  User: User;
-  setUser: (User) => void;
-  isAuthenticated: boolean;
-  setIsAuthenticated: (isAuthenticated: boolean) => void;
-}
+
+
+
 
 
 

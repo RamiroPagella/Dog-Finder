@@ -1,11 +1,19 @@
 import { ReactNode, createContext, useState } from "react"; 
-import { PagingContext as PagingContextType } from "../types";
+
+
+
+export interface PagingContextType {
+  currentPage: number;
+  totalPages: number;
+  setCurrentPage: (currentPage: number) => void;
+  setTotalPages: (totalPages: number) => void;
+}
+
+const PagingContext = createContext<PagingContextType | null>(null);
 
 interface Props {
   children: ReactNode;
 }
-
-const PagingContext = createContext<PagingContextType | null>(null);
 
 const PagingContextProvider = ({ children }: Props) => {
   const [currentPage, changeCurrentPage] = useState<number>(1);

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Dog as DogType } from "../types";
 import { getDogs } from "../services/dogsServices";
-import { usePagingContext } from "./contextHooks";
+import { usePagingContext, useSearcAndfiltersContext } from "./contextHooks";
 
 const useDogs = (currentPage = 1) => {
   const [dogs, setDogs] = useState<DogType[]>([]);
@@ -11,6 +11,16 @@ const useDogs = (currentPage = 1) => {
   const [hasNextPage, setHasNextPage] = useState<boolean>(false);
 
   const { setTotalPages } = usePagingContext();
+  const { search, weight, height, temperaments, breedGroup, lifeSpan } =
+    useSearcAndfiltersContext();
+  const filters = {
+    search,
+    weight,
+    height,
+    temperaments,
+    breedGroup,
+    lifeSpan,
+  };
 
   useEffect(() => {
     setIsLoading(true);
@@ -20,7 +30,7 @@ const useDogs = (currentPage = 1) => {
     const controller = new AbortController();
     const { signal } = controller;
 
-    getDogs(currentPage, { signal })
+    getDogs(currentPage, filters, { signal })
       .then((data) => {
         setDogs(data.dogs);
         setIsLoading(false);
@@ -37,7 +47,7 @@ const useDogs = (currentPage = 1) => {
 
     return () => controller.abort();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage]);
+  }, [currentPage, search, weight, height, temperaments, breedGroup, lifeSpan]);
 
   return { dogs, isLoading, isError, error, hasNextPage };
 };

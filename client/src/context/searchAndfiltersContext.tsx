@@ -1,12 +1,7 @@
 import React, { ReactNode, createContext, useState } from "react";
+import { Filters } from "../types";
 
-export interface SearchAndfiltersContextType {
-  search: string;
-  weight: string;
-  height: string;
-  temperaments: string[];
-  breedGroup: string;
-  lifeSpan: string;
+export interface SearchAndfiltersContextType extends Filters {
   setSearch: React.Dispatch<React.SetStateAction<string>>;
   setWeight: React.Dispatch<React.SetStateAction<string>>;
   setHeight: React.Dispatch<React.SetStateAction<string>>;

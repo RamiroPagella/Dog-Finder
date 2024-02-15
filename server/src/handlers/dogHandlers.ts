@@ -1,8 +1,8 @@
 import { RequestHandler } from "express";
-import Dog from "../models/Dog.model";
+import DogModel from "../models/Dog.model";
 import { Dog as DogType } from "../types/dog.types";
 import data from "../../data";
-import { getDogs, validateFilters, filterDogs } from "../services/dogServices";
+import { validateFilters, filterDogs } from "../services/dogServices";
 
 export const GetDogsHandler: RequestHandler = async (req, res) => {
   const { page, search, weight, height, temperaments, breedGroup, lifeSpan } =
@@ -16,8 +16,9 @@ export const GetDogsHandler: RequestHandler = async (req, res) => {
     lifeSpan,
   };
   try {
-    const { dogs } = await getDogs();
-    const { dogsPage, totalPages} = filterDogs(dogs, validateFilters(filters), Number(page))
+    const dogs: DogType[] = (await DogModel.findAll()).map(dog => dog.dataValues);
+
+    const { dogsPage, totalPages } = filterDogs(dogs, validateFilters(filters), Number(page))
 
     //
     res.status(200).json({
@@ -25,6 +26,7 @@ export const GetDogsHandler: RequestHandler = async (req, res) => {
       totalPages,
       message: "Data fetched succesfully",
     });
+    
   } catch (error) {
     res
       .status(500)
@@ -41,10 +43,10 @@ export const getDogById: RequestHandler = async (req, res) => {
   }
 
   try {
-    const dog: DogType | null = await Dog.findByPk(id);
+    const dog: DogType | null = await DogModel.findByPk(id);
     if (!dog) return res.status(400).json({ error: "Dog not found" });
 
-    const totalDogsLength: number = await Dog.count();
+    const totalDogsLength: number = await DogModel.count();
 
     const hasPrevAndNext = {
       prev: id !== 1,
