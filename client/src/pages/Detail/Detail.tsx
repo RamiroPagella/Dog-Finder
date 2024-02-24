@@ -3,11 +3,10 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import FullSizeImage from "../../components/DetailComponents/FullSizeImage/FullSizeImage";
 import DogDescription from "../../components/DetailComponents/DogDescription/DogDescription";
-import { Loader, HeartFill } from "../../assets/icons/OtherIcons";
-import { Heart } from "../../assets/icons/navBarIcons";
+import { Heart, Loader, HeartFill } from "../../assets/icons";
 import DetailHeader from "../../components/DetailComponents/DetailHeader/DetailHeader";
 import useDogDetail from "../../hooks/useDogDetail";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { useUserContext } from "../../hooks/contextHooks";
 
 const Detail = () => {
@@ -50,7 +49,8 @@ const Detail = () => {
 
           <div className={style.content}>
             <div className={style.imageContainer} onClick={handleClick}>
-              <img src={dog?.img} />
+              <img src={dog?.img} className={style.blurImg} />
+              <img src={dog?.img} className={style.img}/>
             </div>
 
             <div className={style.iconContainer}>

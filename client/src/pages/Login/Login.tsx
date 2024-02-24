@@ -1,6 +1,6 @@
 import style from "./login.module.scss";
 import { Link } from "react-router-dom";
-import { FormValidationError as ErrorIcon } from "../../assets/icons/FormValidationError";
+import { FormValidationError as ErrorIcon } from "../../assets/icons";
 import useLoginForm from "../../hooks/useLoginForm";
 import { useState } from "react";
 

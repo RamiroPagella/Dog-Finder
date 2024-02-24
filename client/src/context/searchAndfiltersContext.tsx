@@ -1,13 +1,17 @@
 import React, { ReactNode, createContext, useState } from "react";
 import { Filters } from "../types";
 
-export interface SearchAndfiltersContextType extends Filters {
-  setSearch: React.Dispatch<React.SetStateAction<string>>;
-  setWeight: React.Dispatch<React.SetStateAction<string>>;
-  setHeight: React.Dispatch<React.SetStateAction<string>>;
-  setTemperaments: React.Dispatch<React.SetStateAction<string[]>>;
-  setBreedGroup: React.Dispatch<React.SetStateAction<string>>;
-  setLifeSpan: React.Dispatch<React.SetStateAction<string>>;
+// export interface SearchAndfiltersContextType extends Filters {
+//   setSearch: React.Dispatch<React.SetStateAction<string>>;
+//   setWeight: React.Dispatch<React.SetStateAction<string>>;
+//   setHeight: React.Dispatch<React.SetStateAction<string>>;
+//   setTemperaments: React.Dispatch<React.SetStateAction<string[]>>;
+//   setBreedGroups: React.Dispatch<React.SetStateAction<string[]>>;
+//   setLifeSpan: React.Dispatch<React.SetStateAction<string>>;
+// }
+export interface SearchAndfiltersContextType {
+  setSearchAndFilters: React.Dispatch<React.SetStateAction<Filters>>;
+  searchAndFilters: Filters;
 }
 
 export const SearchAndfiltersContext =
@@ -18,29 +22,18 @@ interface ProviderProps {
 }
 
 export const SearchAndFiltersProvider = ({ children }: ProviderProps) => {
-  const [search, setSearch] = useState<string>("");
-  const [weight, setWeight] = useState<string>("");
-  const [height, setHeight] = useState<string>("");
-  const [temperaments, setTemperaments] = useState<string[]>([]);
-  const [breedGroup, setBreedGroup] = useState<string>("");
-  const [lifeSpan, setLifeSpan] = useState<string>("");
+  const [searchAndFilters, setSearchAndFilters] = useState<Filters>({
+    search: "",
+    weight: "0 - 1000",
+    height: "0 - 1000",
+    temperaments: [],
+    breedGroups: [],
+    lifeSpan: "0 - 1000",
+  });
 
   return (
     <SearchAndfiltersContext.Provider
-      value={{
-        search,
-        weight,
-        height,
-        temperaments,
-        breedGroup,
-        lifeSpan,
-        setSearch,
-        setWeight,
-        setHeight,
-        setTemperaments,
-        setBreedGroup,
-        setLifeSpan,
-      }}
+      value={{ searchAndFilters, setSearchAndFilters }}
     >
       {children}
     </SearchAndfiltersContext.Provider>

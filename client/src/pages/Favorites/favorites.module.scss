@@ -5,19 +5,20 @@
   flex: 1;
   animation: favorites-animation 0.2s;
 
+
   .container {
     @include flex(center, stretch, row);
     border: solid black;
     height: 200px;
 
-    .left, .right {
-      @include flex (center, center);
+    .left,
+    .right {
+      @include flex(center, center);
       width: 40px;
-      
     }
 
     .center {
-      @include flex (flex-start, center, row);
+      @include flex(flex-start, center, row);
       border: solid blue;
       overflow: hidden;
       min-width: 550px;
@@ -28,13 +29,9 @@
         border: solid red 1px;
         margin: 0 10px;
         height: 30px;
-  
-        
       }
     }
   }
-
-  
 }
 
 @keyframes favorites-animation {

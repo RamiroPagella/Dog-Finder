@@ -22,12 +22,12 @@ export const validateUser = (user: PwdUser): PwdUser => {
 export const registerUser = async (user: PwdUser): Promise<IdUser> => {
   try {
     const hashedPwd = await bcrypt.hash(user.password, 10);
-    
+
     const newUser: PwdUser = {
       username: user.username,
       email: user.email,
-      password: hashedPwd
-    }
+      password: hashedPwd,
+    };
 
     const [User, created]: [IdUser, boolean] = await UserModel.findOrCreate({
       where: { email: user.email },
@@ -40,13 +40,13 @@ export const registerUser = async (user: PwdUser): Promise<IdUser> => {
 
     return User;
   } catch (error) {
-    console.log(error)
+    console.log(error);
     throw new Error(error instanceof Error ? error.message : undefined);
   }
 };
 
 export const LogUser = async (
-  user: Omit<PwdUser, 'username'>
+  user: Omit<PwdUser, "username">,
 ): Promise<IdUser> => {
   const { email, password } = user;
 
@@ -67,8 +67,8 @@ export const LogUser = async (
   const userWithId = {
     username: User.username,
     email: User.email,
-    id: User.id
-  }
+    id: User.id,
+  };
 
   return userWithId;
 };

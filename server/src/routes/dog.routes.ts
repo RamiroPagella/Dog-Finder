@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { GetDogsHandler, getDogById } from "../handlers/dogHandlers";
+import { GetDogsHandler, getDogById, getTempsAndBreedGroups } from "../handlers/dogHandlers";
 import data from "../../data";
 import { Dog } from "../types/dog.types";
 import DogModel from "../models/Dog.model";
@@ -10,8 +10,6 @@ dogRouter.get('/dogs', GetDogsHandler);
 
 dogRouter.get('/dog/:id', getDogById)
 
-dogRouter.get('/averga', async (req, res) => {
-  
-})
+dogRouter.get('/temps-and-breedgroups', getTempsAndBreedGroups);
 
 export default dogRouter;

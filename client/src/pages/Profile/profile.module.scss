@@ -1,0 +1,55 @@
+@import "../../style/mixins.scss";
+
+.Profile {
+    @include flex(flex-start, center, column);
+    flex: 1;
+    gap: 15px;
+    padding: 0 35px;
+
+    h1 {
+        box-sizing: border-box;
+        padding: 15px 0;
+        width: 100%;
+        border-bottom: solid var(--color7) 3px;
+    }
+
+    section {
+        @include flex (center, center, column);
+        gap: 20px;
+        flex: 1;
+
+        .info {
+            @include flex(center, stretch, column);
+            background-color: var(--color5);
+            padding: 10px;
+            border: var(--containerBorder);
+            width: 650px;
+            border-radius: 15px;
+            gap: 10px;
+            box-shadow: var(--boxShadow);
+            border: var(--containerBorder);
+
+            h3 {
+                background-color: var(--color4);
+                padding: 0 7px;
+                border-radius: 100px;
+                box-shadow: var(--boxShadow);
+                align-self: flex-start;
+            }
+            p {
+                @extend h3;
+                width: 100%;
+            }
+        }
+    }
+
+    .buttons {
+        @include flex(center, center);
+        gap: 80px;
+        margin-top: 20px;
+
+        .button {
+            @include button;
+        }
+    }
+}

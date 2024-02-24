@@ -3,19 +3,15 @@ import Card from "../Card/Card";
 import useDogs from "../../../hooks/useDogs";
 import { Dog as DogType } from "../../../types";
 import { usePagingContext } from "../../../hooks/contextHooks";
-import { Loader } from "../../../assets/icons/OtherIcons";
+import { Loader } from "../../../assets/icons";
 
-interface Props {
-  filtersOpen: boolean;
-}
-
-const Cards = ({ filtersOpen }: Props) => {
+const Cards = () => {
   const { currentPage } = usePagingContext();
   const { dogs, isLoading, isError, error } = useDogs(currentPage);
 
 
   return (
-    <div className={`${style.Cards} ${filtersOpen ? style.Cards_moved : ''}`}>
+    <div className={style.Cards}>
       {
         isError ? error?.message : 
       (isLoading ? (

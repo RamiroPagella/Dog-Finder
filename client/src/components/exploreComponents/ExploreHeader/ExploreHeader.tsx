@@ -1,11 +1,12 @@
-import style from './exploreHeader.module.scss';
+import { useState } from "react";
+import style from "./exploreHeader.module.scss";
+import { createPortal } from "react-dom";
+import Filters from "../Filters/Filters";
 
-interface Props {
-  filtersOpen: boolean;
-  setFiltersOpen: (boolean: boolean) => void;
-}
+const ExploreHeader = () => {
+  const [filtersOpen, setFiltersOpen] = useState<boolean>();
 
-const ExploreHeader = ({ filtersOpen, setFiltersOpen }: Props) => {
+  
   return (
     <div className={style.ExploreHeader}>
       <h1>Explorar</h1>
@@ -15,13 +16,9 @@ const ExploreHeader = ({ filtersOpen, setFiltersOpen }: Props) => {
         caracteristicas unicas.
       </p>
 
-      <button
-        onClick={() => {
-          setFiltersOpen(!filtersOpen);
-        }}
-      >
-        {filtersOpen ? "Cerrar filtros" : "Abrir Filtros"}
-      </button>
+      <button onClick={() => {setFiltersOpen(!filtersOpen)}} > Abrir Filtros </button>
+
+      {filtersOpen ? <Filters setFiltersOpen={(boolean) => {setFiltersOpen(boolean)}} /> : null}
     </div>
   );
 };

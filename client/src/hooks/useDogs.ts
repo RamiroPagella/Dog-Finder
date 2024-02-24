@@ -11,16 +11,7 @@ const useDogs = (currentPage = 1) => {
   const [hasNextPage, setHasNextPage] = useState<boolean>(false);
 
   const { setTotalPages } = usePagingContext();
-  const { search, weight, height, temperaments, breedGroup, lifeSpan } =
-    useSearcAndfiltersContext();
-  const filters = {
-    search,
-    weight,
-    height,
-    temperaments,
-    breedGroup,
-    lifeSpan,
-  };
+  const { searchAndFilters } = useSearcAndfiltersContext();
 
   useEffect(() => {
     setIsLoading(true);
@@ -30,7 +21,7 @@ const useDogs = (currentPage = 1) => {
     const controller = new AbortController();
     const { signal } = controller;
 
-    getDogs(currentPage, filters, { signal })
+    getDogs(currentPage, searchAndFilters, { signal })
       .then((data) => {
         setDogs(data.dogs);
         setIsLoading(false);
@@ -47,7 +38,7 @@ const useDogs = (currentPage = 1) => {
 
     return () => controller.abort();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage, search, weight, height, temperaments, breedGroup, lifeSpan]);
+  }, [currentPage, searchAndFilters]);
 
   return { dogs, isLoading, isError, error, hasNextPage };
 };

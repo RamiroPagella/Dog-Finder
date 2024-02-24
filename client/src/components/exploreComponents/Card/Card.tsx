@@ -1,8 +1,8 @@
 import style from "./card.module.scss";
 import { useState } from "react";
-import { Heart } from "../../../assets/icons/navBarIcons";
+import { Heart } from '../../../assets/icons';
 import { useUserContext } from "../../../hooks/contextHooks";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { Dog } from "../../../types";
 import { Link } from "react-router-dom";
 

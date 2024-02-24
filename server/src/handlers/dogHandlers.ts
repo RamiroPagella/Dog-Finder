@@ -16,9 +16,15 @@ export const GetDogsHandler: RequestHandler = async (req, res) => {
     lifeSpan,
   };
   try {
-    const dogs: DogType[] = (await DogModel.findAll()).map(dog => dog.dataValues);
+    const dogs: DogType[] = (await DogModel.findAll()).map(
+      (dog) => dog.dataValues,
+    );
 
-    const { dogsPage, totalPages } = filterDogs(dogs, validateFilters(filters), Number(page))
+    const { dogsPage, totalPages } = filterDogs(
+      dogs,
+      validateFilters(filters),
+      Number(page),
+    );
 
     //
     res.status(200).json({
@@ -26,7 +32,6 @@ export const GetDogsHandler: RequestHandler = async (req, res) => {
       totalPages,
       message: "Data fetched succesfully",
     });
-    
   } catch (error) {
     res
       .status(500)
@@ -61,5 +66,36 @@ export const getDogById: RequestHandler = async (req, res) => {
       .status(500)
       .json({ error: error instanceof Error ? error.message : error });
     console.log(error);
+  }
+};
+
+export const getTempsAndBreedGroups: RequestHandler = async (req, res) => {
+  try {
+    const dogs: DogType[] = (await DogModel.findAll()).map(
+      (dog) => dog.dataValues,
+    );
+    const temps: string[] = [];
+    const breedGroups: DogType["breedGroup"][] = [];
+
+    dogs.forEach((dog) => {
+      if (Array.isArray(dog.temperaments)) {
+        dog.temperaments.forEach((temp) => {
+          if (!temps.includes(temp)) temps.push(temp);
+        });
+      } else {
+        if (!temps.includes(dog.temperaments)) temps.push(dog.temperaments);
+      }
+
+      if (!breedGroups.includes(dog.breedGroup))
+        breedGroups.push(dog.breedGroup);
+    });
+
+    return res.status(200).json({
+      temperaments: temps,
+      breedGroups
+    })
+  } catch (error) {
+    res.status(200).send({error: error instanceof Error ? error.message : error});
+    console.log(error)
   }
 };

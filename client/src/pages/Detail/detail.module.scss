@@ -1,59 +1,72 @@
 @import "../../style/mixins.scss";
 
 .Detail {
-  @include flex(flex-start, center, column);
-  flex: 1;
-  padding: 15px 35px;
-  user-select: none;
+    @include flex(flex-start, center, column);
+    flex: 1;
+    padding: 15px 35px;
+    user-select: none;
 
-  
+    .content {
+        @include flex(space-around, center);
+        width: 100%;
+        padding: 15px;
+        max-height: 600px;
+        height: 600px;
 
-  .content {
-    @include flex(space-around, center);
-    width: 100%;
-    padding: 15px;
-    max-height: 600px;
-    height: 600px;
+        .imageContainer {
+            @include flex(center, center);
+            height: 100%;
+            width: 40%;
+            overflow: hidden;
+            border-radius: 15px;
+            cursor: pointer;
+            background-color: var(--color5);
+            position: relative;
+            box-shadow: var(--boxShadow);
 
-    .imageContainer {
-      @include flex(center, center);
-      height: 100%;
-      width: 40%;
-      overflow: hidden;
-      border-radius: 15px;
-      cursor: pointer;
-      background-color: var(--color5);
+            .img {
+                z-index: 1;
+                width: auto;
+                height: auto;
+                max-height: 100%;
+                max-width: 100%;
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
 
-      img {
-        max-width: 100%;
-      }
+            .blurImg {
+                position: absolute;
+                height: 100%;
+                width: auto;
+                filter: blur(8px);
+                z-index: 0;
+                transform: scale(1.5);
+            }
+        }
+
+        .iconContainer {
+            position: relative;
+            @include flex(center, center);
+
+            .favIcon {
+                cursor: pointer;
+                height: 60px;
+                width: 60px;
+                color: var(--color7);
+            }
+
+            .favTooltip {
+                @include toolTip;
+                top: -30px;
+            }
+        }
     }
-
-    .iconContainer {
-      position: relative;
-      @include flex (center, center);
-
-      .favIcon {
-        cursor: pointer; 
-        height: 60px;
-        width: 60px;
-        color: var(--color7);
-      }
-
-      .favTooltip {
-        @include toolTip;
-        top: -30px;
-      }
-    }
-
-   
-  }
 }
 
 .loaderContainer {
-  display: grid;
-  place-items: center;
-  height: 100%;
-  width: 100%;
+    display: grid;
+    place-items: center;
+    height: 100%;
+    width: 100%;
 }
-

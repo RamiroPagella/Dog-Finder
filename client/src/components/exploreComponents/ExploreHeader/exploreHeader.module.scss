@@ -4,6 +4,8 @@
   position: relative;
   width: 100%;
   padding-bottom: 5px;
+  margin-bottom: 20px;
+  border-bottom: solid var(--color7) 3px;
 
   button {
     @include button();

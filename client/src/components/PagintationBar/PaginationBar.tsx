@@ -1,6 +1,6 @@
 import style from "./paginationBar.module.scss";
-import { ArrowLeft } from "../../assets/icons/PaginationIcons";
-import { ArrowRight } from "../../assets/icons/PaginationIcons";
+import { ArrowLeft, ArrowRight } from "../../assets/icons";
+
 import { usePagingContext } from "../../hooks/contextHooks";
 
 const PaginationBar = () => {
@@ -32,8 +32,9 @@ const PaginationBar = () => {
         <ArrowLeft className={style.icon} />
       </button>
       <div className={style.pages}>
-        {pages.map((page) => (
+        {pages.map((page, i) => (
           <div
+            key={i}
             className={`${style.pageNumber} ${page === currentPage ? style.pageNumber_on : ""}`}
             onClick={() => {
               setCurrentPage(page);

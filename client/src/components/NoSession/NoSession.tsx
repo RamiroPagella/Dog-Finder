@@ -1,6 +1,6 @@
 import style from "./noSession.module.scss";
 import { Link } from "react-router-dom";
-import { AttentionIcon } from "../../assets/icons/ErrorIcons";
+import { AttentionIcon } from "../../assets/icons";
 
 interface Props {
   path: "favorites" | "create-dog";

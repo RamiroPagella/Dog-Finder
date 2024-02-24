@@ -1,95 +1,116 @@
 @import "../../style/mixins.scss";
 
 @mixin navBar_Icon($width: 50px, $height: 50px) {
-  height: $height;
-  width: $width;
-  padding: 5px;
-  border-radius: 100px;
-  color: var(--color8);
+    height: $height;
+    width: $width;
+    padding: 5px;
+    border-radius: 100px;
+    color: var(--color8);
 }
 
 //
 
 .NavBar {
-  @include flex(center, center, row);
-  min-height: 70px;
-  max-height: 70px;
-  width: 100%;
-  border-bottom: var(--containerBorder);
-  box-shadow: var(--boxShadow);
-  background-color: var(--color5);
-
-  .Container1 {
     @include flex(center, center, row);
-    flex: 1;
-    height: 100%;
-    gap: 50px;
+    min-height: 70px;
+    max-height: 70px;
+    width: 100%;
+    border-bottom: var(--containerBorder);
+    box-shadow: var(--boxShadow);
+    background-color: var(--color5);
 
-    .iconContainer {
-      @include flex(center, center);
-      position: relative;
-      z-index: 10;
-      border-radius: 100px;
-      cursor: pointer;
+    .Container1 {
+        @include flex(center, center, row);
+        flex: 1;
+        height: 100%;
+        gap: 50px;
 
-      &:hover .icon {
-        color: var(--color4);
-        background-color: var(--color7);
-      }
+        .iconContainer {
+            @include flex(center, center);
+            position: relative;
+            z-index: 10;
+            border-radius: 100px;
+            cursor: pointer;
 
-      .icon {
-        @include navBar_Icon();
-        transition: color, background-color, 0.2s;
-        position: relative;
-        pointer-events: none;
-      }
-      .icon_on {
-        color: var(--color4);
-        background-color: var(--color7);
+            &:hover .icon {
+                color: var(--color4);
+                background-color: var(--color7);
+            }
 
-      }
+            .icon {
+                @include navBar_Icon();
+                transition: color, background-color, 0.2s;
+                position: relative;
+                pointer-events: none;
+            }
+            .icon_on {
+                color: var(--color4);
+                background-color: var(--color7);
+            }
+            
 
-      p {
-        @include toolTip ();
-        bottom: -80%;
-      }
-    }
-  }
-
-
-  .Container2 {
-    @include flex(center, center, row);
-    flex: 1;
-    height: 100%;
-    gap: 35px;
-
-    .icon {
-      @include navBar_Icon(40px, 40px);
-    }
-    .icon:hover {
-      color: var(--color4);
-      background-color: var(--color7);
-      cursor: pointer;
-    }
-  }
-
-
-  .Container3 {
-    @include flex(center, center);
-    flex: 1;
-    height: 100%;
-
-    .icon {
-      @include navBar_Icon();
-    }
-    .icon:hover {
-      color: var(--color4);
-      background-color: var(--color7);
-      cursor: pointer;
+            p {
+                @include toolTip();
+                bottom: -80%;
+            }
+        }
     }
 
-    .button {
-      @include button ();
+    .Container2 {
+        @include flex(center, center, row);
+        flex: 1;
+        height: 100%;
+        gap: 35px;
+
+        .icon {
+            @include navBar_Icon(40px, 40px);
+            cursor: pointer;
+
+            &:hover {
+                color: var(--color4);
+                background-color: var(--color7);
+            }
+        }
     }
-  }
+
+    .Container3 {
+        @include flex(center, center);
+        flex: 1;
+        height: 100%;
+
+        .iconContainer {
+            position: relative;
+            @include flex(center, center);
+            border-radius: 100px;
+
+            &:hover::after {
+                content: "Mi cuenta";
+                @include toolTip;
+                bottom: -80%;
+                z-index: 100;
+            }
+
+            .icon {
+                @include navBar_Icon();
+                @include flex(center, center);
+                transition: color, background-color, 0.2s;
+                position: relative;
+                cursor: pointer;
+
+                &:hover {
+                    color: var(--color4);
+                    background-color: var(--color7);
+                }
+            }
+            .icon_on {
+                color: var(--color4);
+                background-color: var(--color7);
+            }
+        }
+
+        .button {
+            @include button();
+        }
+    }
 }
+

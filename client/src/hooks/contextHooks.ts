@@ -1,9 +1,11 @@
 import { useContext } from "react";
-import { PagingContext } from "../context/pagingContext";
-import { PagingContext as PagingContextType } from "../types";
-import { UserContext } from "../context/userContext";
-import { UserContext as UserContextType } from "../types";
-import { SearchAndfiltersContext, SearchAndfiltersContextType } from "../context/searchAndfiltersContext";
+import { PagingContext, PagingContextType } from "../context/pagingContext";
+import { UserContext, UserContextType } from "../context/userContext";
+import {
+  SearchAndfiltersContext,
+  SearchAndfiltersContextType,
+} from "../context/searchAndfiltersContext";
+import { AppContext, AppContextType } from "../context/AppContext";
 
 export const usePagingContext = () => {
   const context = useContext(PagingContext) as PagingContextType;
@@ -14,19 +16,27 @@ export const usePagingContext = () => {
 };
 
 export const useUserContext = () => {
-  const context = useContext(
-    UserContext,
-  ) as UserContextType;
+  const context = useContext(UserContext) as UserContextType;
 
   return {
-    ...context
-  }
+    ...context,
+  };
 };
 
 export const useSearcAndfiltersContext = () => {
-  const context = useContext(SearchAndfiltersContext) as SearchAndfiltersContextType;
+  const context = useContext(
+    SearchAndfiltersContext,
+  ) as SearchAndfiltersContextType;
 
   return {
-    ...context
-  }
-}
+    ...context,
+  };
+};
+
+export const useAppContext = () => {
+  const context = useContext(AppContext) as AppContextType;
+
+  return {
+    ...context,
+  };
+};

@@ -1,15 +1,9 @@
 import style from "./navBar.module.scss";
-import {
-  Profile,
-  Heart,
-  DogHouse,
-  DogPaw,
-  Search,
-} from "../../assets/icons/navBarIcons";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Profile, Heart, DogHouse, DogPaw, Search } from "../../assets/icons";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useUserContext } from "../../hooks/contextHooks";
-import SearchBar from "./SearchBar/SearchBar";
+import SearchBar from "../SearchBar/SearchBar";
 
 interface target extends EventTarget {
   id?: string;
@@ -24,21 +18,23 @@ const NavBar = () => {
     createDog: false,
     explore: false,
     favorites: false,
+    profile: false,
   });
   const selectedPath = {
     createDog: pathname === "/create-dog",
     explore: pathname === "/",
     favorites: pathname === "/favorites",
+    profile: pathname === "/profile",
   };
 
-  const onMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
     const target: target = e.target;
 
     if (!target.id) return;
 
     setShowTooltip({ ...showTooltip, [target.id]: true });
   };
-  const onMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
     const target: target = e.target;
 
     if (!target.id) return;
@@ -52,8 +48,8 @@ const NavBar = () => {
         <div
           className={style.iconContainer}
           id="createDog"
-          onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
           onClick={() => navigate("/create-dog")}
         >
           <DogPaw
@@ -67,8 +63,8 @@ const NavBar = () => {
         <div
           className={style.iconContainer}
           id="explore"
-          onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
           onClick={() => navigate("/")}
         >
           <DogHouse
@@ -80,8 +76,8 @@ const NavBar = () => {
         <div
           className={style.iconContainer}
           id="favorites"
-          onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
           onClick={() => navigate("/favorites")}
         >
           <Heart
@@ -92,7 +88,7 @@ const NavBar = () => {
           {showTooltip.favorites ? <p>Favoritos</p> : null}
         </div>
       </div>
-      
+
       <div className={style.Container2}>
         <SearchBar />
         <Search className={style.icon} />
@@ -100,9 +96,15 @@ const NavBar = () => {
 
       <div className={style.Container3}>
         {isAuthenticated ? (
-          <Profile className={style.icon} />
+          <NavLink to={"/profile"} className={style.iconContainer}>
+            <Profile
+              className={`${style.icon} ${selectedPath.profile ? style.icon_on : ""}`}
+            />
+          </NavLink>
         ) : (
-          <Link to='/login' className={style.button}>Iniciar sesión</Link>
+          <NavLink to="/login" className={style.button}>
+            Iniciar sesión
+          </NavLink>
         )}
       </div>
     </div>

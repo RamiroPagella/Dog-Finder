@@ -1,64 +1,174 @@
-@import '../../../style/mixins.scss';
+@import "../../../style/mixins.scss";
 
-.Filters {
-  height: 50px;
-  padding: 4px;
-  margin-bottom: 10px;
-  width: 100%;
-  transition: height 0.3s;
-  border-top: solid var(--color7);
-  position: relative;
-  border-bottom: solid rgba(255, 255, 255, 0);
-  transition: border-bottom 0.3s;
-  overflow: hidden;
-
-  .filters {
+.FiltersContainer {
     @include flex(center, center);
-    padding: 5px;
-    height: 100%;
-    width: 100%;
-    gap: 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: var(--shadowBackground);
+    z-index: 10;
+}
+
+.filters {
+    @include flex(flex-start, stretch, column);
+    height: 80%;
+    width: 40%;
+    background-color: var(--color4);
+    border-radius: 15px;
     position: relative;
-    top: -50px;
-    animation: filters-close 0.3s;
-    background-color: var(--color5);
-    border-radius: 150px;
-    
+    animation: appear 0.3s;
+    padding: 20px;
+    padding-top: 10px;
+    gap: 15px;
+    overflow: hidden;
+    z-index: 11;
 
-    div {
-      width: 30%;
-      height: 100%;
-      border-radius: 100px;
-      text-align: center;
-      background-color: var(--color4)
+    h1 {
+        @include flex(space-between, center);
+        width: 100%;
+        border-bottom: solid var(--color7);
+        height: 65px;
+        padding-right: 10px;
+
+        .closeButton {
+            @include button();
+            @include flex(center, center);
+            height: 40px;
+            width: 40px;
+            padding: 10px;
+
+            svg {
+                min-width: 100%;
+                min-height: 100%;
+            }
+        }
     }
-  }
-  .filters_open {
-    @extend .filters;
-    position: static;
-    animation: filters-open 0.3s;
-    
-  }
-}
-.Filters_open {
-  @extend .Filters;
-  border-bottom: solid var(--color7);
+
+    section {
+        @include flex(flex-start, center, column);
+        background-color: var(--color5);
+        flex: 1;
+        border-radius: 10px;
+        padding: 5px;
+        gap: 5px;
+
+        .title {
+            @include flex(center, center);
+            flex: 1;
+            user-select: none;
+            border-bottom: solid var(--color7) 1px;
+            width: 80%;
+            position: relative;
+        }
+        .content {
+            @include flex(space-evenly, center);
+            flex: 1;
+            width: 100%;
+
+            input {
+                @include input();
+                width: 30%;
+                text-align: center;
+
+                &::placeholder {
+                    text-align: center;
+                }
+            }
+        }
+    }
+
+    .heightWeightSection {
+        .content {
+            .height {
+                @include flex(space-evenly, center);
+                flex: 1;
+                height: 80%;
+            }
+            .weight {
+                @extend .height;
+                border-left: solid var(--color7) 1px;
+            }
+        }
+    }
+
+    .breedGroupsSection {
+        .title {
+            svg {
+                @include button;
+                height: 40px;
+                width: 40px;
+                padding: 0;
+                position: absolute;
+                right: 5%;
+            }
+        }
+
+        .content {
+            padding: 0 30px;
+            justify-content: flex-start;
+            gap: 5px;
+            overflow: scroll;
+
+            .breedGroupItem {
+                @include button;
+                padding: 0 10px;
+                gap: 5px;
+                text-wrap: nowrap;
+
+                svg {
+                    max-height: 15px;
+                }
+            }
+        }
+    }
+
+    .temperamentsSection {
+
+        .title {
+            svg {
+                @include button;
+                height: 40px;
+                width: 40px;
+                padding: 0;
+                position: absolute;
+                right: 5%;
+            }
+        }
+        .content {
+            padding: 0 30px;
+            justify-content: flex-start;
+            gap: 5px;
+            overflow: scroll;
+
+            .temperamentItem {
+                @include button;
+                padding: 0 10px;
+                gap: 5px;
+                text-wrap: nowrap;
+
+                svg {
+                    max-height: 15px;
+                }
+            }
+        }
+    }
+
+    button {
+        @include button;
+        width: 30%;
+        margin: 0 auto;
+    }
 }
 
-
-@keyframes filters-open {
-  from {
-    transform: translateY(-50px);
-  }
-  to {
-    transform: translateY(0);
-  }
-}
-@keyframes filters-close {
-  from {
-    transform: translateY(50px);
-  }
-  to {
-    transform: translateY(0);
-  }
+@keyframes appear {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }

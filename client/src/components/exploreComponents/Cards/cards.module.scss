@@ -8,7 +8,7 @@
   min-height: 650px;
   flex-wrap: wrap;
   transition: transform 0.2s;
-  transform: translateY(-50px);
+
 
   .loaderContainer {
     @include flex (center, center);
@@ -17,9 +17,6 @@
   }
 }
 
-.Cards_moved {
-  transform: translateY(0);
-}
 
 
 

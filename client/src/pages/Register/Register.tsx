@@ -1,7 +1,8 @@
 import style from "./register.module.scss";
-import { FormValidationError as ErrorIcon } from "../../assets/icons/FormValidationError";
+import { FormValidationError as ErrorIcon } from "../../assets/icons";
 import useRegisterForm from "../../hooks/useRegisterForm";
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
 
 const Register = () => {
   const { handleClick, handleChange, registerForm, validations, btnDisabled } =
@@ -84,10 +85,15 @@ const Register = () => {
         <button
           onClick={handleClick}
           disabled={btnDisabled}
-          style={btnDisabled ? { pointerEvents: "none" } : {}}
+          className={btnDisabled ? style.btnDisabled : ""}
         >
           Confirmar
         </button>
+      </div>
+
+      <div className={style.bottomButtons}>
+        <NavLink to={"/login"}>Iniciar sesión</NavLink>
+        <NavLink to={'/'}>Volver al inicio</NavLink>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import "./style/App.css";
-import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import Landing from "./Pages/Login/Login";
 import Register from "./Pages/Register/Register";
 import Explore from "./Pages/Explore/Explore";
@@ -8,32 +8,22 @@ import NotFound from "./Pages/NotFound/NotFound";
 import NavBar from "./components/NavBar/NavBar";
 import Favorites from "./Pages/Favorites/Favorites";
 import CreateDog from "./Pages/CreateDog/CreateDog";
-import Axios from "./axios";
 import Detail from "./Pages/Detail/Detail";
-import { useUserContext } from "./hooks/contextHooks";
 import { Toaster } from "react-hot-toast";
+import { GetUserInfo } from "./services/userServices";
+import { GetTempsAndBreedGroups } from "./services/appServices";
+import { useAppContext, useUserContext } from "./hooks/contextHooks";
+import Profile from "./Pages/Profile/Profile";
 
 function App() {
-  const navigate = useNavigate();
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const { setIsAuthenticated, setUser } = useUserContext();
+  const { setAllBreedGroups, setAllTemperaments } = useAppContext();
 
   useEffect(() => {
-    const token = localStorage.getItem("jwtToken");
-    if (token) {
-      Axios.get("/user/info", { headers: { Authorization: token } })
-        .then((res) => {
-          if (!res.data.username) throw new Error("Unauthorized");
-          const { username, email, id } = res.data;
-          setIsAuthenticated(true);
-          setUser({ username, email, id });
-          navigate("/");
-        })
-        .catch((err) => {
-          setIsAuthenticated(false);
-          console.log(err);
-        });
-    }
+    GetUserInfo({ setIsAuthenticated, setUser, navigate });
+    GetTempsAndBreedGroups({ setAllBreedGroups, setAllTemperaments });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -49,6 +39,7 @@ function App() {
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/create-dog" element={<CreateDog />} />
         <Route path="/dog/:id" element={<Detail />} />
+        <Route path="/profile" element={<Profile />}/>
 
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Landing />} />

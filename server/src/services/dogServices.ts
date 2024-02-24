@@ -7,7 +7,7 @@ export const filterDogs = (
   filters: DogFilters,
   page: number,
 ) => {
-  const { height, weight, temperaments, breedGroup, lifeSpan } = filters;
+  const { search, height, weight, temperaments, breedGroup, lifeSpan } = filters;
 
   if (height !== "") {
     const selectedHeight = height.split(" - ");
@@ -58,13 +58,15 @@ export const filterDogs = (
   }
 
   if (breedGroup !== "") {
+    const breedGroups = breedGroup.split(',');
     dogs = dogs.filter((dog) => {
-      return dog.breedGroup === breedGroup ? true : false;
+      for (let i = 0; i < breedGroups.length; i++) {
+        if (breedGroups[i] === dog.breedGroup) return true;
+      }
     });
   }
 
   if (lifeSpan !== "") {
-    console.log("aver4");
 
     const selectedLifeSpan = lifeSpan
       .split(" ")
@@ -88,6 +90,15 @@ export const filterDogs = (
           maxDogLifeSpan < maxSelectedLifeSpan)
       )
         return true;
+    });
+  }
+
+  if (search !== '' ) {
+    const splitSearch = search.split(' ').map(word => word.toLowerCase());
+    dogs = dogs.filter(dog => {
+      for (let i = 0; i < splitSearch.length; i++) {
+        if (dog.name.toLowerCase().includes(splitSearch[i])) return true;
+      }
     });
   }
 

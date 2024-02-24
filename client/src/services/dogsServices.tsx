@@ -13,11 +13,13 @@ export const getDogs = async (
   filters: Filters,
   options: AxiosRequestConfig = {},
 ): Promise<GetDogsResponse> => {
-  const { search, height, weight, temperaments, breedGroup, lifeSpan } =
+  const { search, height, weight, temperaments, breedGroups, lifeSpan } =
     filters;
-  const url = `/dogs?page=${pageNum}&search=${search}&height=${height}&weight=${weight}&temperaments=${temperaments.join()}&breedGroup=${breedGroup}&lifeSpan=${lifeSpan}`;
+  const url = `/dogs?page=${pageNum}&search=${search}&height=${height}&weight=${weight}&temperaments=${temperaments.join()}&breedGroup=${breedGroups.join()}&lifeSpan=${lifeSpan}`;
+
+  console.log("el getDogs", filters);
 
   const response = await Axios.get<GetDogsResponse>(url, options);
-  console.log(response.data)
+  console.log(response.data);
   return response.data;
 };

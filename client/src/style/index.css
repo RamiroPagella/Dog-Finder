@@ -24,6 +24,7 @@
   --boxShadow: 0px 0px 10px rgb(129, 129, 129);
   --boxShadowBottom: 0px 5px 10px rgb(129, 129, 129);
   --containerBorder: solid var(--color4) 1px;
+  --shadowBackground: rgba(0, 0, 0, 0.8);
 
   background-color: var(--color4);
 }

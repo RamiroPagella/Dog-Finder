@@ -1,6 +1,6 @@
 import style from "./fullSizeImage.module.scss";
 import { createPortal } from "react-dom";
-import { CloseButton } from "../../../assets/icons/OtherIcons";
+import { CloseButton } from "../../../assets/icons";
 
 
 interface Props {

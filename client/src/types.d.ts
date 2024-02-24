@@ -21,7 +21,7 @@ export interface Filters {
   weight: string;
   height: string;
   temperaments: string[];
-  breedGroup: string;
+  breedGroups: string[];
   lifeSpan: string;
 }
 
