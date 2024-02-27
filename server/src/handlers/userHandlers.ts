@@ -6,8 +6,8 @@ import {
   validateUser,
 } from "../services/userServices";
 import { User, IdUser, PwdUser } from "../types/user.types";
-
-
+import UserModel from "../models/User.model";
+import DogModel from "../models/Dog.model";
 
 export const Register: RequestHandler = async (req, res) => {
   try {
@@ -18,7 +18,7 @@ export const Register: RequestHandler = async (req, res) => {
         username,
         email,
         password,
-      })
+      }),
     );
 
     const token = generateToken({ username, email, id: User.id });
@@ -56,34 +56,44 @@ export const Login: RequestHandler = async (req, res) => {
     let errorMsg: string = "";
 
     if (error instanceof Error) {
-      const { message } = error;
-      if (message === "User not found") status = 404;
-      if (message === "Incorrect password") status = 401;
-      errorMsg = message;
+      if (error.message === "User not found") status = 404;
+      if (error.message === "Incorrect password") status = 401;
+      errorMsg = error.message;
     }
 
     res.status(status).json({
       authenticated: false,
+      error: error instanceof Error ? error.name : error,
       message: errorMsg,
     });
   }
 };
 
-
 interface CustomRequest extends Request {
   user?: IdUser;
-  
 }
-
 export const UserInfo: RequestHandler = async (req: CustomRequest, res) => {
   try {
     const user: IdUser | undefined = req.user;
     if (!user) res.status(401);
 
-    return res.status(200).json(user);
+    const User = await UserModel.findByPk(user?.id, {
+      include: {model: DogModel, as: 'likes'}
+    })
 
+    const UserWithowtPswd = {
+      username: User?.username,
+      email: User?.email,
+      id: User?.id,
+      likes: User?.likes
+    }
+
+    return res.status(200).json(UserWithowtPswd);
   } catch (error) {
-    if (error instanceof Error) return res.status(500).json({error: error.name, message: error.message});
+    if (error instanceof Error)
+      return res
+        .status(500)
+        .json({ error: error.name, message: error.message });
     res.status(500);
   }
 };

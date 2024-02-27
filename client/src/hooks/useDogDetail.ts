@@ -21,6 +21,7 @@ const useDogDetail = (id: string) => {
     setIsError(false);
     setError(null);
     setHasNextAndPrev({ prev: false, next: false });
+    setDog(null)
 
     const controller = new AbortController();
     const { signal } = controller;

@@ -4,11 +4,18 @@ import {
   Column,
   DataType,
   PrimaryKey,
+  ForeignKey,
+  BelongsTo,
+  BelongsToMany,
 } from "sequelize-typescript";
+import UserModel from "./User.model";
+import { User } from "../types/user.types";
+import LikesModel from "./Likes.model";
+// import LikesModel from "./Likes.model";
 
 @Table({
   timestamps: false,
-  tableName: "Dog",
+  tableName: "Dogs",
 })
 class DogModel extends Model {
   @PrimaryKey
@@ -57,6 +64,15 @@ class DogModel extends Model {
     type: DataType.ARRAY(DataType.STRING),
   })
   temperaments!: string[]
+
+  @ForeignKey(() => UserModel)
+  userId!: string
+
+  @BelongsTo(() => UserModel)
+  user!: UserModel
+
+  @BelongsToMany(() => UserModel, () => LikesModel)
+  likes!: UserModel[]
 }
 
 export default DogModel;

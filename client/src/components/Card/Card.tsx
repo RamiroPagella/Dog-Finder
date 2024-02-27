@@ -1,16 +1,23 @@
 import style from "./card.module.scss";
-import { useState } from "react";
-import { Heart } from '../../../assets/icons';
-import { useUserContext } from "../../../hooks/contextHooks";
+import { useEffect, useState } from "react";
+import { Heart, HeartFill } from "../../assets/icons";
+import { useUserContext } from "../../hooks/contextHooks";
 import toast from "react-hot-toast";
-import { Dog } from "../../../types";
+import { Dog } from "../../types";
 import { Link } from "react-router-dom";
+import { favDog } from "../../services/dogsServices";
 
 const Card = (props: Dog) => {
   const [hover, setHover] = useState<boolean>(false);
-  const { isAuthenticated } = useUserContext();
+  const {
+    isAuthenticated,
+    User: { likes },
+    setUser,
+  } = useUserContext();
+  const [isFav, setIsFav] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleFav = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleFav = async (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
     if (!isAuthenticated) {
       toast.error("Debes iniciar sesión", {
@@ -20,8 +27,38 @@ const Card = (props: Dog) => {
           pointerEvents: "none",
         },
       });
+      return;
     }
+    if (isLoading) return;
+
+    setIsLoading(true);
+    favDog(props.id as string)
+      .then(({ data }) => {
+        setUser(data.User);
+        setIsFav(data.isFav);
+        setIsLoading(false);
+      })
+      .catch((err: Error) => {
+        toast.error(err.message, {
+          style: {
+            backgroundColor: "var(--color7)",
+            color: "var(--color4)",
+            pointerEvents: "none",
+          },
+        });
+        setIsLoading(false);
+        setIsFav(false);
+        console.log(err);
+      });
   };
+
+  useEffect(() => {
+    likes?.map((dog) => {
+      if (Number(dog.id) === Number(props.id)) {
+        setIsFav(true);
+      }
+    });
+  }, []);
 
   const content = (
     <div className={hover ? style.content_on : style.content}>
@@ -56,7 +93,13 @@ const Card = (props: Dog) => {
       }}
     >
       <div className={style.iconContainer} onClick={handleFav}>
-        <Heart className={hover ? style.icon_on : style.icon} />
+        {isLoading ? (
+          <div className={style.loader}></div>
+        ) : isFav ? (
+          <HeartFill className={hover ? style.icon_on : style.icon} />
+          ) : (
+          <Heart className={hover ? style.icon_on : style.icon} />
+        )}
       </div>
 
       <p className={hover ? style.text_on : style.text}>Click para ver mas</p>

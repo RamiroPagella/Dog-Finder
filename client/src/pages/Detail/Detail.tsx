@@ -1,5 +1,5 @@
 import style from "./detail.module.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import FullSizeImage from "../../components/DetailComponents/FullSizeImage/FullSizeImage";
 import DogDescription from "../../components/DetailComponents/DogDescription/DogDescription";
@@ -8,6 +8,7 @@ import DetailHeader from "../../components/DetailComponents/DetailHeader/DetailH
 import useDogDetail from "../../hooks/useDogDetail";
 import toast from "react-hot-toast";
 import { useUserContext } from "../../hooks/contextHooks";
+import { favDog } from "../../services/dogsServices";
 
 const Detail = () => {
   const { id } = useParams();
@@ -15,13 +16,14 @@ const Detail = () => {
   const [isImageOpen, setIsImageOpen] = useState<boolean>(false);
   const [isFav, setIsFav] = useState<boolean>(false);
   const [showToolTip, setShowToolTip] = useState<boolean>(false);
-  const { isAuthenticated } = useUserContext();
+  const { isAuthenticated, User, setUser } = useUserContext();
+  const [isFavLoading, setIsFavLoading] = useState<boolean>(false);
 
   const handleClick = () => {
     setIsImageOpen(!isImageOpen);
   };
 
-  const handleFav = () => {
+  const handleFav = async () => {
     if (!isAuthenticated) {
       toast.error("Debes iniciar sesión", {
         style: {
@@ -32,11 +34,41 @@ const Detail = () => {
       });
       return;
     }
+    if (isFavLoading) return;
+
+    setIsFavLoading(true);
+    favDog(id as string)
+      .then(({ data }) => {
+        setUser(data.User);
+        setIsFav(data.isFav);
+        setIsFavLoading(false);
+      })
+      .catch((err: Error) => {
+        toast.error(err.message, {
+          style: {
+            backgroundColor: "var(--color7)",
+            color: "var(--color4)",
+            pointerEvents: "none",
+          },
+        });
+        setIsFavLoading(false);
+        setIsFav(false);
+        console.log(err);
+      });
   };
+
+  useEffect(() => {
+    let isFav = false;
+    if (isAuthenticated)
+      User.likes?.map((dog) => {
+        if (Number(dog.id) === Number(id)) isFav = true;
+      });
+    setIsFav(isFav);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   return (
     <div className={style.Detail}>
-
       {isError ? (
         <p>{error?.message}</p>
       ) : dog ? (
@@ -50,20 +82,20 @@ const Detail = () => {
           <div className={style.content}>
             <div className={style.imageContainer} onClick={handleClick}>
               <img src={dog?.img} className={style.blurImg} />
-              <img src={dog?.img} className={style.img}/>
+              <img src={dog?.img} className={style.img} />
             </div>
 
             <div className={style.iconContainer}>
-              {isFav ? (
+              {isFavLoading ? (
+                <div className={style.favLoader}></div>
+              ) : isFav ? (
                 <HeartFill
-                  className={style.favIcon}
                   onClick={handleFav}
                   onMouseEnter={() => setShowToolTip(true)}
                   onMouseLeave={() => setShowToolTip(false)}
                 />
               ) : (
                 <Heart
-                  className={style.favIcon}
                   onClick={handleFav}
                   onMouseEnter={() => setShowToolTip(true)}
                   onMouseLeave={() => setShowToolTip(false)}

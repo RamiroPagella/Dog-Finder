@@ -1,5 +1,5 @@
 import style from "./cards.module.scss";
-import Card from "../Card/Card";
+import Card from "../../Card/Card";
 import useDogs from "../../../hooks/useDogs";
 import { Dog as DogType } from "../../../types";
 import { usePagingContext } from "../../../hooks/contextHooks";

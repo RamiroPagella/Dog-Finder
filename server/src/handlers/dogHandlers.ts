@@ -1,8 +1,16 @@
-import { RequestHandler } from "express";
+import { RequestHandler, Request } from "express";
 import DogModel from "../models/Dog.model";
 import { Dog as DogType } from "../types/dog.types";
 import data from "../../data";
 import { validateFilters, filterDogs } from "../services/dogServices";
+import UserModel from "../models/User.model";
+import LikesModel from "../models/Likes.model";
+import { createScanner } from "typescript";
+import { IdUser } from "../types/user.types";
+
+interface CustomRequest extends Request {
+  user?: IdUser;
+}
 
 export const GetDogsHandler: RequestHandler = async (req, res) => {
   const { page, search, weight, height, temperaments, breedGroup, lifeSpan } =
@@ -92,10 +100,45 @@ export const getTempsAndBreedGroups: RequestHandler = async (req, res) => {
 
     return res.status(200).json({
       temperaments: temps,
-      breedGroups
-    })
+      breedGroups,
+    });
   } catch (error) {
-    res.status(200).send({error: error instanceof Error ? error.message : error});
-    console.log(error)
+    res
+      .status(200)
+      .send({ error: error instanceof Error ? error.message : error });
+    console.log(error);
+  }
+};
+
+export const likeDog: RequestHandler = async (req: CustomRequest, res) => {
+  try {
+    const { dogId } = req.body;
+    const user = req.user;
+
+    const [like, created] = await LikesModel.findOrCreate({
+      where: { dogId, userId: user?.id },
+      defaults: {
+        dogId,
+        userId: user?.id,
+      },
+    });
+    if (!created) {
+      await LikesModel.destroy({
+        where: { dogId, userId: user?.id },
+      });
+    }
+
+    const User = await UserModel.findByPk(user?.id, {
+      include: { model: DogModel, as: "likes" },
+    });
+
+    if (!User) return res.status(404).send("User not found");
+
+    res.json({User, isFav: created});
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .send({ error: error instanceof Error ? error.message : error });
   }
 };

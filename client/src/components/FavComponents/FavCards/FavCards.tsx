@@ -1,0 +1,61 @@
+import { useEffect, useState } from "react";
+import { usePagingContext, useUserContext } from "../../../hooks/contextHooks";
+import { Dog } from "../../../types";
+import Card from "../../Card/Card";
+import style from "./favCards.module.scss";
+
+const FavCards = () => {
+  const {
+    User: { likes },
+  } = useUserContext();
+  const { favCurrentPage, setFavTotalPages } = usePagingContext();
+  const [actualSlice, setActualSlice] = useState<Dog[]>([]);
+  const pageLength = 8
+
+  const paginateArray = (
+    array: Dog[],
+    pageSize: number,
+    actualPage: number,
+  ): Dog[] => {
+    if (pageSize <= 0 || actualPage <= 0) return [];
+
+    setFavTotalPages(Math.ceil(array.length / pageSize));
+
+    const startIndex = (actualPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+
+    const paginatedArray = array.slice(startIndex, endIndex);
+
+    return paginatedArray;
+  };
+
+  useEffect(() => {
+    setActualSlice(paginateArray(likes, pageLength, favCurrentPage));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [favCurrentPage, likes]);
+
+
+  return (
+    <div className={style.FavCards}>
+      {actualSlice?.length ? (
+        actualSlice.map((dog) => (
+          <Card
+            key={dog.id}
+            id={dog.id}
+            breedGroup={dog.breedGroup}
+            height={dog.height}
+            img={dog.img}
+            lifeSpan={dog.lifeSpan}
+            name={dog.name}
+            temperaments={dog.temperaments}
+            weight={dog.weight}
+          />
+        ))
+      ) : (
+        <h3>No hay perros en favoritos</h3>
+      )}
+    </div>
+  );
+};
+
+export default FavCards;

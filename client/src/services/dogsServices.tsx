@@ -1,6 +1,7 @@
 import { AxiosRequestConfig } from "axios";
 import Axios from "../axios";
-import { Dog as DogType, Filters } from "../types";
+import { Dog as DogType, Filters, User } from "../types";
+import { useUserContext } from "../hooks/contextHooks";
 
 interface GetDogsResponse {
   dogs: DogType[];
@@ -17,9 +18,15 @@ export const getDogs = async (
     filters;
   const url = `/dogs?page=${pageNum}&search=${search}&height=${height}&weight=${weight}&temperaments=${temperaments.join()}&breedGroup=${breedGroups.join()}&lifeSpan=${lifeSpan}`;
 
-  console.log("el getDogs", filters);
-
   const response = await Axios.get<GetDogsResponse>(url, options);
-  console.log(response.data);
   return response.data;
+};
+
+interface favDogResponse {
+  User: User,
+  isFav: boolean
+}
+export const favDog = async (dogId: string) => {
+  const token = localStorage.getItem("jwtToken");
+  return Axios.post<favDogResponse>("/like", { dogId }, { headers: { Authorization: token } }).then(res => res)
 };

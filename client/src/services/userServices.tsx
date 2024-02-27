@@ -12,13 +12,11 @@ export const GetUserInfo = ({ setIsAuthenticated, setUser, navigate }: GetUserIn
   const token = localStorage.getItem("jwtToken");
 
   if (token) {
-    console.log(token)
     Axios.get("/user/info", { headers: { Authorization: token } })
       .then((res) => {
         if (!res.data.username) throw new Error("Unauthorized");
-        const { username, email, id } = res.data;
         setIsAuthenticated(true);
-        setUser({ username, email, id });
+        setUser(res.data);
         navigate("/");
       })
       .catch((err) => {

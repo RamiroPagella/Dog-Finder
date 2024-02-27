@@ -1,7 +1,8 @@
 export interface User {
-  email: string,
-  username: string,
+  email: string;
+  username: string;
   id: string;
+  likes: Dog[];
 }
 
 export interface Dog {

@@ -3,6 +3,7 @@ import UserModel from "../models/User.model";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { Op } from "sequelize";
+import DogModel from "../models/Dog.model";
 
 export const validateUser = (user: PwdUser): PwdUser => {
   const { email, username, password } = user;
@@ -29,7 +30,10 @@ export const registerUser = async (user: PwdUser): Promise<IdUser> => {
       password: hashedPwd,
     };
 
-    const [User, created]: [IdUser, boolean] = await UserModel.findOrCreate({
+    const [User, created]: [UserModel, boolean] = await UserModel.findOrCreate({
+      attributes: {
+        exclude: ["password"],
+      },
       where: { email: user.email },
       defaults: newUser,
     });
@@ -38,7 +42,12 @@ export const registerUser = async (user: PwdUser): Promise<IdUser> => {
       throw new Error("Email already in use");
     }
 
-    return User;
+    //user without password
+    return {
+      username: User.username,
+      email: User.email,
+      id: User.id,
+    };
   } catch (error) {
     console.log(error);
     throw new Error(error instanceof Error ? error.message : undefined);
@@ -50,12 +59,13 @@ export const LogUser = async (
 ): Promise<IdUser> => {
   const { email, password } = user;
 
-  const User: User | null = await UserModel.findOne({
+  const User: UserModel | null = await UserModel.findOne({
     where: {
       email: {
         [Op.iLike]: email,
       },
     },
+    include: { model: DogModel, as: "likes" },
   });
 
   if (!User) throw new Error("User not found");
@@ -68,6 +78,7 @@ export const LogUser = async (
     username: User.username,
     email: User.email,
     id: User.id,
+    likes: User.likes
   };
 
   return userWithId;

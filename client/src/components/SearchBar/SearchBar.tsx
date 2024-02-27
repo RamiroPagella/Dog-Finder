@@ -19,7 +19,6 @@ const SearchBar = () => {
         ...prev,
         search: inputValue,
       }));
-      console.log('avergaa');
     }, 500);
 
     return () => {

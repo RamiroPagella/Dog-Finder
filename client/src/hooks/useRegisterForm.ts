@@ -52,7 +52,8 @@ const useRegisterForm = () => {
         if (!data.authenticated) {
           throw new Error(data.message);
         }
-        setUser(data.user)
+        console.log(data)
+        setUser(data.User)
         setIsAuthenticated(true)
         localStorage.setItem('jwtToken', data.token);
         navigate("/");

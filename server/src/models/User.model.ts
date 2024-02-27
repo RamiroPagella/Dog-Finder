@@ -1,8 +1,10 @@
-import { Table, Model, Column, PrimaryKey, DataType } from "sequelize-typescript";
+import { Table, Model, Column, PrimaryKey, DataType, HasMany, BelongsToMany } from "sequelize-typescript";
+import DogModel from "./Dog.model";
+import LikesModel from "./Likes.model";
 
 @Table({
   timestamps: false,
-  tableName: 'User'
+  tableName: 'Users'
 })
 class UserModel extends Model {
   @PrimaryKey
@@ -30,6 +32,11 @@ class UserModel extends Model {
   })
   password!: string;
 
+  @HasMany(() => DogModel)
+  dogs!: DogModel[]
+
+  @BelongsToMany(() => DogModel, () => LikesModel)
+  likes!: DogModel[]
 }
 
 export default UserModel;

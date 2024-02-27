@@ -48,18 +48,30 @@
         .iconContainer {
             position: relative;
             @include flex(center, center);
+            height: 60px;
+            width: 60px;
 
-            .favIcon {
+            svg {
                 cursor: pointer;
-                height: 60px;
-                width: 60px;
+                height: 100%;
+                width: 100%;
                 color: var(--color7);
+            }
+
+            .favLoader {
+                height: 100%;
+                width: 100%;
+                border: solid #6c757d 3px;
+                border-top: solid #343a40 3px;
+                border-radius: 100px;
+                animation: fav-loader 1s linear infinite;
             }
 
             .favTooltip {
                 @include toolTip;
                 top: -30px;
             }
+
         }
     }
 }
@@ -70,3 +82,13 @@
     height: 100%;
     width: 100%;
 }
+
+@keyframes fav-loader {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+

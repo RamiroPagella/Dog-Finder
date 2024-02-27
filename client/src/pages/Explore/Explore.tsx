@@ -1,6 +1,6 @@
 import style from "./explore.module.scss";
 import Cards from "../../components/exploreComponents/Cards/Cards";
-import PaginationBar from "../../components/PagintationBar/PaginationBar";
+import PaginationBar from "../../components/exploreComponents/PagintationBar/PaginationBar";
 import ExploreHeader from "../../components/exploreComponents/ExploreHeader/ExploreHeader";
 
 const Explore = () => {

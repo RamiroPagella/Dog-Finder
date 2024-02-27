@@ -12,6 +12,7 @@ const DetailHeader = ({ name, id, hasNextAndPrev }: Props) => {
   const navigate = useNavigate();
 
   const prevHandler = () => {
+    
     if (!hasNextAndPrev.prev) return;
     navigate(`/dog/${Number(id) - 1}`);
   };

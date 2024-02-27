@@ -1,8 +1,14 @@
 import style from "./profile.module.scss";
 import { useUserContext } from "../../hooks/contextHooks";
+import { useState } from "react";
+import LogOutModal from "../../components/ProfileComponents/LogOutModal/LogOutModal";
 
 const Profile = () => {
   const { User } = useUserContext();
+  const [openLogOutModal, setOpenLogOutModal] = useState<boolean>(false);
+  
+  
+
 
   return (
     <div className={style.Profile}>
@@ -19,11 +25,14 @@ const Profile = () => {
         </div>
 
         <div className={style.buttons}>
-          <button className={style.button}>Cerrar sesión</button>
+          <button className={style.button} onClick={() => setOpenLogOutModal(true)}>Cerrar sesión</button>
           <button className={style.button}>Cambiar contraseña</button>
           <button className={style.button}>Eliminar cuenta</button>
         </div>
       </section>
+
+     {openLogOutModal ? <LogOutModal setOpenLogOutModal={setOpenLogOutModal}/> : null}
+
     </div>
   );
 };
