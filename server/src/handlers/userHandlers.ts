@@ -21,7 +21,10 @@ export const Register: RequestHandler = async (req, res) => {
       }),
     );
 
-    const token = generateToken({ username, email, id: User.id });
+    const token = generateToken({
+      id: User.id,
+      admin: User.admin,
+    });
 
     return res.status(201).json({ authenticated: true, token, User });
   } catch (error) {
@@ -31,7 +34,7 @@ export const Register: RequestHandler = async (req, res) => {
     if (error instanceof Error) {
       const { message } = error;
       if (message === "Email already in use") status = 409;
-      //falta if (message === 'Error encrypting password'), porque en ese caso staatus seguiria siendo 500
+      //falta if (message === 'Error encrypting password'), porque en ese caso status seguiria siendo 500
       errorMsg = error.message;
     }
 
@@ -47,7 +50,9 @@ export const Login: RequestHandler = async (req, res) => {
     const { email, password } = req.body;
     const User: IdUser = await LogUser({ email, password });
 
-    const token = generateToken(User);
+    const userInfoToToken = { id: User.id, admin: User.admin };
+
+    const token = generateToken(userInfoToToken);
 
     res.status(201).json({ authenticated: true, token: token, user: User });
   } catch (error) {
@@ -78,15 +83,16 @@ export const UserInfo: RequestHandler = async (req: CustomRequest, res) => {
     if (!user) res.status(401);
 
     const User = await UserModel.findByPk(user?.id, {
-      include: {model: DogModel, as: 'likes'}
-    })
+      include: { model: DogModel, as: "likes" },
+    });
 
     const UserWithowtPswd = {
       username: User?.username,
       email: User?.email,
       id: User?.id,
-      likes: User?.likes
-    }
+      likes: User?.likes,
+      admin: User?.admin,
+    };
 
     return res.status(200).json(UserWithowtPswd);
   } catch (error) {

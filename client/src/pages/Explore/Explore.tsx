@@ -1,12 +1,12 @@
 import style from "./explore.module.scss";
 import Cards from "../../components/exploreComponents/Cards/Cards";
 import PaginationBar from "../../components/exploreComponents/PagintationBar/PaginationBar";
-import ExploreHeader from "../../components/exploreComponents/ExploreHeader/ExploreHeader";
+import Header from "../../components/Header/Header";
 
 const Explore = () => {
   return (
     <div className={style.Explore}>
-      <ExploreHeader />
+      <Header path="explore"/>
 
       <Cards />
 

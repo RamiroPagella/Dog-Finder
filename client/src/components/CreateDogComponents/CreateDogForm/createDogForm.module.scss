@@ -1,0 +1,93 @@
+@import "../../../style/mixins.scss";
+
+.CreateDogForm {
+    @include flex(space-around, center, column);
+    flex: 1;
+
+    section {
+        @include flex(center, center, column);
+        height: 18%;
+        width: 500px;
+        background: var(--color5);
+        border-radius: 10px;
+        border: var(--containerBorder);
+        box-shadow: var(--boxShadow);
+
+        .title {
+            @include flex(center, center);
+            flex: 1;
+            width: 80%;
+            border-bottom: solid var(--color7) 2px;
+        }
+        .content {
+            @include flex(space-evenly, center);
+            flex: 1;
+            width: 100%;
+
+            input {
+                @include input();
+                width: 30%;
+                &::placeholder {
+                    text-align: center;
+                }
+            }
+        }
+    }
+    .heightWeightSection {
+
+        .content {
+            @include flex(center, center);
+
+            div {
+                @include flex(space-evenly, center);
+                flex: 1;
+            }
+        }
+    }
+    .breedGroupSection {
+        .title {
+            position: relative;
+
+            svg {
+                @include button;
+                position: absolute;
+                right: 5%;
+                height: 40px;
+                width: 40px;
+                padding: 0;
+            }
+            .icon_selected {
+                color: var(--color4);
+                background-color: var(--color7);
+            }
+        }
+        .content {
+            div {
+                @include button;
+                padding: 0 10px;
+                gap: 5px;
+                user-select: none;
+                text-wrap: nowrap;
+                position: relative;
+
+                svg {
+                  height: 20px;
+                }
+            }
+        }
+    }
+    .temperamentsSection {
+        @extend .breedGroupSection;
+
+        .content {
+            @include flex (flex-start, center);
+            overflow: scroll;
+            gap: 5px;
+            padding: 0 30px;
+        }
+    }
+
+    button {
+        @include button();
+    }
+}

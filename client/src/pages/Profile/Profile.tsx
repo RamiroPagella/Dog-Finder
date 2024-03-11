@@ -6,15 +6,13 @@ import LogOutModal from "../../components/ProfileComponents/LogOutModal/LogOutMo
 const Profile = () => {
   const { User } = useUserContext();
   const [openLogOutModal, setOpenLogOutModal] = useState<boolean>(false);
-  
-  
-
 
   return (
     <div className={style.Profile}>
       <h1 className={style.header}>Mi cuenta</h1>
 
       <section>
+        {User.admin ? <h2>Cuenta de administrador</h2> : null}
         <div className={style.info}>
           <h3>Nombre de usuario</h3>
           <p>{User?.username}</p>
@@ -25,14 +23,20 @@ const Profile = () => {
         </div>
 
         <div className={style.buttons}>
-          <button className={style.button} onClick={() => setOpenLogOutModal(true)}>Cerrar sesión</button>
+          <button
+            className={style.button}
+            onClick={() => setOpenLogOutModal(true)}
+          >
+            Cerrar sesión
+          </button>
           <button className={style.button}>Cambiar contraseña</button>
           <button className={style.button}>Eliminar cuenta</button>
         </div>
       </section>
 
-     {openLogOutModal ? <LogOutModal setOpenLogOutModal={setOpenLogOutModal}/> : null}
-
+      {openLogOutModal ? (
+        <LogOutModal setOpenLogOutModal={setOpenLogOutModal} />
+      ) : null}
     </div>
   );
 };

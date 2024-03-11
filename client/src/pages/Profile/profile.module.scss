@@ -4,11 +4,11 @@
     @include flex(flex-start, center, column);
     flex: 1;
     gap: 15px;
-    padding: 0 35px;
+    padding: 15px 35px;
 
     h1 {
         box-sizing: border-box;
-        padding: 15px 0;
+        padding: 5px 0;
         width: 100%;
         border-bottom: solid var(--color7) 3px;
     }
@@ -17,7 +17,12 @@
         @include flex (center, center, column);
         gap: 20px;
         flex: 1;
+        position: relative;
 
+        .h2 {
+            position: absolute;
+            top: -30px;
+        }
         .info {
             @include flex(center, stretch, column);
             background-color: var(--color5);
@@ -27,7 +32,6 @@
             border-radius: 15px;
             gap: 10px;
             box-shadow: var(--boxShadow);
-            border: var(--containerBorder);
 
             h3 {
                 background-color: var(--color4);

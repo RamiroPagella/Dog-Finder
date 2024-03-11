@@ -5,9 +5,11 @@ import jwt from "jsonwebtoken";
 import { Op } from "sequelize";
 import DogModel from "../models/Dog.model";
 
-export const validateUser = (user: PwdUser): PwdUser => {
+export const validateUser = (
+  user: Omit<PwdUser, "admin">,
+): Omit<PwdUser, "admin"> => {
   const { email, username, password } = user;
-  if (!email || !username || !password) throw new Error("Missing data");
+  if (!email || !username || !password) throw new Error("Missing data"); 
 
   const validations = {
     email: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(email),
@@ -20,7 +22,7 @@ export const validateUser = (user: PwdUser): PwdUser => {
   return user;
 };
 
-export const registerUser = async (user: PwdUser): Promise<IdUser> => {
+export const registerUser = async (user: Omit<PwdUser, 'admin'>): Promise<IdUser> => {
   try {
     const hashedPwd = await bcrypt.hash(user.password, 10);
 
@@ -28,6 +30,7 @@ export const registerUser = async (user: PwdUser): Promise<IdUser> => {
       username: user.username,
       email: user.email,
       password: hashedPwd,
+      admin: false,
     };
 
     const [User, created]: [UserModel, boolean] = await UserModel.findOrCreate({
@@ -47,6 +50,7 @@ export const registerUser = async (user: PwdUser): Promise<IdUser> => {
       username: User.username,
       email: User.email,
       id: User.id,
+      admin: false,
     };
   } catch (error) {
     console.log(error);
@@ -55,7 +59,7 @@ export const registerUser = async (user: PwdUser): Promise<IdUser> => {
 };
 
 export const LogUser = async (
-  user: Omit<PwdUser, "username">,
+  user: Omit<PwdUser, "username" | "admin">,
 ): Promise<IdUser> => {
   const { email, password } = user;
 
@@ -67,25 +71,25 @@ export const LogUser = async (
     },
     include: { model: DogModel, as: "likes" },
   });
-
   if (!User) throw new Error("User not found");
 
   const isPwdCorrect: boolean = await bcrypt.compare(password, User.password);
 
   if (!isPwdCorrect) throw new Error("Incorrect password");
 
-  const userWithId = {
+  const userWithId: IdUser = {
     username: User.username,
     email: User.email,
     id: User.id,
-    likes: User.likes
+    likes: User.likes,
+    admin: User.admin,
   };
 
   return userWithId;
 };
 
-export const generateToken = (user: IdUser) => {
+export const generateToken = (info: {id: User['id'], admin: User['admin']}) => {
   const secretKey = process.env.SECRET as string;
-  const token = jwt.sign(user, secretKey, { expiresIn: "1d" });
+  const token = jwt.sign(info, secretKey, { expiresIn: "1d" });
   return token;
 };

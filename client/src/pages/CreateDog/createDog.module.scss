@@ -1,10 +1,18 @@
+@import '../../style/mixins.scss';
+
 .createDog {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include flex(flex-start, stretch, column);
   animation: move;
   animation-duration: 0.3s;
-  flex: 1
+  flex: 1;
+  position: relative;
+  padding: 15px;
+
+  .createDogContent {
+    @include flex (space-between, stretch);
+    flex: 1;
+    gap: 10px;
+  }
 }
 
 @keyframes move {

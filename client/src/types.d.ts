@@ -3,6 +3,7 @@ export interface User {
   username: string;
   id: string;
   likes: Dog[];
+  admin: boolean;
 }
 
 export interface Dog {
@@ -13,7 +14,7 @@ export interface Dog {
   weight: string;
   lifeSpan: string;
   breedGroup: string | "Unknown";
-  temperaments: string[] | "Unknown"
+  temperaments: string[];
 }
 
 

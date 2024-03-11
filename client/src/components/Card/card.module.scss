@@ -6,7 +6,7 @@
     height: 300px;
     width: 280px;
     position: relative;
-    border: solid var(--color4) 1px;
+    border: var(--containerBorder);
     box-shadow: var(--boxShadow);
     border-radius: 15px;
     overflow: hidden;

@@ -1,0 +1,39 @@
+@import '../../../style/mixins.scss';
+
+.ImageAndName {
+  @include flex (space-evenly, center, column);
+  flex: 1;
+
+  section {
+    @include flex (flex-start, stretch, column);
+    height: 18%;
+    width: 100%;
+
+    h3 {
+      @include flex (center, center);
+      flex: 1;
+    }
+    div {
+      @include flex (center, center);
+      flex: 1;
+
+      input {
+        @include input();
+        width: 70%;
+      }
+    }
+
+  }
+
+  .imageContainer {
+    border: solid var(--color7) 2px;
+    height: 40%;
+    border-radius: 10px;
+    width: 80%;
+    background-color: var(--color5)
+  }
+
+  button {
+    @include button;
+  }
+}

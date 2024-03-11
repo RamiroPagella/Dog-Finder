@@ -5,6 +5,8 @@
   flex: 1;
   animation: favorites-animation 0.2s;
   padding: 15px 35px;
+  position: relative;
+
 
   .container {
     @include flex(center, stretch, row);

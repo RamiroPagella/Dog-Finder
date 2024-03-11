@@ -1,9 +1,9 @@
 import style from "./favorites.module.scss";
 import NoSession from "../../components/NoSession/NoSession";
 import { useUserContext } from "../../hooks/contextHooks";
-import FavHeader from "../../components/FavComponents/FavHeader/FavHeader";
 import FavCards from "../../components/FavComponents/FavCards/FavCards";
 import FavPaginationBar from "../../components/FavComponents/FavPaginationBar/FavPaginationBar";
+import Header from "../../components/Header/Header";
 
 const Favorites = () => {
   const {
@@ -17,7 +17,7 @@ const Favorites = () => {
         <NoSession path="favorites" />
       ) : (
         <>
-          <FavHeader />
+          <Header path='favorites'/>
 
           <FavCards/>
 

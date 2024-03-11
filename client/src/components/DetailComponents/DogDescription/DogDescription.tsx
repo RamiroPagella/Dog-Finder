@@ -2,11 +2,11 @@ import style from "./dogDescription.module.scss";
 import { Dog as DogType } from "../../../types";
 
 interface Props {
-  breedGroup: DogType['breedGroup'] | undefined;
-  height: DogType['height'] | undefined;
-  lifeSpan: DogType['lifeSpan'] | undefined;
-  temperaments: DogType['temperaments'] | undefined;
-  weight: DogType['weight'] | undefined;
+  breedGroup: DogType["breedGroup"] | undefined;
+  height: DogType["height"] | undefined;
+  lifeSpan: DogType["lifeSpan"] | undefined;
+  temperaments: DogType["temperaments"] | undefined;
+  weight: DogType["weight"] | undefined;
 }
 
 const DogDescription = ({
@@ -38,12 +38,12 @@ const DogDescription = ({
         <p className={style.propertyValue}>{height}</p>
       </div>
       <div className={style.infoContainer}>
-        <h3 className={style.propertyName}>Esperanza de vida:</h3>
-        <p className={style.propertyValue}>{lifeSpan}</p>
+        <h3 className={style.propertyName}>Peso: </h3>
+        <p className={style.propertyValue}>{weight}</p>
       </div>
       <div className={style.infoContainer}>
-        <h3 className={style.propertyName}>Weight: </h3>
-        <p className={style.propertyValue}>{weight}</p>
+        <h3 className={style.propertyName}>Esperanza de vida:</h3>
+        <p className={style.propertyValue}>{lifeSpan}</p>
       </div>
     </div>
   );

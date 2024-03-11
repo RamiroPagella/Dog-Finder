@@ -32,6 +32,12 @@ class UserModel extends Model {
   })
   password!: string;
 
+  @Column({
+    type: DataType.BOOLEAN,
+    allowNull: false
+  })
+  admin!: boolean;
+
   @HasMany(() => DogModel)
   dogs!: DogModel[]
 
