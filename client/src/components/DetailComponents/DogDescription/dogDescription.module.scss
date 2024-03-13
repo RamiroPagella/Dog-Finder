@@ -5,6 +5,8 @@
     border-radius: 15px;
     height: 100%;
     width: 40%;
+    padding: 10px;
+    background-color: var(--color6);
 
     .infoContainer {
         @include flex(space-around, flex-start, column);
@@ -14,7 +16,7 @@
         height: 18%;
         width: 100%;
         padding: 0 10px;
-        box-shadow: var(--boxShadow);
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.532);
 
         .propertyName {
             @include flex(center, center);

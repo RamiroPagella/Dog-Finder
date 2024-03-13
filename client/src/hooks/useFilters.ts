@@ -15,6 +15,7 @@ const useFilters = () => {
       breedGroups: [],
       lifeSpan: "0 - 1000",
     });
+    
   //estados locales conectados con los inputs:
   const [height, setHeight] = useState<{ min: string; max: string }>({
     min: "",

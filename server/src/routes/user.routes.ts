@@ -15,6 +15,8 @@ userRouter.post("/login", Login);
 
 userRouter.get("/user/info", verifyToken, UserInfo);
 
-userRouter.post("/aver", upload.single("image"), );
+userRouter.post("/aver", upload.single("image"), async (req, res) => {
+  req.file && console.log(req.file)
+});
 
 export default userRouter;

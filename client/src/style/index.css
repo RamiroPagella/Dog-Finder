@@ -22,6 +22,7 @@
   --color9: #212529;
 
   --boxShadow: 0px 0px 10px rgb(129, 129, 129);
+  --boxShadowDark: 0px 0px 15px rgba(0, 0, 0, 0.532);
   --boxShadowBottom: 0px 5px 10px rgb(129, 129, 129);
   --containerBorder: solid var(--color4) 2px;
   --shadowBackground: rgba(0, 0, 0, 0.8);

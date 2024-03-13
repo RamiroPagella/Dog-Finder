@@ -1,0 +1,28 @@
+@import "../../../style/mixins.scss";
+
+.TmpAndBgPanel {
+    @include flex(center, stretch, column);
+    flex: 1;
+    border-radius: 15px;
+    background-color: var(--color5);
+
+    .toggleButtons {
+        @include flex(space-evenly, center);
+        flex: 1;
+        border-bottom: solid var(--color7) 3px;
+        margin: 0px 15px;
+
+        button {
+            @include button;
+        }
+        .selectedBtn {
+            background-color: var(--color7);
+            color: var(--color4);
+        }
+    }
+
+    .list {
+        border: solid green 1px;
+        flex: 9;
+    }
+}

@@ -1,20 +1,27 @@
-import { useEffect, useState } from "react";
+import style from "./TmpAndBgList.module.scss";
+import { useState } from "react";
 import { useAppContext } from "../../../hooks/contextHooks";
-import style from "./temperamentsPanel.module.scss";
-import { Checkbox, CheckboxChecked } from "../../../assets/icons";
 import toast from "react-hot-toast";
 import { Dog } from "../../../types";
+import { Checkbox, CheckboxChecked } from "../../../assets/icons";
 
 interface Props {
-  selectedTemps: string[];
+  selected: "tmp" | "bg";
+  selectedTemps: Dog["temperaments"];
   setCreatedDog: React.Dispatch<React.SetStateAction<Omit<Dog, "id">>>;
+  selectedBreedGroup: Dog["breedGroup"];
 }
 
-const TemperamentsPanel = ({ selectedTemps, setCreatedDog }: Props) => {
-  const { allTemperaments } = useAppContext();
+const TmpAndBgList = ({
+  selected,
+  selectedTemps,
+  setCreatedDog,
+  selectedBreedGroup,
+}: Props) => {
+  const { allTemperaments, allBreedGroups } = useAppContext();
   const [inputValue, setInputValue] = useState<string>("");
 
-  const handleItemClick = (temp: string) => {
+  const handleTmpClick = (temp: string) => {
     if (selectedTemps.includes(temp)) {
       setCreatedDog((prev) => ({
         ...prev,
@@ -38,10 +45,15 @@ const TemperamentsPanel = ({ selectedTemps, setCreatedDog }: Props) => {
     }
   };
 
-  return (
-    <div className={style.TemperamentsPanel}>
-      <h2 className={style.title}>Temperamentos</h2>
+  const handleBgClick = (breedGroup: string) => {
+    setCreatedDog((prev) => ({
+      ...prev,
+      breedGroup: breedGroup,
+    }));
+  };
 
+  const TemperamentsList = (
+    <div className={style.List}>
       <input
         onChange={(e) => setInputValue(e.target.value)}
         value={inputValue}
@@ -50,7 +62,11 @@ const TemperamentsPanel = ({ selectedTemps, setCreatedDog }: Props) => {
       <section>
         {allTemperaments.map((temp, i) => {
           const item = (
-            <div className={style.item} onClick={() => handleItemClick(temp)} key={i}>
+            <div
+              className={style.item}
+              onClick={() => handleTmpClick(temp)}
+              key={i}
+            >
               {temp}
 
               {selectedTemps.includes(temp) ? (
@@ -69,6 +85,26 @@ const TemperamentsPanel = ({ selectedTemps, setCreatedDog }: Props) => {
       </section>
     </div>
   );
+
+  const breedGroupList = (
+    <div className={style.List}>
+      <section style={{justifyContent: 'space-evenly'}}>
+        {allBreedGroups.map((bg, i) => (
+          <div
+            key={i}
+            className={`${style.item} ${bg === selectedBreedGroup ? style.selected : ""}`}
+            onClick={() => handleBgClick(bg)}
+          >
+            {bg}
+
+            {bg === selectedBreedGroup ? <CheckboxChecked /> : <Checkbox />}
+          </div>
+        ))}
+      </section>
+    </div>
+  );
+
+  return selected === "tmp" ? TemperamentsList : breedGroupList;
 };
 
-export default TemperamentsPanel;
+export default TmpAndBgList;
