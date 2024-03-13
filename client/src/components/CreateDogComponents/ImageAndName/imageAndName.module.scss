@@ -29,7 +29,7 @@
     .imageContainer {
         @include flex(center, center);
         position: relative;
-        border: solid var(--color7) 2px;
+        border: dotted var(--color7) 3px;
         border-radius: 10px;
         height: 40%;
         width: 80%;

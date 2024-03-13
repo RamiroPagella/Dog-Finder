@@ -5,20 +5,32 @@ import style from "./createDogForm.module.scss";
 interface Props {
   selectedBreedGroup: string;
   selectedTemps: string[];
-  setCreatedDog: React.Dispatch<React.SetStateAction<Omit<Dog, "id">>>;
+  deleteTemp: (temp: string, selectedTemps: Dog["temperaments"]) => void;
+  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  inputValues: {
+    height: {
+      min: string;
+      max: string;
+    };
+    weight: {
+      min: string;
+      max: string;
+    };
+    lifeSpan: {
+      min: string;
+      max: string;
+    };
+  };
 }
 
 const CreateDogForm = ({
   selectedBreedGroup,
   selectedTemps,
-  setCreatedDog,
+  deleteTemp,
+  handleInputChange,
+  inputValues,
 }: Props) => {
-  const handleTempClick = (temp: string) => {
-    setCreatedDog((prev) => ({
-      ...prev,
-      temperaments: selectedTemps.filter((tmp) => tmp !== temp),
-    }));
-  };
+  const { height, weight, lifeSpan } = inputValues;
 
   return (
     <div className={style.CreateDogForm}>
@@ -33,15 +45,35 @@ const CreateDogForm = ({
           </div>
 
           <div className={style.content}>
-            <div className={style.height}>
-              <input placeholder="Desde" />
+            <div>
+              <input
+                placeholder="Desde"
+                onChange={handleInputChange}
+                value={height.min}
+                name="min-height"
+              />
               -
-              <input placeholder="Hasta" />
+              <input
+                placeholder="Hasta"
+                onChange={handleInputChange}
+                value={height.max}
+                name="max-height"
+              />
             </div>
             <div>
-              <input placeholder="Desde" />
+              <input
+                placeholder="Desde"
+                onChange={handleInputChange}
+                value={weight.min}
+                name="min-weight"
+              />
               -
-              <input placeholder="Hasta" />
+              <input
+                placeholder="Hasta"
+                onChange={handleInputChange}
+                value={weight.max}
+                name="max-weight"
+              />
             </div>
           </div>
         </section>
@@ -49,9 +81,19 @@ const CreateDogForm = ({
         <section>
           <h3 className={style.title}> Esperanza de vida </h3>
           <div className={style.content}>
-            <input placeholder="Desde" />
+            <input
+              placeholder="Desde"
+              onChange={handleInputChange}
+              value={lifeSpan.min}
+              name="min-lifeSpan"
+            />
             -
-            <input placeholder="Hasta" />
+            <input
+              placeholder="Hasta"
+              onChange={handleInputChange}
+              value={lifeSpan.max}
+              name="max-lifeSpan"
+            />
           </div>
         </section>
 
@@ -70,7 +112,7 @@ const CreateDogForm = ({
 
           <div className={style.content}>
             {selectedTemps.map((temp) => (
-              <div onClick={() => handleTempClick(temp)}>
+              <div onClick={() => deleteTemp(temp, selectedTemps)}>
                 {temp}
                 <CloseButton style={{ height: "20px" }} />
               </div>

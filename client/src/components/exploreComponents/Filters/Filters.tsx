@@ -20,14 +20,13 @@ const Filters = ({ setFiltersOpen }: Props) => {
   const {
     searchAndFiltersLocal,
     setSearchAndFiltersLocal,
-    setSearchAndFilters,
     height,
     weight,
     lifeSpan,
     handleInputChange,
+    applyFilters,
     cleanFilters,
   } = useFilters();
-  const { setCurrentPage } = usePagingContext();
 
   return (
     <>
@@ -179,11 +178,7 @@ const Filters = ({ setFiltersOpen }: Props) => {
               </button>
 
               <button
-                onClick={() => {
-                  setCurrentPage(1);
-                  setSearchAndFilters(searchAndFiltersLocal);
-                  setFiltersOpen(false);
-                }}
+                onClick={() => {applyFilters(setFiltersOpen)}}
               >
                 Aplicar
               </button>

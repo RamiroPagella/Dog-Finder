@@ -1,10 +1,17 @@
 import { useAppContext } from "../../../hooks/contextHooks";
-import useCreateDog from "../../../hooks/useCreateDog";
 import style from "./imageAndName.module.scss";
 
-const ImageAndName = () => {
-  // const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const { handleDrop, handleFileChange, handleNameChange } = useCreateDog();  
+interface Props {
+  handleNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleDrop: (e: React.DragEvent<HTMLElement>) => void;
+  handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const ImageAndName = ({
+  handleNameChange,
+  handleFileChange,
+  handleDrop,
+}: Props) => {
   const { createdDog, setCreatedDog } = useAppContext();
 
   return (
@@ -12,7 +19,7 @@ const ImageAndName = () => {
       <section>
         <h3>Nombre</h3>
         <div>
-          <input onChange={handleNameChange} value={createdDog.name}/>
+          <input onChange={handleNameChange} value={createdDog.name} />
         </div>
       </section>
 
@@ -32,8 +39,14 @@ const ImageAndName = () => {
 
         {createdDog.img && (
           <>
-            <img className={style.img} src={URL.createObjectURL(createdDog.img)} />
-            <img className={style.blurImg} src={URL.createObjectURL(createdDog.img)} />
+            <img
+              className={style.img}
+              src={URL.createObjectURL(createdDog.img)}
+            />
+            <img
+              className={style.blurImg}
+              src={URL.createObjectURL(createdDog.img)}
+            />
           </>
         )}
       </section>

@@ -5,14 +5,16 @@ import { Dog } from "../../../types";
 
 interface Props {
   selectedTemps: Dog["temperaments"];
-  setCreatedDog: React.Dispatch<React.SetStateAction<Omit<Dog, "id">>>;
   selectedBreedGroup: Dog["breedGroup"];
+  handleBgClick: (breedGroup: string) => void;
+  handleTempClick: (temp: string, selectedTemps: Dog["temperaments"]) => void;
 }
 
 const TmpAndBgPanel = ({
   selectedTemps,
-  setCreatedDog,
   selectedBreedGroup,
+  handleBgClick,
+  handleTempClick,
 }: Props) => {
   const [selectedList, setToggle] = useState<"tmp" | "bg">("tmp");
 
@@ -38,9 +40,10 @@ const TmpAndBgPanel = ({
       </section>
 
       <TmpAndBgList
-        selected={selectedList}
+        handleBgClick={handleBgClick}
+        handleTempClick={handleTempClick}
+        selectedList={selectedList}
         selectedTemps={selectedTemps}
-        setCreatedDog={setCreatedDog}
         selectedBreedGroup={selectedBreedGroup}
       />
     </div>

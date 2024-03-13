@@ -1,21 +1,21 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useSearcAndfiltersContext } from "./contextHooks";
+import { usePagingContext, useSearcAndfiltersContext } from "./contextHooks";
 import { Filters } from "../types";
 
 const useFilters = () => {
   const { searchAndFilters, setSearchAndFilters } = useSearcAndfiltersContext();
+  const { setCurrentPage } = usePagingContext();
 
-  const [searchAndFiltersLocal, setSearchAndFiltersLocal] =
-    useState<Filters>({
-      search: "",
-      height: "0 - 1000",
-      weight: "0 - 1000",
-      temperaments: [],
-      breedGroups: [],
-      lifeSpan: "0 - 1000",
-    });
-    
+  const [searchAndFiltersLocal, setSearchAndFiltersLocal] = useState<Filters>({
+    search: "",
+    height: "0 - 1000",
+    weight: "0 - 1000",
+    temperaments: [],
+    breedGroups: [],
+    lifeSpan: "0 - 1000",
+  });
+
   //estados locales conectados con los inputs:
   const [height, setHeight] = useState<{ min: string; max: string }>({
     min: "",
@@ -54,6 +54,41 @@ const useFilters = () => {
     }
   };
 
+  const applyFilters = (setFiltersOpen: (b: boolean) => void) => {
+    let errorMsg: string = "";
+    let error: boolean = false;
+    if (height.min !== "" && height.max !== "" && height.min > height.max) {
+      errorMsg = "La altura minima no puede ser mayor a la maxima";
+      error = true;
+    }
+    if (weight.min !== "" && weight.max !== "" && weight.min > weight.max) {
+      errorMsg = "El peso inicial no puede ser mayor al maxima";
+      error = true;
+    }
+    if (
+      lifeSpan.min !== "" &&
+      lifeSpan.max !== "" &&
+      lifeSpan.min > lifeSpan.max
+    ) {
+      errorMsg = "La esperanza de vida inicial no puede ser mayor a la maxima";
+      error = true;
+    }
+    if (error) {
+      toast.error(errorMsg, {
+        style: {
+          backgroundColor: "var(--color7)",
+          color: "var(--color4)",
+          pointerEvents: "none",
+        },
+      });
+      return;
+    }
+
+    setCurrentPage(1);
+    setSearchAndFilters(searchAndFiltersLocal);
+    setFiltersOpen(false);
+  };
+
   const cleanFilters = () => {
     setSearchAndFiltersLocal({
       search: "",
@@ -64,17 +99,17 @@ const useFilters = () => {
       lifeSpan: "0 - 1000",
     });
     setHeight({
-      min: '',
-      max: ''
-    })
+      min: "",
+      max: "",
+    });
     setWeight({
-      min: '',
-      max: ''
-    })
+      min: "",
+      max: "",
+    });
     setLifeSpan({
-      min: '',
-      max: ''
-    })
+      min: "",
+      max: "",
+    });
   };
 
   useEffect(() => {
@@ -131,13 +166,13 @@ const useFilters = () => {
   return {
     searchAndFiltersLocal,
     setSearchAndFiltersLocal,
-    setSearchAndFilters,
     height,
     weight,
     lifeSpan,
     handleInputChange,
-    cleanFilters
-  }
-}
+    applyFilters,
+    cleanFilters,
+  };
+};
 
 export default useFilters;

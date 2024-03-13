@@ -1,15 +1,6 @@
 import { ReactNode, createContext, useState } from "react";
-import { Dog } from "../types";
+import { CreatedDog } from "../types";
 
-interface CreatedDog {
-  name: Dog['name'];
-  height: Dog['height'];
-  weight: Dog['weight'];
-  temperaments: Dog['temperaments'];
-  breedGroup: Dog['breedGroup'];
-  lifeSpan: Dog['lifeSpan'];
-  img: File | null;
-}
 export interface AppContextType {
   allTemperaments: string[];
   allBreedGroups: string[];

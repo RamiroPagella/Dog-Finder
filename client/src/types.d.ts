@@ -17,6 +17,15 @@ export interface Dog {
   temperaments: string[];
 }
 
+export interface CreatedDog {
+  name: Dog["name"];
+  height: Dog["height"];
+  weight: Dog["weight"];
+  temperaments: Dog["temperaments"];
+  breedGroup: Dog["breedGroup"];
+  lifeSpan: Dog["lifeSpan"];
+  img: File | null;
+}
 
 export interface Filters {
   search: string;
@@ -26,10 +35,3 @@ export interface Filters {
   breedGroups: string[];
   lifeSpan: string;
 }
-
-
-
-
-
-
-

@@ -34,6 +34,8 @@
                 input {
                     @include input();
                     width: 30%;
+                    text-align: center;
+
                     &::placeholder {
                         text-align: center;
                     }

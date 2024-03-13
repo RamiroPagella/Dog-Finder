@@ -1,56 +1,26 @@
 import style from "./TmpAndBgList.module.scss";
 import { useState } from "react";
 import { useAppContext } from "../../../hooks/contextHooks";
-import toast from "react-hot-toast";
 import { Dog } from "../../../types";
 import { Checkbox, CheckboxChecked } from "../../../assets/icons";
 
 interface Props {
-  selected: "tmp" | "bg";
+  selectedList: "tmp" | "bg";
   selectedTemps: Dog["temperaments"];
-  setCreatedDog: React.Dispatch<React.SetStateAction<Omit<Dog, "id">>>;
   selectedBreedGroup: Dog["breedGroup"];
+  handleBgClick: (breedGroup: string) => void;
+  handleTempClick: (temp: string, selectedTemps: Dog['temperaments']) => void;
 }
 
 const TmpAndBgList = ({
-  selected,
+  selectedList,
   selectedTemps,
-  setCreatedDog,
   selectedBreedGroup,
+  handleBgClick,
+  handleTempClick
 }: Props) => {
   const { allTemperaments, allBreedGroups } = useAppContext();
   const [inputValue, setInputValue] = useState<string>("");
-
-  const handleTmpClick = (temp: string) => {
-    if (selectedTemps.includes(temp)) {
-      setCreatedDog((prev) => ({
-        ...prev,
-        temperaments: selectedTemps.filter((tmp) => tmp !== temp),
-      }));
-    } else {
-      if (selectedTemps.length >= 15) {
-        toast.error("No puedes incluir mas de 15 temperamentos", {
-          style: {
-            backgroundColor: "var(--color7)",
-            color: "var(--color4)",
-            pointerEvents: "none",
-          },
-        });
-        return;
-      }
-      setCreatedDog((prev) => ({
-        ...prev,
-        temperaments: selectedTemps.concat([temp]),
-      }));
-    }
-  };
-
-  const handleBgClick = (breedGroup: string) => {
-    setCreatedDog((prev) => ({
-      ...prev,
-      breedGroup: breedGroup,
-    }));
-  };
 
   const TemperamentsList = (
     <div className={style.List}>
@@ -64,7 +34,7 @@ const TmpAndBgList = ({
           const item = (
             <div
               className={style.item}
-              onClick={() => handleTmpClick(temp)}
+              onClick={() => handleTempClick(temp, selectedTemps)}
               key={i}
             >
               {temp}
@@ -104,7 +74,7 @@ const TmpAndBgList = ({
     </div>
   );
 
-  return selected === "tmp" ? TemperamentsList : breedGroupList;
+  return selectedList === "tmp" ? TemperamentsList : breedGroupList;
 };
 
 export default TmpAndBgList;
