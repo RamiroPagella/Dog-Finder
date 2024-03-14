@@ -43,7 +43,7 @@ function App() {
 
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Landing />} />
-
+        
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>

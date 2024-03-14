@@ -1,0 +1,17 @@
+@import "../../../style/mixins.scss";
+
+.createDogHeader {
+    @include flex(space-between, flex-end);
+    padding: 5px 0;
+    margin-bottom: 20px;
+    border-bottom: solid var(--color7) 3px;
+
+    .buttons {
+        @include flex(center, center);
+        gap: 25px;
+
+        button {
+            @include button;
+        }
+    }
+}

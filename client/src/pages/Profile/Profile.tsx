@@ -1,42 +1,19 @@
-import style from "./profile.module.scss";
-import { useUserContext } from "../../hooks/contextHooks";
 import { useState } from "react";
-import LogOutModal from "../../components/ProfileComponents/LogOutModal/LogOutModal";
+import ProfileHeader from "../../components/ProfileComponents/ProfileHeader/ProfileHeader";
+import ProfileInfo from "../../components/ProfileComponents/ProfileInfo/ProfileInfo";
+import style from "./profile.module.scss";
+import PendingDogs from "../../components/ProfileComponents/PendingDogs/PendingDogs";
 
 const Profile = () => {
-  const { User } = useUserContext();
-  const [openLogOutModal, setOpenLogOutModal] = useState<boolean>(false);
+  const [togglePage, setTogglePage] = useState<"MyProfile" | "PendingDogs">(
+    "MyProfile",
+  );
 
   return (
     <div className={style.Profile}>
-      <h1 className={style.header}>Mi cuenta</h1>
+      <ProfileHeader setTogglePage={setTogglePage} togglePage={togglePage} />
 
-      <section>
-        {User.admin ? <h2>Cuenta de administrador</h2> : null}
-        <div className={style.info}>
-          <h3>Nombre de usuario</h3>
-          <p>{User?.username}</p>
-        </div>
-        <div className={style.info}>
-          <h3>Correo Electronico</h3>
-          <p>{User?.email}</p>
-        </div>
-
-        <div className={style.buttons}>
-          <button
-            className={style.button}
-            onClick={() => setOpenLogOutModal(true)}
-          >
-            Cerrar sesión
-          </button>
-          <button className={style.button}>Cambiar contraseña</button>
-          <button className={style.button}>Eliminar cuenta</button>
-        </div>
-      </section>
-
-      {openLogOutModal ? (
-        <LogOutModal setOpenLogOutModal={setOpenLogOutModal} />
-      ) : null}
+      {togglePage === "MyProfile" ? <ProfileInfo /> : <PendingDogs />}
     </div>
   );
 };

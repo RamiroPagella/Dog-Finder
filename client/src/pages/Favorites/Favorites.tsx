@@ -3,23 +3,19 @@ import NoSession from "../../components/NoSession/NoSession";
 import { useUserContext } from "../../hooks/contextHooks";
 import FavCards from "../../components/FavComponents/FavCards/FavCards";
 import FavPaginationBar from "../../components/FavComponents/FavPaginationBar/FavPaginationBar";
-import Header from "../../components/Header/Header";
 
 const Favorites = () => {
-  const {
-    isAuthenticated,
-  } = useUserContext();
-  
+  const { isAuthenticated } = useUserContext();
 
   return (
     <div className={style.Favorites}>
+      <h1 className={style.favHeader}>Favoritos</h1>
+
       {!isAuthenticated ? (
         <NoSession path="favorites" />
       ) : (
         <>
-          <Header path='favorites'/>
-
-          <FavCards/>
+          <FavCards />
 
           <FavPaginationBar />
         </>

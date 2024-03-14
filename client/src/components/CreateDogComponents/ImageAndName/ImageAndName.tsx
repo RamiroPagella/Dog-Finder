@@ -5,14 +5,16 @@ interface Props {
   handleNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleDrop: (e: React.DragEvent<HTMLElement>) => void;
   handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  deleteImage: () => void;
 }
 
 const ImageAndName = ({
   handleNameChange,
   handleFileChange,
   handleDrop,
+  deleteImage
 }: Props) => {
-  const { createdDog, setCreatedDog } = useAppContext();
+  const { createdDog } = useAppContext();
 
   return (
     <div className={style.ImageAndName}>
@@ -30,8 +32,8 @@ const ImageAndName = ({
       >
         <input
           type="file"
-          name="image"
-          id="image"
+          name="img"
+          id="image-input"
           onChange={handleFileChange}
         />
 
@@ -52,13 +54,13 @@ const ImageAndName = ({
       </section>
 
       {!createdDog.img ? (
-        <label className={style.btn} htmlFor="image">
+        <label className={style.btn} htmlFor="image-input">
           Seleccionar imagen
         </label>
       ) : (
         <button
           className={style.btn}
-          onClick={() => setCreatedDog((prev) => ({ ...prev, img: null }))}
+          onClick={deleteImage}
         >
           Eliminar imagen
         </button>

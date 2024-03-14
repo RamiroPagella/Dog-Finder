@@ -5,8 +5,9 @@ import data from "../../data";
 import { validateFilters, filterDogs } from "../services/dogServices";
 import UserModel from "../models/User.model";
 import LikesModel from "../models/Likes.model";
-import { createScanner } from "typescript";
 import { IdUser } from "../types/user.types";
+import { v2 as cloudinary } from "cloudinary";
+import DogPendingModel from "../models/DogPending.model";
 
 interface CustomRequest extends Request {
   user?: IdUser;
@@ -134,7 +135,7 @@ export const likeDog: RequestHandler = async (req: CustomRequest, res) => {
 
     if (!User) return res.status(404).send("User not found");
 
-    res.json({User, isFav: created});
+    res.json({ User, isFav: created });
   } catch (error) {
     console.log(error);
     res
@@ -142,3 +143,25 @@ export const likeDog: RequestHandler = async (req: CustomRequest, res) => {
       .send({ error: error instanceof Error ? error.message : error });
   }
 };
+
+export const createDog: RequestHandler = async (req, res) => {
+  try {
+    const data = req.body;
+    const imageAsString = req.file?.buffer.toString("base64");
+
+    const result = await cloudinary.uploader.upload(
+      `data:image/png;base64,${imageAsString}`,
+      { public_id: data.name },
+    );
+
+    const Dog = data;
+    Dog.img = result.url;
+
+    console.log(Dog)
+    await DogPendingModel.create(Dog);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+

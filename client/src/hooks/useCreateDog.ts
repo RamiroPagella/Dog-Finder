@@ -22,8 +22,9 @@ const useCreateDog = () => {
   const inputValues = {
     height,
     weight,
-    lifeSpan
-  }
+    lifeSpan,
+  };
+  const [isFirstRender, setIsFirstRender] = useState<boolean>(true);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -61,12 +62,26 @@ const useCreateDog = () => {
     if (files && files.length > 0) {
       const file = files[0];
       if (!file.type.startsWith("image/")) {
-        toast.error("tiene que ser imagen");
+        toast.error("El archivo debe ser una imagen", {
+          style: {
+            backgroundColor: "var(--color7)",
+            color: "var(--color4)",
+            pointerEvents: "none",
+          },
+        });
         return;
       }
-      // setSelectedImage(file);
+
       setCreatedDog((prev) => ({ ...prev, img: file }));
     }
+  };
+
+  const deleteImage = () => {
+    setCreatedDog({ ...createdDog, img: null });
+    const imageInput = document.getElementById(
+      "image-input",
+    ) as HTMLInputElement;
+    imageInput.value = "";
   };
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,7 +89,10 @@ const useCreateDog = () => {
     setCreatedDog((prev) => ({ ...prev, name: value }));
   };
 
-  const handleTempClick = (temp: string, selectedTemps: Dog['temperaments']) => {
+  const handleTempClick = (
+    temp: string,
+    selectedTemps: Dog["temperaments"],
+  ) => {
     if (selectedTemps.includes(temp)) {
       setCreatedDog((prev) => ({
         ...prev,
@@ -98,7 +116,7 @@ const useCreateDog = () => {
     }
   };
 
-  const deleteTemp = (temp: string, selectedTemps: Dog['temperaments']) => {
+  const deleteTemp = (temp: string, selectedTemps: Dog["temperaments"]) => {
     setCreatedDog((prev) => ({
       ...prev,
       temperaments: selectedTemps.filter((tmp) => tmp !== temp),
@@ -112,37 +130,77 @@ const useCreateDog = () => {
     }));
   };
 
-  useEffect(() => {
-    const { img } = createdDog;
-    if (img instanceof File) {
-      const formData = new FormData();
-      formData.append("image", img);
+  const restoreDog = () => {
+    setCreatedDog({
+      name: "",
+      height: "",
+      weight: "",
+      temperaments: [],
+      breedGroup: "",
+      lifeSpan: "",
+      img: null,
+    });
 
-      Axios.post("/aver", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+    setHeight({ min: "", max: "" });
+    setWeight({ min: "", max: "" });
+    setLifeSpan({ min: "", max: "" });
+  };
+
+  const sendDog = () => {
+    const { name, height, weight, temperaments, breedGroup, lifeSpan, img } =
+      createdDog;
+    if (
+      name === "" ||
+      height === "" ||
+      weight === "" ||
+      temperaments.length === 0 ||
+      breedGroup === "" ||
+      lifeSpan === "" ||
+      img === null
+    ) {
+      toast.error("Debes completar todos los campos", {
+        style: {
+          backgroundColor: "var(--color7)",
+          color: "var(--color4)",
+          pointerEvents: "none",
+        },
       });
+      return;
     }
 
-    if (img === null) {
-      const input = document.getElementById("image") as HTMLInputElement;
-      input.value = "";
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [createdDog.img]);
+    Axios.post("/dog", createdDog, {
+      headers: { "Content-Type": "multipart/form-data" },
+    })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
 
   useEffect(() => {
-    const newHeight: string = [
-      height.min === "" ? "0" : height.min,
-      height.max === "" ? "1000" : height.max,
-    ].join(" - ");
-    const newWeight = [
-      weight.min === "" ? "0" : weight.min,
-      weight.max === "" ? "1000" : weight.max,
-    ].join(" - ");
-    const newLifeSpan = [
-      lifeSpan.min === "" ? "0" : lifeSpan.min,
-      lifeSpan.max === "" ? "1000" : lifeSpan.max,
-    ].join(" - ");
+    if (isFirstRender) {
+      const dogHeight = createdDog.height.split(" - ");
+      const dogWeight = createdDog.weight.split(" - ");
+      const dogLifespan = createdDog.lifeSpan.split(" - ");
+
+      setHeight({ min: dogHeight[0], max: dogHeight[1] ? dogHeight[1] : "" });
+      setWeight({ min: dogWeight[0], max: dogWeight[1] ? dogWeight[1] : "" });
+      setLifeSpan({
+        min: dogLifespan[0],
+        max: dogLifespan[1] ? dogLifespan[1] : "",
+      });
+
+      setIsFirstRender(false);
+      return;
+    }
+
+    const newHeight: string = [height.min, height.max].join(
+      height.min !== "" && height.max !== "" ? " - " : "",
+    );
+    const newWeight = [weight.min, weight.max].join(
+      weight.min !== "" && weight.max !== "" ? " - " : "",
+    );
+    const newLifeSpan = [lifeSpan.min, lifeSpan.max].join(
+      lifeSpan.min !== "" && lifeSpan.max !== "" ? " - " : " - ",
+    );
 
     setCreatedDog({
       ...createdDog,
@@ -157,12 +215,15 @@ const useCreateDog = () => {
   return {
     handleDrop,
     handleFileChange,
+    deleteImage,
     handleNameChange,
     handleInputChange,
     handleTempClick,
     handleBgClick,
     deleteTemp,
-    inputValues
+    restoreDog,
+    sendDog,
+    inputValues,
   };
 };
 

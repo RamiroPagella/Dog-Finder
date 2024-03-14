@@ -1,6 +1,8 @@
 import { Table, Model, Column, PrimaryKey, DataType, HasMany, BelongsToMany } from "sequelize-typescript";
 import DogModel from "./Dog.model";
 import LikesModel from "./Likes.model";
+import PendingDogModel from "./DogPending.model";
+import DogPendingModel from "./DogPending.model";
 
 @Table({
   timestamps: false,
@@ -40,6 +42,9 @@ class UserModel extends Model {
 
   @HasMany(() => DogModel)
   dogs!: DogModel[]
+
+  @HasMany(() => DogPendingModel)
+  pendingDogs!: DogPendingModel[]
 
   @BelongsToMany(() => DogModel, () => LikesModel)
   likes!: DogModel[]

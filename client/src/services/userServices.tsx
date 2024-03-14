@@ -12,7 +12,7 @@ export const GetUserInfo = ({ setIsAuthenticated, setUser, navigate }: GetUserIn
   const token = localStorage.getItem("jwtToken");
 
   if (token) {
-    Axios.get("/user/info", { headers: { Authorization: token } })
+    Axios.get("/user/info")
       .then((res) => {
         if (!res.data.username) throw new Error("Unauthorized");
         setIsAuthenticated(true);

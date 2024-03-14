@@ -6,7 +6,7 @@
   animation-duration: 0.3s;
   flex: 1;
   position: relative;
-  padding: 15px;
+  padding: 15px 35px;
 
   .createDogContent {
     @include flex (space-between, stretch);

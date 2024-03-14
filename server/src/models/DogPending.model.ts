@@ -6,24 +6,20 @@ import {
   PrimaryKey,
   ForeignKey,
   BelongsTo,
-  BelongsToMany,
-  AutoIncrement,
 } from "sequelize-typescript";
 import UserModel from "./User.model";
-import LikesModel from "./Likes.model";
-// import LikesModel from "./Likes.model";
 
 @Table({
   timestamps: false,
-  tableName: "Dogs",
+  tableName: "DogsPending",
 })
-class DogModel extends Model {
+class DogPendingModel extends Model {
   @PrimaryKey
   @Column({
-    type: DataType.INTEGER,
-    allowNull: false
+    type: DataType.UUID,
+    defaultValue: DataType.UUIDV4
   })
-  id!: number;
+  id!: string;
 
   @Column({
     type: DataType.STRING,
@@ -70,9 +66,6 @@ class DogModel extends Model {
 
   @BelongsTo(() => UserModel)
   user!: UserModel
-
-  @BelongsToMany(() => UserModel, () => LikesModel)
-  likes!: UserModel[]
 }
 
-export default DogModel;
+export default DogPendingModel;

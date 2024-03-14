@@ -1,11 +1,11 @@
 import style from "./createDog.module.scss";
-import Header from "../../components/Header/Header";
 import NoSession from "../../components/NoSession/NoSession";
 import { useAppContext, useUserContext } from "../../hooks/contextHooks";
 import CreateDogForm from "../../components/CreateDogComponents/CreateDogForm/CreateDogForm";
 import ImageAndName from "../../components/CreateDogComponents/ImageAndName/ImageAndName";
 import TmpAndBgPanel from "../../components/CreateDogComponents/TmpAndBgPanel/TmpAndBgPanel";
 import useCreateDog from "../../hooks/useCreateDog";
+import CreateDogHeader from "../../components/CreateDogComponents/CreateDogHeader/CreateDogHeadert";
 
 export const CreateDog = () => {
   const { isAuthenticated } = useUserContext();
@@ -13,11 +13,14 @@ export const CreateDog = () => {
   const {
     handleDrop,
     handleFileChange,
+    deleteImage,
     handleNameChange,
     handleInputChange,
     handleBgClick,
     handleTempClick,
     deleteTemp,
+    restoreDog,
+    sendDog,
     inputValues,
   } = useCreateDog();
 
@@ -27,13 +30,14 @@ export const CreateDog = () => {
         <NoSession path={"create-dog"} />
       ) : (
         <>
-          <Header path="create-dog" />
+          <CreateDogHeader restoreDog={restoreDog} sendDog={sendDog} />
 
           <div className={style.createDogContent}>
             <ImageAndName
               handleDrop={handleDrop}
               handleFileChange={handleFileChange}
               handleNameChange={handleNameChange}
+              deleteImage={deleteImage}
             />
 
             <CreateDogForm
@@ -50,6 +54,7 @@ export const CreateDog = () => {
               selectedBreedGroup={createdDog.breedGroup}
             />
           </div>
+
         </>
       )}
     </div>

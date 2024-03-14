@@ -27,6 +27,5 @@ interface favDogResponse {
   isFav: boolean
 }
 export const favDog = async (dogId: string) => {
-  const token = localStorage.getItem("jwtToken");
-  return Axios.post<favDogResponse>("/like", { dogId }, { headers: { Authorization: token } }).then(res => res)
+  return Axios.post<favDogResponse>("/like", { dogId }).then(res => res)
 };
