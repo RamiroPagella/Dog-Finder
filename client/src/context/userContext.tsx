@@ -28,6 +28,10 @@ export const UserContextProvider = ({ children }: Props) => {
     changeUser(User)
   }
 
+  useEffect(() => {
+    console.log('el user context', User);
+  }, [User])
+
   return (
     <UserContext.Provider value={{User, setUser, isAuthenticated, setIsAuthenticated}}>
       {children}

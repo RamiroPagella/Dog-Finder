@@ -1,5 +1,5 @@
 import style from "./navBar.module.scss";
-import { Profile, Heart, DogHouse, DogPaw, Search } from "../../assets/icons";
+import { Profile, Heart, DogHouse, DogPaw } from "../../assets/icons";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useUserContext } from "../../hooks/contextHooks";
@@ -91,7 +91,6 @@ const NavBar = () => {
 
       <div className={style.Container2}>
         <SearchBar />
-        <Search className={style.icon} />
       </div>
 
       <div className={style.Container3}>

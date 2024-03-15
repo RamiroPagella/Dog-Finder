@@ -4,18 +4,19 @@ import { Dog } from "../../../types";
 import { Link } from "react-router-dom";
 import { ApproveIcon, DissaproveIcon } from "../../../assets/icons";
 
-const PendingDogCard = (props: Dog) => {
+interface Props extends Dog {
+  handleApprove: (dogId: string) => void;
+  handleDisapprove: (dogId: string) => void;
+}
+
+const PendingDogCard = (props: Props) => {
   const [hover, setHover] = useState<boolean>(false);
-
-  const handleApprove = () => {
-
-  }
 
   return (
     <div className={style.Container}>
       <section className={style.managePending}>
-        <ApproveIcon  />
-        <DissaproveIcon />
+        <ApproveIcon onClick={() => props?.handleApprove(props.id)} />
+        <DissaproveIcon onClick={() => props?.handleDisapprove(props.id)} />
       </section>
 
       <Link className={style.card} to={`/dog/${props.id}`}>

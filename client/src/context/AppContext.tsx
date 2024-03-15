@@ -17,8 +17,6 @@ interface Props {
   children: ReactNode;
 }
 export const AppContextProvider = ({ children }: Props) => {
-  const { User } = useUserContext();
-
   const [allTemperaments, setAllTemperaments] = useState<string[]>([]);
   const [allBreedGroups, setAllBreedGroups] = useState<string[]>([]);
   const [createdDog, setCreatedDog] = useState<CreatedDog>({
@@ -29,7 +27,6 @@ export const AppContextProvider = ({ children }: Props) => {
     breedGroup: "",
     lifeSpan: "",
     img: null,
-    userId: User?.id
   });
 
   return (

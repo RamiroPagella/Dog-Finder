@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
 import { useAppContext, useUserContext } from "./contextHooks";
-import toast from "react-hot-toast";
 import Axios from "../axios";
 import { useState } from "react";
-import { CreatedDog, Dog } from "../types";
+import { Dog } from "../types";
+import { AxiosError, AxiosResponse } from "axios";
+import { errorToast, loadingToast, succesToast } from "../toasts";
+import toast, { Toast } from "react-hot-toast";
 
 const useCreateDog = () => {
   const { User } = useUserContext();
@@ -140,7 +142,6 @@ const useCreateDog = () => {
       breedGroup: "",
       lifeSpan: "",
       img: null,
-      userId: User?.id
     });
 
     setHeight({ min: "", max: "" });
@@ -160,31 +161,41 @@ const useCreateDog = () => {
       lifeSpan === "" ||
       img === null
     ) {
-      toast.error("Debes completar todos los campos", {
-        style: {
-          backgroundColor: "var(--color7)",
-          color: "var(--color4)",
-          pointerEvents: "none",
-        },
-      });
+      errorToast("Debes completar todos los campos");
       return;
     }
 
-    Axios.post("/dog", createdDog, {
-      headers: { "Content-Type": "multipart/form-data" },
-    })
-      .then((res) => {
-        console.log(res);
-        toast.success('Perro creado con exito', {
-          style: {
-            backgroundColor: 'var(--color7)',
-            color: 'var(--color4)',
-            pointerEvents: 'none'
-          }
-        })
-        restoreDog();
-      })
-      .catch((err) => console.log(err));
+    const newDog = { ...createdDog, userId: User.id };
+
+    const request = async (): Promise<AxiosResponse> => {
+      const response = await Axios.post("/dog", newDog, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      return response;
+    };
+    
+    toast.promise(
+      request(),
+      {
+        loading: "Enviando perro...",
+        success: (data) => {
+          console.log("la response despues de crear el perro", data);
+          restoreDog();
+          return "Perro creado con exito";
+        },
+        error: (err) => {
+          console.log(err);
+          return err instanceof AxiosError ? err.message : "Error";
+        },
+      },
+      {
+        style: {
+          backgroundColor: "var(--color7)",
+          color: "var(--color4)",
+          userSelect: "none",
+        },
+      },
+    );
   };
 
   useEffect(() => {

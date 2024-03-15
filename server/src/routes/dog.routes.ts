@@ -11,6 +11,7 @@ import {
 } from "../handlers/dogHandlers";
 import { verifyToken } from "../middlewares/verifyToken";
 import multer from "multer";
+import data from "../../data";
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
@@ -25,9 +26,9 @@ dogRouter.get("/dog/:id", getDogById);
 
 dogRouter.post("/dog", verifyToken, upload.single("img"), createDog);
 
-dogRouter.get('/dog/pending/:id', verifyToken, getPendingDogById);
+dogRouter.get("/dog/pending/:id", verifyToken, getPendingDogById);
 
-dogRouter.put('/dog/pending/:id', verifyToken, approveOrDissaproveDog);
+dogRouter.put("/dog/pending", verifyToken, approveOrDissaproveDog);
 
 dogRouter.get("/temps-and-breedgroups", getTempsAndBreedGroups);
 

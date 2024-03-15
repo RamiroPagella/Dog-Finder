@@ -159,6 +159,8 @@ export const createDog: RequestHandler = async (req, res) => {
 
     console.log(Dog);
     await DogPendingModel.create(Dog);
+
+    res.status(200).send('Dog created succesfully');
   } catch (error) {
     res
       .status(500)
@@ -191,17 +193,47 @@ export const getPendingDogById: RequestHandler = async (req, res) => {
     });
     if (!pendingDog) res.status(404).send("Pending dog not found");
 
-    res
-      .status(200)
-      .json({
-        message: "pending dog fetched succesfully",
-        dog: pendingDog,
-        hasPrevAndNext: { prev: false, next: false },
-      });
+    res.status(200).json({
+      message: "pending dog fetched succesfully",
+      dog: pendingDog,
+      hasPrevAndNext: { prev: false, next: false },
+    });
   } catch (error) {
     res
       .status(500)
       .json({ error: error instanceof Error ? error.message : error });
     console.log(error);
+  }
+};
+
+export const approveOrDissaproveDog: RequestHandler = async (req, res) => {
+  try {
+    const { id, isApproved } = req.body;
+
+    const pendingDog: DogPendingModel | null =
+      await DogPendingModel.findByPk(id);
+
+    if (!pendingDog) return res.status(404).json({error: 'Pending dog not found'});
+
+    pendingDog?.destroy();
+
+    if (!isApproved) return res.status(200).send("Dog disapproved succesfully");
+
+    await DogModel.create({
+      name: pendingDog.name,
+      height: pendingDog.height,
+      weight: pendingDog.weight,
+      lifeSpan: pendingDog.lifeSpan,
+      temperaments: pendingDog.temperaments,
+      breedGroup: pendingDog.breedGroup,
+      img: pendingDog.img
+    });
+
+    res.status(200).send("Dog approved succesfully");
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: error instanceof Error ? error.message : error });
+      console.log(error);
   }
 };

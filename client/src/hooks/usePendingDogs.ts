@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Dog } from "../types";
 import { AxiosError } from "axios";
 import Axios from "../axios";
+import toast from "react-hot-toast";
 
 const usePendingDogs = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -13,29 +14,47 @@ const usePendingDogs = () => {
     setIsLoading(true);
     Axios("/dogs/pending")
       .then((res) => {
-        setData(res.data)
+        setData(res.data);
         console.log(res);
-        setIsLoading(false)
+        setIsLoading(false);
       })
       .catch((err) => {
-        setIsLoading(false)
+        setIsLoading(false);
         setIsError(true);
         setError(err);
       });
   }, []);
 
-  const handleApprove = async (id: string) => {
+  const handleApprove = async (dogId: string) => {
     try {
-      const response = await Axios.post(`/dog/pending/${id}`);
-      
-      
+      await Axios.put(`/dog/pending/`, { id: dogId, isApproved: true });
+      setData(data.filter((dog) => dog.id !== dogId));
     } catch (error) {
-      
+      toast.error(error instanceof AxiosError ? error.message : "Error", {
+        style: {
+          backgroundColor: "var(--color7)",
+          color: "var(--color4)",
+          userSelect: "none",
+        },
+      });
+      console.log(error);
     }
-  }
-  const handleDisapprove = async (id: string) => {
-
-  }
+  };
+  const handleDisapprove = async (dogId: string) => {
+    try {
+      await Axios.put(`/dog/pending`, { id: dogId, isApproved: false });
+      setData(data.filter((dog) => dog.id !== dogId));
+    } catch (error) {
+      toast.error(error instanceof AxiosError ? error.message : "Error", {
+        style: {
+          backgroundColor: "var(--color7)",
+          color: "var(--color4)",
+          userSelect: "none",
+        },
+      });
+      console.log(error);
+    }
+  };
 
   return {
     isLoading,
@@ -43,7 +62,7 @@ const usePendingDogs = () => {
     error,
     data,
     handleApprove,
-    handleDisapprove
+    handleDisapprove,
   };
 };
 

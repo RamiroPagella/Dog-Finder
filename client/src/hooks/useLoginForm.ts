@@ -49,8 +49,6 @@ const useLoginForm = () => {
     const { email, password } = loginForm;
     if (!email || !password) return;
 
-    
-
     Axios
       .post<LoginResponse>("/login", { email, password })
       .then(({ data }) => {

@@ -1,5 +1,5 @@
 export interface Dog {
-  id: number;
+  id?: number;
   name: string;
   img: string;
   height: string;

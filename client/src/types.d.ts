@@ -25,7 +25,7 @@ export interface CreatedDog {
   breedGroup: Dog["breedGroup"];
   lifeSpan: Dog["lifeSpan"];
   img: File | null;
-  userId: string;
+  userId?: string;
 }
 
 export interface Filters {

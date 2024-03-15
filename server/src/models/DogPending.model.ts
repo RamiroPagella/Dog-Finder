@@ -6,6 +6,7 @@ import {
   PrimaryKey,
   ForeignKey,
   BelongsTo,
+  AutoIncrement,
 } from "sequelize-typescript";
 import UserModel from "./User.model";
 
@@ -15,11 +16,12 @@ import UserModel from "./User.model";
 })
 class DogPendingModel extends Model {
   @PrimaryKey
+  @AutoIncrement
   @Column({
-    type: DataType.UUID,
-    defaultValue: DataType.UUIDV4
+    type: DataType.INTEGER,
+    allowNull: false
   })
-  id!: string;
+  id!: number;
 
   @Column({
     type: DataType.STRING,

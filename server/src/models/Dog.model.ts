@@ -19,6 +19,7 @@ import LikesModel from "./Likes.model";
 })
 class DogModel extends Model {
   @PrimaryKey
+  @AutoIncrement
   @Column({
     type: DataType.INTEGER,
     allowNull: false

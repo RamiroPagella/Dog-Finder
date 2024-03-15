@@ -1,6 +1,10 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import style from "./searchBar.module.scss";
-import { usePagingContext, useSearcAndfiltersContext } from "../../hooks/contextHooks";
+import {
+  usePagingContext,
+  useSearcAndfiltersContext,
+} from "../../hooks/contextHooks";
+import { Search } from "../../assets/icons";
 
 const SearchBar = () => {
   const [inputValue, setInputValue] = useState<string>("");
@@ -24,15 +28,19 @@ const SearchBar = () => {
     return () => {
       clearTimeout(debounce);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputValue]);
 
   return (
-    <input
-      className={style.SearchBar}
-      onChange={handleChange}
-      value={inputValue}
-    />
+    <div className={style.SearchBarContainer}>
+      <input
+        onChange={handleChange}
+        value={inputValue}
+      />
+
+      <Search className={style.icon} />
+
+    </div>
   );
 };
 

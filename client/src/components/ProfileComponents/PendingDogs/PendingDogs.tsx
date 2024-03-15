@@ -22,6 +22,8 @@ const PendingDogs = () => {
         ) : (
           data.map((dog) => (
             <PendingDogCard
+              handleApprove={handleApprove}
+              handleDisapprove={handleDisapprove}
               key={dog.id}
               id={dog.id}
               img={dog.img}

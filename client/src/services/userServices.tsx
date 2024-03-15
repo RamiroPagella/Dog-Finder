@@ -15,6 +15,7 @@ export const GetUserInfo = ({ setIsAuthenticated, setUser, navigate }: GetUserIn
     Axios.get("/user/info")
       .then((res) => {
         if (!res.data.username) throw new Error("Unauthorized");
+        console.log('el service userInfo', res.data)
         setIsAuthenticated(true);
         setUser(res.data);
         navigate("/");

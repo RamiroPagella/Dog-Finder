@@ -1,6 +1,19 @@
 @import '../../style/mixins.scss';
 
-.SearchBar {
-  @include input();
+.SearchBarContainer {
+  @include flex (center, center);
   width: 70%;
+  position: relative;
+
+  input {
+    @include input();
+    width: 100%;
+  }
+
+  svg {
+    position: absolute;
+    right: 2.5%;
+    height: 80%;
+    background-color: var(--color2);
+  }
 }
