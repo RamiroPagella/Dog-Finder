@@ -2,8 +2,8 @@ export interface User {
   email: string;
   username: string;
   id: string;
-  likes: Dog[];
   admin: boolean;
+  likes: Dog[];
 }
 
 export interface Dog {
@@ -25,6 +25,7 @@ export interface CreatedDog {
   breedGroup: Dog["breedGroup"];
   lifeSpan: Dog["lifeSpan"];
   img: File | null;
+  userId: string;
 }
 
 export interface Filters {

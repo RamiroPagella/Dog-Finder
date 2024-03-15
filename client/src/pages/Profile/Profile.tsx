@@ -1,7 +1,7 @@
+import style from "./profile.module.scss";
 import { useState } from "react";
 import ProfileHeader from "../../components/ProfileComponents/ProfileHeader/ProfileHeader";
 import ProfileInfo from "../../components/ProfileComponents/ProfileInfo/ProfileInfo";
-import style from "./profile.module.scss";
 import PendingDogs from "../../components/ProfileComponents/PendingDogs/PendingDogs";
 
 const Profile = () => {

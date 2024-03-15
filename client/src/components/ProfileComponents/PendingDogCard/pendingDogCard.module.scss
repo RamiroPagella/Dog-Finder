@@ -1,0 +1,193 @@
+@import "../../../style/mixins.scss";
+
+.Container {
+    @include flex(center, center, column);
+
+    .managePending {
+        @include flex(space-evenly, center);
+        bottom: 100%;
+        width: 80%;
+        background-color: var(--color5);
+        height: 60px;
+        z-index: 10;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+
+        svg {
+            color: var(--color7);
+            background-color: var(--color4);
+            border-radius: 15px;
+            transition:
+                color,
+                background-color 0.3s;
+            cursor: pointer;
+            height: 50px;
+            width: 60px;
+
+            &:hover {
+                color: var(--color4);
+                background-color: var(--color7);
+            }
+        }
+
+
+    }
+
+    .card {
+        text-decoration: none;
+        position: relative;
+        overflow: hidden;
+        border-radius: 13px;
+        max-height: 300px;
+        max-width: 280px;
+        height: 300px;
+        width: 280px;
+        border: var(--containerBorder);
+        box-shadow: var(--boxShadow);
+
+        // max-height: 300px;
+        // max-width: 300px;
+        // height: 300px;
+        // width: 280px;
+        // position: relative;
+        // border: var(--containerBorder);
+        // box-shadow: var(--boxShadow);
+        // border-radius: 15px;
+        // z-index: 1;
+        // text-decoration: none;
+        // overflow: hidden;
+
+        .content {
+            max-height: 100%;
+            height: 100%;
+            max-width: 100%;
+            width: 100%;
+            transition: filter 0.2s;
+            transition: filter 0.2s;
+
+            .icon {
+                position: absolute;
+                height: 50px;
+                width: 50px;
+            }
+
+            .blurImgContainer {
+                @include flex(center, center);
+                z-index: -10;
+                width: 100%;
+                height: 70%;
+                max-height: 70%;
+                position: absolute;
+                top: 0;
+                filter: blur(5px);
+
+                img {
+                    max-width: 100%;
+                }
+            }
+            .imgContainer {
+                @include flex(center, center);
+                width: 100%;
+                max-height: 70%;
+                height: 70%;
+                overflow: hidden;
+
+                img {
+                    max-height: 100%;
+                }
+            }
+
+            .Description {
+                @include flex(center, stretch, column);
+                background-color: var(--color5);
+                height: 30%;
+                user-select: none;
+
+                div {
+                    @include flex(space-between, center, row);
+                    margin: 5px;
+                    border-radius: 100px;
+                    padding: 0 5px;
+                    background-color: var(--color4);
+
+                    p {
+                        max-width: 70%;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+                }
+            }
+        }
+        .content_on {
+            @extend .content;
+            filter: blur(3px);
+        }
+
+        .hoverContent {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            left: 0;
+            transition: background-color 0.2s;
+            cursor: pointer;
+
+            // .iconContainer {
+            //     @include flex(center, center);
+            //     top: 8%;
+            //     right: 8%;
+            //     height: 40px;
+            //     width: 40px;
+            //     position: absolute;
+
+            //     .favLoader {
+            //         height: 100%;
+            //         width: 100%;
+            //         border: solid #6c757d 3px;
+            //         border-top: solid #343a40 3px;
+            //         border-radius: 100px;
+            //         animation: fav-loader 1s linear infinite;
+            //     }
+
+            //     .icon {
+            //         height: 100%;
+            //         width: 100%;
+            //         color: var(--color4);
+            //         opacity: 0;
+            //         transition: opacity 0.2s;
+            //     }
+            //     .icon_on {
+            //         @extend .icon;
+            //         opacity: 1;
+            //     }
+
+            //     .favToolTip {
+            //         @include toolTip();
+            //         top: -40px;
+            //     }
+            // }
+
+            .text {
+                border-top: solid var(--color3) 1px;
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 70%;
+                text-align: center;
+                color: var(--color4);
+                padding: 5px;
+                opacity: 0;
+                transition: opacity 0.2s;
+            }
+            .text_on {
+                @extend .text;
+                opacity: 1;
+            }
+        }
+        .hoverContent:hover {
+            background-color: rgba(0, 0, 0, 0.516);
+        }
+    }
+}

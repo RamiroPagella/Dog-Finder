@@ -12,12 +12,14 @@ import { favDog } from "../../services/dogsServices";
 
 const Detail = () => {
   const { id } = useParams();
+  const { isAuthenticated, User, setUser } = useUserContext();
+  const [isDogPending, setIsDogPenging] = useState<boolean>(false);
   const { dog, isError, error, hasNextAndPrev } = useDogDetail(id as string);
   const [isImageOpen, setIsImageOpen] = useState<boolean>(false);
   const [isFav, setIsFav] = useState<boolean>(false);
   const [showToolTip, setShowToolTip] = useState<boolean>(false);
-  const { isAuthenticated, User, setUser } = useUserContext();
   const [isFavLoading, setIsFavLoading] = useState<boolean>(false);
+
 
   const handleClick = () => {
     setIsImageOpen(!isImageOpen);
@@ -58,12 +60,21 @@ const Detail = () => {
   };
 
   useEffect(() => {
-    let isFav = false;
-    if (isAuthenticated)
-      User.likes?.map((dog) => {
-        if (Number(dog.id) === Number(id)) isFav = true;
-      });
-    setIsFav(isFav);
+    if (id) {
+      const uuidPattern =
+        /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+      const isUuid = uuidPattern.test(id);
+
+      if (isUuid) {
+        setIsDogPenging(true);
+      } else {
+        if (isAuthenticated)
+          User.likes?.map((dog) => {
+            if (Number(dog.id) === Number(id)) setIsFav(isFav);
+          });
+      }
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
@@ -85,28 +96,30 @@ const Detail = () => {
               <img src={dog?.img} className={style.img} />
             </div>
 
-            <div className={style.iconContainer}>
-              {isFavLoading ? (
-                <div className={style.favLoader}></div>
-              ) : isFav ? (
-                <HeartFill
-                  onClick={handleFav}
-                  onMouseEnter={() => setShowToolTip(true)}
-                  onMouseLeave={() => setShowToolTip(false)}
-                />
-              ) : (
-                <Heart
-                  onClick={handleFav}
-                  onMouseEnter={() => setShowToolTip(true)}
-                  onMouseLeave={() => setShowToolTip(false)}
-                />
-              )}
-              {showToolTip ? (
-                <p className={style.favTooltip}>
-                  {isFav ? "Eliminar de favoritos" : "Agregar a favoritos"}
-                </p>
-              ) : null}
-            </div>
+            {!isDogPending ? (
+              <div className={style.iconContainer}>
+                {isFavLoading ? (
+                  <div className={style.favLoader}></div>
+                ) : isFav ? (
+                  <HeartFill
+                    onClick={handleFav}
+                    onMouseEnter={() => setShowToolTip(true)}
+                    onMouseLeave={() => setShowToolTip(false)}
+                  />
+                ) : (
+                  <Heart
+                    onClick={handleFav}
+                    onMouseEnter={() => setShowToolTip(true)}
+                    onMouseLeave={() => setShowToolTip(false)}
+                  />
+                )}
+                {showToolTip ? (
+                  <p className={style.favTooltip}>
+                    {isFav ? "Eliminar de favoritos" : "Agregar a favoritos"}
+                  </p>
+                ) : null}
+              </div>
+            ) : null}
 
             <DogDescription
               breedGroup={dog?.breedGroup}

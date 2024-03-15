@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
-import { useAppContext } from "./contextHooks";
+import { useAppContext, useUserContext } from "./contextHooks";
 import toast from "react-hot-toast";
 import Axios from "../axios";
 import { useState } from "react";
-import { Dog } from "../types";
+import { CreatedDog, Dog } from "../types";
 
 const useCreateDog = () => {
+  const { User } = useUserContext();
   const { createdDog, setCreatedDog } = useAppContext();
   const [height, setHeight] = useState<{ min: string; max: string }>({
     min: "",
@@ -139,6 +140,7 @@ const useCreateDog = () => {
       breedGroup: "",
       lifeSpan: "",
       img: null,
+      userId: User?.id
     });
 
     setHeight({ min: "", max: "" });
@@ -171,7 +173,17 @@ const useCreateDog = () => {
     Axios.post("/dog", createdDog, {
       headers: { "Content-Type": "multipart/form-data" },
     })
-      .then((res) => console.log(res))
+      .then((res) => {
+        console.log(res);
+        toast.success('Perro creado con exito', {
+          style: {
+            backgroundColor: 'var(--color7)',
+            color: 'var(--color4)',
+            pointerEvents: 'none'
+          }
+        })
+        restoreDog();
+      })
       .catch((err) => console.log(err));
   };
 

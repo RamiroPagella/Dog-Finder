@@ -2,10 +2,17 @@ import { useState } from "react";
 import Axios from "../axios";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "./contextHooks";
+import { User } from "../types";
 
 interface LoginForm {
   email: "";
   password: "";
+}
+
+interface LoginResponse {
+  User: User;
+  authenticated: boolean;
+  token: string;
 }
 
 const useLoginForm = () => {
@@ -42,16 +49,17 @@ const useLoginForm = () => {
     const { email, password } = loginForm;
     if (!email || !password) return;
 
+    
+
     Axios
-      .post("/login", { email, password })
+      .post<LoginResponse>("/login", { email, password })
       .then(({ data }) => {
         if (!data.authenticated) {
-          throw new Error(data.message);
+          throw new Error('');
         }
-        console.log(data);
         localStorage.setItem('jwtToken', data.token);
-        setIsAuthenticated(true)
-        setUser(data.user)
+        setUser(data.User);
+        setIsAuthenticated(true);
         navigate("/");
       })
       .catch((err) => {

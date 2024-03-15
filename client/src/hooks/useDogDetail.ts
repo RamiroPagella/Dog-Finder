@@ -25,10 +25,15 @@ const useDogDetail = (id: string) => {
 
     const controller = new AbortController();
     const { signal } = controller;
+    
+    const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    const isUuid = uuidPattern.test(id);
+    const url = isUuid ? `/dog/pending/${id}` : `/dog/${id}`;
 
-    Axios.get<Response>(`/dog/${id}`, { signal })
+    Axios.get<Response>(url, { signal })
       .then((res) => {
         setDog(res.data.dog);
+        console.log()
         setHasNextAndPrev(res.data.hasPrevAndNext);
       })
       .catch((err) => {

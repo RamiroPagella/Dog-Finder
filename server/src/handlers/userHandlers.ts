@@ -26,6 +26,8 @@ export const Register: RequestHandler = async (req, res) => {
       admin: User.admin,
     });
 
+    console.log(User);
+
     return res.status(201).json({ authenticated: true, token, User });
   } catch (error) {
     let status: number = 500;
@@ -54,7 +56,7 @@ export const Login: RequestHandler = async (req, res) => {
 
     const token = generateToken(userInfoToToken);
 
-    res.status(201).json({ authenticated: true, token: token, user: User });
+    res.status(201).json({ authenticated: true, token: token, User });
   } catch (error) {
     console.log(error);
     let status: number = 500;

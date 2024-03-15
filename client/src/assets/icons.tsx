@@ -177,7 +177,7 @@ export function Plus(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-export function CheckboxChecked (props: SVGProps<SVGSVGElement>) {
+export function CheckboxChecked(props: SVGProps<SVGSVGElement>) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" {...props}>
       <path
@@ -198,6 +198,36 @@ export function Checkbox(props: SVGProps<SVGSVGElement>) {
       <path
         fill="currentColor"
         d="M26 4H6a2 2 0 0 0-2 2v20a2 2 0 0 0 2 2h20a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2M6 26V6h20v20Z"
+      />
+    </svg>
+  );
+}
+
+export function DissaproveIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" {...props}>
+      <path
+        fill="currentColor"
+        d="M205.66 194.34a8 8 0 0 1-11.32 11.32L128 139.31l-66.34 66.35a8 8 0 0 1-11.32-11.32L116.69 128L50.34 61.66a8 8 0 0 1 11.32-11.32L128 116.69l66.34-66.35a8 8 0 0 1 11.32 11.32L139.31 128Z"
+      />
+    </svg>
+  );
+}
+
+export function ApproveIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 16 16"
+      {...props}
+    >
+      <path
+        fill="none"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="1"
+        d="m2.75 8.75l3.5 3.5l7-7.5"
       />
     </svg>
   );

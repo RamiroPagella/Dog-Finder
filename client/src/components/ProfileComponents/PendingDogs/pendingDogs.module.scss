@@ -1,3 +1,26 @@
+@import "../../../style/mixins.scss";
+
 .PendingDogs {
-  border: solid blue;
+    @include flex(flex-start, stretch, column);
+    height: 100%;
+
+    .buttons {
+        @include flex (center, center);
+        align-self: center;
+        padding: 0px 25px;
+        gap: 25px;
+        height: 10%;
+        border-bottom: solid var(--color7);
+
+        button {
+            @include button;
+        }
+    }
+
+    .cards {
+        @include flex (center, center);
+        height: 90%;
+        flex-wrap: wrap;
+        gap: 30px;
+    }
 }

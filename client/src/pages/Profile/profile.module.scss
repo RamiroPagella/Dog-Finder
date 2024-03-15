@@ -1,7 +1,7 @@
 @import "../../style/mixins.scss";
 
 .Profile {
-    @include flex(flex-start, center, column);
+    @include flex(flex-start, stretch, column);
     flex: 1;
     gap: 15px;
     padding: 15px 35px;

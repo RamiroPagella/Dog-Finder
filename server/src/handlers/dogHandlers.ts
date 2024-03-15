@@ -157,11 +157,51 @@ export const createDog: RequestHandler = async (req, res) => {
     const Dog = data;
     Dog.img = result.url;
 
-    console.log(Dog)
+    console.log(Dog);
     await DogPendingModel.create(Dog);
   } catch (error) {
+    res
+      .status(500)
+      .json({ error: error instanceof Error ? error.message : error });
     console.log(error);
   }
 };
 
+export const getPendingDogs: RequestHandler = async (req, res) => {
+  try {
+    const pendingDogs = await DogPendingModel.findAll({
+      include: { model: UserModel, as: "user" },
+    });
+    res.json(pendingDogs);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: error instanceof Error ? error.message : error });
+    console.log(error);
+  }
+};
 
+export const getPendingDogById: RequestHandler = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const pendingDog = await DogPendingModel.findOne({
+      where: {
+        id,
+      },
+    });
+    if (!pendingDog) res.status(404).send("Pending dog not found");
+
+    res
+      .status(200)
+      .json({
+        message: "pending dog fetched succesfully",
+        dog: pendingDog,
+        hasPrevAndNext: { prev: false, next: false },
+      });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: error instanceof Error ? error.message : error });
+    console.log(error);
+  }
+};

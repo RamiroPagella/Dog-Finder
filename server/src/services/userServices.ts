@@ -44,13 +44,13 @@ export const registerUser = async (user: Omit<PwdUser, 'admin'>): Promise<IdUser
     if (!created) {
       throw new Error("Email already in use");
     }
-
     //user without password
     return {
       username: User.username,
       email: User.email,
       id: User.id,
       admin: false,
+      likes: []
     };
   } catch (error) {
     console.log(error);
@@ -76,6 +76,8 @@ export const LogUser = async (
   const isPwdCorrect: boolean = await bcrypt.compare(password, User.password);
 
   if (!isPwdCorrect) throw new Error("Incorrect password");
+
+  console.log('aver',User);
 
   const userWithId: IdUser = {
     username: User.username,

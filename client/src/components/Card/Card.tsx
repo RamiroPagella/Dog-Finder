@@ -53,11 +53,12 @@ const Card = (props: Dog) => {
   };
 
   useEffect(() => {
-    likes?.map((dog) => {
+    likes?.map((dog: Dog) => {
       if (Number(dog.id) === Number(props.id)) {
         setIsFav(true);
       }
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const content = (

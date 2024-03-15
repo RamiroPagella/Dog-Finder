@@ -1,9 +1,9 @@
-import { ReactNode, createContext, useState } from "react";
-import { User } from "../types";
+import { ReactNode, createContext, useEffect, useState } from "react";
+import { User as UserType } from "../types";
 
 export interface UserContextType {
-  User: User;
-  setUser: (User: User) => void;
+  User: UserType;
+  setUser: (User: UserType) => void;
   isAuthenticated: boolean;
   setIsAuthenticated: (isAuthenticated: boolean) => void;
 }
@@ -15,12 +15,18 @@ interface Props {
 }
 
 export const UserContextProvider = ({ children }: Props) => {
-  const [User, setUser] = useState({
+  const [User, changeUser] = useState<UserType>({
     username: '',
     email: '',
-    id: ''
+    id: '',
+    admin: false,
+    likes: []
   });
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const setUser = (User: UserType) => {
+    changeUser(User)
+  }
 
   return (
     <UserContext.Provider value={{User, setUser, isAuthenticated, setIsAuthenticated}}>
