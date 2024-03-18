@@ -4,8 +4,10 @@ import usePendingDogs from "../../../hooks/usePendingDogs";
 import PendingDogCard from "../PendingDogCard/PendingDogCard";
 
 const PendingDogs = () => {
-  const { isLoading, isError, error, data, handleApprove, handleDisapprove } =
+  const { isLoading, isError, error, data, handleApproveOrDisapprove } =
     usePendingDogs();
+
+    console.log(data)
 
   return (
     <div className={style.PendingDogs}>
@@ -22,8 +24,9 @@ const PendingDogs = () => {
         ) : (
           data.map((dog) => (
             <PendingDogCard
-              handleApprove={handleApprove}
-              handleDisapprove={handleDisapprove}
+              user={dog.user}
+              userId={dog.userId}
+              handleApproveOrDisapprove={handleApproveOrDisapprove}
               key={dog.id}
               id={dog.id}
               img={dog.img}

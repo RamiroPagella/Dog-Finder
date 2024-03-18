@@ -5,21 +5,21 @@ import { Link } from "react-router-dom";
 import { ApproveIcon, DissaproveIcon } from "../../../assets/icons";
 
 interface Props extends Dog {
-  handleApprove: (dogId: string) => void;
-  handleDisapprove: (dogId: string) => void;
+  handleApproveOrDisapprove: (dogId: string, approve: boolean) => void;
 }
 
 const PendingDogCard = (props: Props) => {
   const [hover, setHover] = useState<boolean>(false);
+  
 
   return (
     <div className={style.Container}>
       <section className={style.managePending}>
-        <ApproveIcon onClick={() => props?.handleApprove(props.id)} />
-        <DissaproveIcon onClick={() => props?.handleDisapprove(props.id)} />
+        <ApproveIcon onClick={() => props?.handleApproveOrDisapprove(props.id, true)} />
+        <DissaproveIcon onClick={() => props?.handleApproveOrDisapprove(props.id, false)} />
       </section>
 
-      <Link className={style.card} to={`/dog/${props.id}`}>
+      <Link className={style.card} to={`/pending-dog/${props.id}`}>
         <section className={hover ? style.content_on : style.content}>
           <div className={style.blurImgContainer}>
             <img src={props?.img} />

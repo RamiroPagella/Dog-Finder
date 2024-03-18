@@ -2,18 +2,19 @@ import { RequestHandler, Request } from "express";
 import DogModel from "../models/Dog.model";
 import { Dog as DogType } from "../types/dog.types";
 import data from "../../data";
-import { validateFilters, filterDogs } from "../services/dogServices";
+import { validateFilters, filterAndPageDogs } from "../services/dogServices";
 import UserModel from "../models/User.model";
 import LikesModel from "../models/Likes.model";
 import { IdUser } from "../types/user.types";
 import { v2 as cloudinary } from "cloudinary";
 import DogPendingModel from "../models/DogPending.model";
+import { Op } from "sequelize";
 
 interface CustomRequest extends Request {
   user?: IdUser;
 }
 
-export const GetDogsHandler: RequestHandler = async (req, res) => {
+export const GetDogs: RequestHandler = async (req, res) => {
   const { page, search, weight, height, temperaments, breedGroup, lifeSpan } =
     req.query;
   const filters = {
@@ -29,7 +30,7 @@ export const GetDogsHandler: RequestHandler = async (req, res) => {
       (dog) => dog.dataValues,
     );
 
-    const { dogsPage, totalPages } = filterDogs(
+    const { dogsPage, totalPages } = filterAndPageDogs(
       dogs,
       validateFilters(filters),
       Number(page),
@@ -60,16 +61,32 @@ export const getDogById: RequestHandler = async (req, res) => {
     const dog: DogType | null = await DogModel.findByPk(id);
     if (!dog) return res.status(400).json({ error: "Dog not found" });
 
-    const totalDogsLength: number = await DogModel.count();
+    const prevDog: DogModel | null = await DogModel.findOne({
+      where: {
+        id: {
+          [Op.lt]: dog.id,
+        },
+      },
+      order: [["id", "DESC"]],
+    });
 
-    const hasPrevAndNext = {
-      prev: id !== 1,
-      next: id !== totalDogsLength,
+    const nextDog: DogModel | null = await DogModel.findOne({
+      where: {
+        id: {
+          [Op.gt]: dog.id,
+        },
+      },
+      order: [["id", "ASC"]],
+    });
+
+    const prevAndNext = {
+      prev: prevDog ? prevDog.id : null,
+      next: nextDog ? nextDog.id : null,
     };
 
     return res
       .status(200)
-      .json({ message: "Dog fetched succesfully", dog, hasPrevAndNext });
+      .json({ message: "Dog fetched succesfully", dog, prevAndNext });
   } catch (error) {
     res
       .status(500)
@@ -157,10 +174,9 @@ export const createDog: RequestHandler = async (req, res) => {
     const Dog = data;
     Dog.img = result.url;
 
-    console.log(Dog);
     await DogPendingModel.create(Dog);
 
-    res.status(200).send('Dog created succesfully');
+    res.status(200).send("Dog created succesfully");
   } catch (error) {
     res
       .status(500)
@@ -172,7 +188,11 @@ export const createDog: RequestHandler = async (req, res) => {
 export const getPendingDogs: RequestHandler = async (req, res) => {
   try {
     const pendingDogs = await DogPendingModel.findAll({
-      include: { model: UserModel, as: "user" },
+      include: {
+        model: UserModel,
+        as: "user",
+        attributes: { exclude: ["password", "admin"] },
+      },
     });
     res.json(pendingDogs);
   } catch (error) {
@@ -191,12 +211,37 @@ export const getPendingDogById: RequestHandler = async (req, res) => {
         id,
       },
     });
-    if (!pendingDog) res.status(404).send("Pending dog not found");
+    if (!pendingDog) return res.status(404).send("Pending dog not found");
+
+    const prevPendingDog: DogPendingModel | null =
+      await DogPendingModel.findOne({
+        where: {
+          id: {
+            [Op.lt]: pendingDog.id,
+          },
+        },
+        order: [["id", "DESC"]],
+      });
+
+    const nextPendingDog: DogPendingModel | null =
+      await DogPendingModel.findOne({
+        where: {
+          id: {
+            [Op.gt]: pendingDog.id,
+          },
+        },
+        order: [["id", "ASC"]],
+      });
+
+    const prevAndNext = {
+      prev: prevPendingDog ? prevPendingDog.id : null,
+      next: nextPendingDog ? nextPendingDog.id : null,
+    };
 
     res.status(200).json({
       message: "pending dog fetched succesfully",
       dog: pendingDog,
-      hasPrevAndNext: { prev: false, next: false },
+      prevAndNext,
     });
   } catch (error) {
     res
@@ -213,7 +258,8 @@ export const approveOrDissaproveDog: RequestHandler = async (req, res) => {
     const pendingDog: DogPendingModel | null =
       await DogPendingModel.findByPk(id);
 
-    if (!pendingDog) return res.status(404).json({error: 'Pending dog not found'});
+    if (!pendingDog)
+      return res.status(404).json({ error: "Pending dog not found" });
 
     pendingDog?.destroy();
 
@@ -226,7 +272,7 @@ export const approveOrDissaproveDog: RequestHandler = async (req, res) => {
       lifeSpan: pendingDog.lifeSpan,
       temperaments: pendingDog.temperaments,
       breedGroup: pendingDog.breedGroup,
-      img: pendingDog.img
+      img: pendingDog.img,
     });
 
     res.status(200).send("Dog approved succesfully");
@@ -234,6 +280,6 @@ export const approveOrDissaproveDog: RequestHandler = async (req, res) => {
     res
       .status(500)
       .json({ error: error instanceof Error ? error.message : error });
-      console.log(error);
+    console.log(error);
   }
 };

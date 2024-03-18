@@ -3,6 +3,8 @@ import Axios from "../axios";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "./contextHooks";
 import { User } from "../types";
+import { AxiosError } from "axios";
+import { errorToast } from "../toasts";
 
 interface LoginForm {
   email: "";
@@ -49,30 +51,33 @@ const useLoginForm = () => {
     const { email, password } = loginForm;
     if (!email || !password) return;
 
-    Axios
-      .post<LoginResponse>("/login", { email, password })
+    Axios.post<LoginResponse>("/login", { email, password })
       .then(({ data }) => {
         if (!data.authenticated) {
-          throw new Error('');
+          throw new Error("");
         }
-        localStorage.setItem('jwtToken', data.token);
+        localStorage.setItem("jwtToken", data.token);
         setUser(data.User);
         setIsAuthenticated(true);
         navigate("/");
       })
       .catch((err) => {
         console.log(err);
-        if (err.response) {
-          if (err.response.status === 404)
-            setShowError({ email: true, password: false });
-          if (err.response.status === 401)
-            setShowError({ email: false, password: true });
+        if (err instanceof AxiosError) {
+          if (err.response) {
+            if (err.response.status === 404)
+              setShowError({ email: true, password: false });
+            if (err.response.status === 401)
+              setShowError({ email: false, password: true });
+          }
+          if (err.message === "Network Error") {
+            errorToast("Error al conectarse con el servidor");
+          }
         }
       });
   };
 
-  return {handleClick, handleChange, showError, btnDisabled, loginForm}
+  return { handleClick, handleChange, showError, btnDisabled, loginForm };
+};
 
-}
-
-export default useLoginForm
+export default useLoginForm;

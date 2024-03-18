@@ -222,9 +222,9 @@ export function ApproveIcon(props: SVGProps<SVGSVGElement>) {
       <path
         fill="none"
         stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="1"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1"
         d="m2.75 8.75l3.5 3.5l7-7.5"
       />
     </svg>

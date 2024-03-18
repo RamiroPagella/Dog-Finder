@@ -1,6 +1,6 @@
 import { Router } from "express";
 import {
-  GetDogsHandler,
+  GetDogs,
   approveOrDissaproveDog,
   createDog,
   getDogById,
@@ -18,17 +18,17 @@ const upload = multer({ storage });
 
 const dogRouter = Router();
 
-dogRouter.get("/dogs", GetDogsHandler);
+dogRouter.get("/dogs", GetDogs);
 
 dogRouter.get("/dogs/pending", getPendingDogs);
 
-dogRouter.get("/dog/:id", getDogById);
-
 dogRouter.post("/dog", verifyToken, upload.single("img"), createDog);
 
-dogRouter.get("/dog/pending/:id", verifyToken, getPendingDogById);
+dogRouter.put("/dog-pending", verifyToken, approveOrDissaproveDog);
 
-dogRouter.put("/dog/pending", verifyToken, approveOrDissaproveDog);
+dogRouter.get("/dog/:id", getDogById);
+
+dogRouter.get("/dog-pending/:id", verifyToken, getPendingDogById);
 
 dogRouter.get("/temps-and-breedgroups", getTempsAndBreedGroups);
 

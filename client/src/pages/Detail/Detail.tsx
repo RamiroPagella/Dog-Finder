@@ -6,77 +6,28 @@ import DogDescription from "../../components/DetailComponents/DogDescription/Dog
 import { Heart, Loader, HeartFill } from "../../assets/icons";
 import DetailHeader from "../../components/DetailComponents/DetailHeader/DetailHeader";
 import useDogDetail from "../../hooks/useDogDetail";
-import toast from "react-hot-toast";
-import { useUserContext } from "../../hooks/contextHooks";
-import { favDog } from "../../services/dogsServices";
 
 const Detail = () => {
   const { id } = useParams();
-  const { isAuthenticated, User, setUser } = useUserContext();
-  const [isDogPending, setIsDogPenging] = useState<boolean>(false);
-  const { dog, isError, error, hasNextAndPrev } = useDogDetail(id as string);
+  const {
+    dog,
+    isError,
+    error,
+    prevAndNext,
+    handleFav,
+    isFav,
+    isDogPending,
+    isFavLoading,
+  } = useDogDetail(id as string);
   const [isImageOpen, setIsImageOpen] = useState<boolean>(false);
-  const [isFav, setIsFav] = useState<boolean>(false);
   const [showToolTip, setShowToolTip] = useState<boolean>(false);
-  const [isFavLoading, setIsFavLoading] = useState<boolean>(false);
-
 
   const handleClick = () => {
     setIsImageOpen(!isImageOpen);
   };
 
-  const handleFav = async () => {
-    if (!isAuthenticated) {
-      toast.error("Debes iniciar sesión", {
-        style: {
-          backgroundColor: "var(--color7)",
-          color: "var(--color4)",
-          pointerEvents: "none",
-        },
-      });
-      return;
-    }
-    if (isFavLoading) return;
-
-    setIsFavLoading(true);
-    favDog(id as string)
-      .then(({ data }) => {
-        setUser(data.User);
-        setIsFav(data.isFav);
-        setIsFavLoading(false);
-      })
-      .catch((err: Error) => {
-        toast.error(err.message, {
-          style: {
-            backgroundColor: "var(--color7)",
-            color: "var(--color4)",
-            pointerEvents: "none",
-          },
-        });
-        setIsFavLoading(false);
-        setIsFav(false);
-        console.log(err);
-      });
-  };
-
-  useEffect(() => {
-    if (id) {
-      const uuidPattern =
-        /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-      const isUuid = uuidPattern.test(id);
-
-      if (isUuid) {
-        setIsDogPenging(true);
-      } else {
-        if (isAuthenticated)
-          User.likes?.map((dog) => {
-            if (Number(dog.id) === Number(id)) setIsFav(isFav);
-          });
-      }
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  console.log(dog);
+  
 
   return (
     <div className={style.Detail}>
@@ -84,11 +35,7 @@ const Detail = () => {
         <p>{error?.message}</p>
       ) : dog ? (
         <>
-          <DetailHeader
-            name={dog?.name}
-            id={id}
-            hasNextAndPrev={hasNextAndPrev}
-          />
+          <DetailHeader name={dog?.name} prevAndNext={prevAndNext} />
 
           <div className={style.content}>
             <div className={style.imageContainer} onClick={handleClick}>

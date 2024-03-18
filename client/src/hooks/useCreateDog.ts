@@ -4,8 +4,8 @@ import Axios from "../axios";
 import { useState } from "react";
 import { Dog } from "../types";
 import { AxiosError, AxiosResponse } from "axios";
-import { errorToast, loadingToast, succesToast } from "../toasts";
-import toast, { Toast } from "react-hot-toast";
+import { errorToast } from "../toasts";
+import toast from "react-hot-toast";
 
 const useCreateDog = () => {
   const { User } = useUserContext();
@@ -33,13 +33,7 @@ const useCreateDog = () => {
     const { name, value } = e.target;
 
     if (isNaN(Number(value))) {
-      toast.error("Debes ingresar un numero", {
-        style: {
-          backgroundColor: "var(--color7)",
-          color: "var(--color4)",
-          pointerEvents: "none",
-        },
-      });
+      errorToast("Debes ingresar un numero");
       return;
     }
     const propName = name.includes("min") ? "min" : "max";
@@ -65,13 +59,7 @@ const useCreateDog = () => {
     if (files && files.length > 0) {
       const file = files[0];
       if (!file.type.startsWith("image/")) {
-        toast.error("El archivo debe ser una imagen", {
-          style: {
-            backgroundColor: "var(--color7)",
-            color: "var(--color4)",
-            pointerEvents: "none",
-          },
-        });
+        errorToast("El archivo debe ser una imagen");
         return;
       }
 
@@ -103,13 +91,7 @@ const useCreateDog = () => {
       }));
     } else {
       if (selectedTemps.length >= 15) {
-        toast.error("No puedes incluir mas de 15 temperamentos", {
-          style: {
-            backgroundColor: "var(--color7)",
-            color: "var(--color4)",
-            pointerEvents: "none",
-          },
-        });
+        errorToast("No puedes incluir mas de 15 temperamentos");
         return;
       }
       setCreatedDog((prev) => ({
@@ -150,18 +132,27 @@ const useCreateDog = () => {
   };
 
   const sendDog = () => {
-    const { name, height, weight, temperaments, breedGroup, lifeSpan, img } =
-      createdDog;
     if (
-      name === "" ||
-      height === "" ||
-      weight === "" ||
-      temperaments.length === 0 ||
-      breedGroup === "" ||
-      lifeSpan === "" ||
-      img === null
+      createdDog.name === "" ||
+      createdDog.height === "" ||
+      createdDog.weight === "" ||
+      createdDog.temperaments.length === 0 ||
+      createdDog.breedGroup === "" ||
+      createdDog.lifeSpan === "" ||
+      createdDog.img === null
     ) {
       errorToast("Debes completar todos los campos");
+      return;
+    }
+
+    if (Number(height.min) > Number(height.max)) {
+      errorToast("La altura minima no puede ser mayor a la maxima");
+      return;
+    } else if (Number(weight.min) > Number(weight.max)) {
+      errorToast("El peso minimo no puede ser mayor al maximo");
+      return;
+    } else if (Number(lifeSpan.min) > Number(lifeSpan.max)) {
+      errorToast("La esperanza de vida minima no puede ser mayor a la maxima");
       return;
     }
 
@@ -173,13 +164,12 @@ const useCreateDog = () => {
       });
       return response;
     };
-    
+
     toast.promise(
       request(),
       {
         loading: "Enviando perro...",
-        success: (data) => {
-          console.log("la response despues de crear el perro", data);
+        success: () => {
           restoreDog();
           return "Perro creado con exito";
         },
@@ -218,10 +208,10 @@ const useCreateDog = () => {
     const newHeight: string = [height.min, height.max].join(
       height.min !== "" && height.max !== "" ? " - " : "",
     );
-    const newWeight = [weight.min, weight.max].join(
+    const newWeight: string = [weight.min, weight.max].join(
       weight.min !== "" && weight.max !== "" ? " - " : "",
     );
-    const newLifeSpan = [lifeSpan.min, lifeSpan.max].join(
+    const newLifeSpan: string = [lifeSpan.min, lifeSpan.max].join(
       lifeSpan.min !== "" && lifeSpan.max !== "" ? " - " : " - ",
     );
 

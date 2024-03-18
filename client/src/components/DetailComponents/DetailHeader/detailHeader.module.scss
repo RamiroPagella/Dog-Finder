@@ -15,7 +15,11 @@
     right: 0;
 
     button {
-      @include button ();
+      @include button();
     }
+    .btnDisabled {
+      @include disabledButton;
+    }
+
   }
 }

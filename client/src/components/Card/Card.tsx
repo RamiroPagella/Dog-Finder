@@ -2,10 +2,10 @@ import style from "./card.module.scss";
 import { useEffect, useState } from "react";
 import { Heart, HeartFill } from "../../assets/icons";
 import { useUserContext } from "../../hooks/contextHooks";
-import toast from "react-hot-toast";
 import { Dog } from "../../types";
 import { Link } from "react-router-dom";
 import { favDog } from "../../services/dogsServices";
+import { errorToast } from "../../toasts";
 
 const Card = (props: Dog) => {
   const [hover, setHover] = useState<boolean>(false);
@@ -20,13 +20,7 @@ const Card = (props: Dog) => {
   const handleFav = async (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
     if (!isAuthenticated) {
-      toast.error("Debes iniciar sesión", {
-        style: {
-          backgroundColor: "var(--color7)",
-          color: "var(--color4)",
-          pointerEvents: "none",
-        },
-      });
+      errorToast('Debes iniciar sesión')
       return;
     }
     if (isLoading) return;
@@ -39,13 +33,7 @@ const Card = (props: Dog) => {
         setIsLoading(false);
       })
       .catch((err: Error) => {
-        toast.error(err.message, {
-          style: {
-            backgroundColor: "var(--color7)",
-            color: "var(--color4)",
-            pointerEvents: "none",
-          },
-        });
+        errorToast(err.message);
         setIsLoading(false);
         setIsFav(false);
         console.log(err);

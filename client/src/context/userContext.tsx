@@ -16,26 +16,23 @@ interface Props {
 
 export const UserContextProvider = ({ children }: Props) => {
   const [User, changeUser] = useState<UserType>({
-    username: '',
-    email: '',
-    id: '',
+    username: "",
+    email: "",
+    id: "",
     admin: false,
-    likes: []
+    likes: [],
   });
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const setUser = (User: UserType) => {
-    changeUser(User)
-  }
-
-  useEffect(() => {
-    console.log('el user context', User);
-  }, [User])
+    changeUser(User);
+  };
 
   return (
-    <UserContext.Provider value={{User, setUser, isAuthenticated, setIsAuthenticated}}>
+    <UserContext.Provider
+      value={{ User, setUser, isAuthenticated, setIsAuthenticated }}
+    >
       {children}
     </UserContext.Provider>
-  )
-}
-
+  );
+};

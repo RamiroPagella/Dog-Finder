@@ -1,8 +1,6 @@
-import Dog from "../models/Dog.model";
 import { DogFilters, Dog as DogType } from "../types/dog.types";
-import { Op } from "sequelize";
 
-export const filterDogs = (
+export const filterAndPageDogs = (
   dogs: DogType[],
   filters: DogFilters,
   page: number,

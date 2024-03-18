@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Dog } from "../types";
-import { AxiosError } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 import Axios from "../axios";
+import { errorToast } from "../toasts";
 import toast from "react-hot-toast";
 
 const usePendingDogs = () => {
@@ -13,9 +14,9 @@ const usePendingDogs = () => {
   useEffect(() => {
     setIsLoading(true);
     Axios("/dogs/pending")
-      .then((res) => {
-        setData(res.data);
-        console.log(res);
+      .then(({ data }) => {
+        const dogs = data as Dog[];
+        setData(dogs.sort((a, b) => (Number(a.id) > Number(b.id) ? 1 : -1)));
         setIsLoading(false);
       })
       .catch((err) => {
@@ -25,35 +26,25 @@ const usePendingDogs = () => {
       });
   }, []);
 
-  const handleApprove = async (dogId: string) => {
-    try {
-      await Axios.put(`/dog/pending/`, { id: dogId, isApproved: true });
-      setData(data.filter((dog) => dog.id !== dogId));
-    } catch (error) {
-      toast.error(error instanceof AxiosError ? error.message : "Error", {
-        style: {
-          backgroundColor: "var(--color7)",
-          color: "var(--color4)",
-          userSelect: "none",
-        },
+  const handleApproveOrDisapprove = (dogId: string, approve: boolean) => {
+    const asyncFunction = async () => {
+      const response = await Axios.put<string>("/dog-pending", {
+        id: dogId,
+        isApproved: approve,
       });
-      console.log(error);
-    }
-  };
-  const handleDisapprove = async (dogId: string) => {
-    try {
-      await Axios.put(`/dog/pending`, { id: dogId, isApproved: false });
       setData(data.filter((dog) => dog.id !== dogId));
-    } catch (error) {
-      toast.error(error instanceof AxiosError ? error.message : "Error", {
-        style: {
-          backgroundColor: "var(--color7)",
-          color: "var(--color4)",
-          userSelect: "none",
-        },
-      });
-      console.log(error);
-    }
+      console.log("la response", response);
+      return response;
+    };
+
+    toast.promise(asyncFunction(), {
+      loading: `${approve ? "Aprobando" : "Desaprobando"} perro...`,
+      success: () => `Perro ${approve ? "aprobado" : "desaprobado"} con exito`,
+      error: (err) => {
+        console.log('el error del toastPromise',err);
+        return err instanceof AxiosError ? err.message : "Error";
+      },
+    });
   };
 
   return {
@@ -61,8 +52,7 @@ const usePendingDogs = () => {
     isError,
     error,
     data,
-    handleApprove,
-    handleDisapprove,
+    handleApproveOrDisapprove,
   };
 };
 

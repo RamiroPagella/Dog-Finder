@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { usePagingContext, useSearcAndfiltersContext } from "./contextHooks";
 import { Filters } from "../types";
+import { errorToast } from "../toasts";
 
 const useFilters = () => {
   const { searchAndFilters, setSearchAndFilters } = useSearcAndfiltersContext();
@@ -34,13 +35,7 @@ const useFilters = () => {
     const { name, value } = e.target;
 
     if (isNaN(Number(value))) {
-      toast.error("Debes ingresar un numero", {
-        style: {
-          backgroundColor: "var(--color7)",
-          color: "var(--color4)",
-          pointerEvents: "none",
-        },
-      });
+      errorToast("Debes ingresar un numero");
       return;
     }
     const propName = name.includes("min") ? "min" : "max";
@@ -74,13 +69,7 @@ const useFilters = () => {
       error = true;
     }
     if (error) {
-      toast.error(errorMsg, {
-        style: {
-          backgroundColor: "var(--color7)",
-          color: "var(--color4)",
-          pointerEvents: "none",
-        },
-      });
+      errorToast(errorMsg);
       return;
     }
 

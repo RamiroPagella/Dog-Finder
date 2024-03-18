@@ -39,6 +39,7 @@ function App() {
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/create-dog" element={<CreateDog />} />
         <Route path="/dog/:id" element={<Detail />} />
+        <Route path="/pending-dog/:id" element={<Detail />}/>
         <Route path="/profile" element={<Profile />}/>
 
         <Route path="/register" element={<Register />} />
