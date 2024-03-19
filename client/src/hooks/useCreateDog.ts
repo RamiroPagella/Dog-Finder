@@ -77,6 +77,10 @@ const useCreateDog = () => {
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
+    if (value.length > 30) {
+      errorToast("El nombre debe ser menor a 30 caracteres");
+      return;
+    }
     setCreatedDog((prev) => ({ ...prev, name: value }));
   };
 
@@ -156,7 +160,9 @@ const useCreateDog = () => {
       return;
     }
 
-    const newDog = { ...createdDog, userId: User.id };
+    const newDog = { ...createdDog, userId: User.id, lifeSpan: `${createdDog.lifeSpan} years` };
+
+    console.log('nuevo perro a punto de ser enviado al server', newDog);
 
     const request = async (): Promise<AxiosResponse> => {
       const response = await Axios.post("/dog", newDog, {
@@ -205,15 +211,24 @@ const useCreateDog = () => {
       return;
     }
 
-    const newHeight: string = [height.min, height.max].join(
-      height.min !== "" && height.max !== "" ? " - " : "",
-    );
-    const newWeight: string = [weight.min, weight.max].join(
-      weight.min !== "" && weight.max !== "" ? " - " : "",
-    );
-    const newLifeSpan: string = [lifeSpan.min, lifeSpan.max].join(
-      lifeSpan.min !== "" && lifeSpan.max !== "" ? " - " : " - ",
-    );
+    const newHeight: string =
+      height.min !== height.max
+        ? [height.min, height.max].join(
+            height.min !== "" && height.max !== "" ? " - " : "",
+          )
+        : height.min;
+    const newWeight: string =
+      weight.min !== weight.max
+        ? [weight.min, weight.max].join(
+            weight.min !== "" && weight.max !== "" ? " - " : "",
+          )
+        : weight.min;
+    const newLifeSpan: string =
+      lifeSpan.min !== lifeSpan.max
+        ? [lifeSpan.min, lifeSpan.max].join(
+            lifeSpan.min !== "" && lifeSpan.max !== "" ? " - " : " - ",
+          )
+        : lifeSpan.min;
 
     setCreatedDog({
       ...createdDog,

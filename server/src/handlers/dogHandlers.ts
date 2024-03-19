@@ -2,39 +2,31 @@ import { RequestHandler, Request } from "express";
 import DogModel from "../models/Dog.model";
 import { Dog as DogType } from "../types/dog.types";
 import data from "../../data";
-import { validateFilters, filterAndPageDogs } from "../services/dogServices";
+import {
+  validateFilters,
+  filterAndPageDogs,
+  validateDog,
+} from "../services/dogServices";
 import UserModel from "../models/User.model";
 import LikesModel from "../models/Likes.model";
 import { IdUser } from "../types/user.types";
 import { v2 as cloudinary } from "cloudinary";
 import DogPendingModel from "../models/DogPending.model";
-import { Op } from "sequelize";
+import { Op, Optional } from "sequelize";
 
 interface CustomRequest extends Request {
   user?: IdUser;
 }
 
 export const GetDogs: RequestHandler = async (req, res) => {
-  const { page, search, weight, height, temperaments, breedGroup, lifeSpan } =
-    req.query;
-  const filters = {
-    search,
-    weight,
-    height,
-    temperaments,
-    breedGroup,
-    lifeSpan,
-  };
+  const filters = validateFilters(req.query);
+
   try {
     const dogs: DogType[] = (await DogModel.findAll()).map(
       (dog) => dog.dataValues,
     );
 
-    const { dogsPage, totalPages } = filterAndPageDogs(
-      dogs,
-      validateFilters(filters),
-      Number(page),
-    );
+    const { dogsPage, totalPages } = filterAndPageDogs(dogs, filters);
 
     //
     res.status(200).json({
@@ -163,18 +155,17 @@ export const likeDog: RequestHandler = async (req: CustomRequest, res) => {
 
 export const createDog: RequestHandler = async (req, res) => {
   try {
-    const data = req.body;
-    const imageAsString = req.file?.buffer.toString("base64");
+    const createdDog: Omit<DogType, "img"> = validateDog(req.body);
 
+    const imageAsString = req.file?.buffer.toString("base64");
     const result = await cloudinary.uploader.upload(
       `data:image/png;base64,${imageAsString}`,
-      { public_id: data.name },
+      { public_id: req.body.name },
     );
 
-    const Dog = data;
-    Dog.img = result.url;
+    const Dog: DogType = { ...createdDog, img: result.url };
 
-    await DogPendingModel.create(Dog);
+    await DogPendingModel.create(Dog as Optional<DogType, "id">);
 
     res.status(200).send("Dog created succesfully");
   } catch (error) {
@@ -258,8 +249,9 @@ export const approveOrDissaproveDog: RequestHandler = async (req, res) => {
     const pendingDog: DogPendingModel | null =
       await DogPendingModel.findByPk(id);
 
-    if (!pendingDog)
+    if (!pendingDog) {
       return res.status(404).json({ error: "Pending dog not found" });
+    }
 
     pendingDog?.destroy();
 
@@ -273,6 +265,7 @@ export const approveOrDissaproveDog: RequestHandler = async (req, res) => {
       temperaments: pendingDog.temperaments,
       breedGroup: pendingDog.breedGroup,
       img: pendingDog.img,
+      userId: pendingDog.userId
     });
 
     res.status(200).send("Dog approved succesfully");

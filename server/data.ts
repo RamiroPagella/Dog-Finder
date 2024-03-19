@@ -1936,7 +1936,7 @@ const data: Dog[] = [
     name: "Puli",
     height: "41 - 43",
     weight: "41 - 43",
-    lifeSpan: "12 - 16 Years years",
+    lifeSpan: "12 - 16 years",
     temperaments: [
       "Energetic",
       "Agile",

@@ -1,11 +1,9 @@
-import { DogFilters, Dog as DogType } from "../types/dog.types";
+import { Dog, DogFilters, Dog as DogType } from "../types/dog.types";
+import { dogParsers, filtersParsers } from "./parsers";
 
-export const filterAndPageDogs = (
-  dogs: DogType[],
-  filters: DogFilters,
-  page: number,
-) => {
-  const { search, height, weight, temperaments, breedGroup, lifeSpan } = filters;
+export const filterAndPageDogs = (dogs: DogType[], filters: DogFilters) => {
+  const { search, height, weight, temperaments, breedGroup, lifeSpan } =
+    filters;
 
   if (height !== "") {
     const selectedHeight = height.split(" - ");
@@ -56,7 +54,7 @@ export const filterAndPageDogs = (
   }
 
   if (breedGroup !== "") {
-    const breedGroups = breedGroup.split(',');
+    const breedGroups = breedGroup.split(",");
     dogs = dogs.filter((dog) => {
       for (let i = 0; i < breedGroups.length; i++) {
         if (breedGroups[i] === dog.breedGroup) return true;
@@ -65,7 +63,6 @@ export const filterAndPageDogs = (
   }
 
   if (lifeSpan !== "") {
-
     const selectedLifeSpan = lifeSpan
       .split(" ")
       .filter((e) => (!isNaN(Number(e)) ? true : false))
@@ -91,9 +88,9 @@ export const filterAndPageDogs = (
     });
   }
 
-  if (search !== '' ) {
-    const splitSearch = search.split(' ').map(word => word.toLowerCase());
-    dogs = dogs.filter(dog => {
+  if (search !== "") {
+    const splitSearch = search.split(" ").map((word) => word.toLowerCase());
+    dogs = dogs.filter((dog) => {
       for (let i = 0; i < splitSearch.length; i++) {
         if (dog.name.toLowerCase().includes(splitSearch[i])) return true;
       }
@@ -109,7 +106,7 @@ export const filterAndPageDogs = (
   }
 
   return {
-    dogsPage: pagedDogs[page - 1],
+    dogsPage: pagedDogs[filters.page - 1],
     totalPages: pagedDogs.length,
   };
 };
@@ -123,66 +120,47 @@ export const validateFilters = (dogFilters: unknown): DogFilters => {
     "weight" in dogFilters &&
     "temperaments" in dogFilters &&
     "breedGroup" in dogFilters &&
-    "lifeSpan" in dogFilters
+    "lifeSpan" in dogFilters &&
+    "page" in dogFilters
   ) {
     const filters = {
+      page: filtersParsers.page(dogFilters.page),
       search: String(dogFilters.search),
-      height: parseHeight(dogFilters.height),
-      weight: parseWeight(dogFilters.weight),
-      temperaments: parseTemperaments(dogFilters.temperaments),
-      breedGroup: dogFilters.breedGroup as string,
-      lifeSpan: parseLifeSpan(dogFilters.lifeSpan),
+      height: filtersParsers.heightAndWeight(dogFilters.height),
+      weight: filtersParsers.heightAndWeight(dogFilters.weight),
+      temperaments: filtersParsers.temperaments(dogFilters.temperaments),
+      breedGroup: filtersParsers.breedGroup(dogFilters.breedGroup),
+      lifeSpan: filtersParsers.lifeSpan(dogFilters.lifeSpan),
     };
     return filters;
   } else throw new Error("Incorrect or missing data");
 };
 
-//parser
+export const validateDog = (dog: unknown): Omit<Dog, 'img'> => {
+  if (
+    !dog ||
+    typeof dog !== "object" ||
+    !("name" in dog) ||
+    !("height" in dog) ||
+    !("weight" in dog) ||
+    !("temperaments" in dog) ||
+    !("breedGroup" in dog) ||
+    !("lifeSpan" in dog) ||
+    !('userId' in dog)
+  ) {
+    throw new Error("Incorrect or missing data falta algun datinho");
+  }
 
-const parseHeight = (height: unknown): DogFilters["height"] => {
-  if (!isString(height) || !isHeight(height)) throw new Error("Incorrect data");
-  return height;
-};
-const parseWeight = (weight: unknown): DogFilters["weight"] => {
-  if (!isString(weight) || !isWeight(weight)) throw new Error("Incorrect data");
-  return weight;
-};
-const parseTemperaments = (
-  temperaments: unknown,
-): DogFilters["temperaments"] => {
-  if (!isString(temperaments)) throw new Error("Incorrect data");
+  const Dog: Omit<Dog, 'img'> = {
+    name: dogParsers.name(dog.name),
+    height: dogParsers.heightAndWeight(dog.height),
+    weight: dogParsers.heightAndWeight(dog.weight),
+    lifeSpan: dogParsers.lifeSpan(dog.lifeSpan),
+    temperaments: dogParsers.temperaments(dog.temperaments),
+    breedGroup: dogParsers.breedGroup(dog.breedGroup),
+    userId: dogParsers.userId(dog.userId)
+  };
 
-  if (temperaments === "") return temperaments;
-
-  return temperaments.split(",").map((temp) => {
-    if (!isString(temp)) throw new Error("Incorrect data");
-    return temp;
-  });
-};
-const parseLifeSpan = (lifeSpan: unknown) => {
-  if (!isString(lifeSpan) || !isLifeSpan(lifeSpan))
-    throw new Error("Incorrect data");
-  return lifeSpan;
+  return Dog;
 };
 
-//guardias de tipo
-
-const regex = /^\d+ - \d+$/;
-const isString = (string: unknown): string is string => {
-  return typeof string === "string";
-};
-const isHeight = (height: string): height is DogFilters["height"] => {
-  if (height === "" || regex.test(height)) {
-    return true;
-  } else return false;
-};
-const isWeight = (weight: string): weight is DogFilters["weight"] => {
-  if (weight === "" || regex.test(weight)) {
-    return true;
-  } else return false;
-};
-const isLifeSpan = (lifeSpan: string): lifeSpan is DogFilters["lifeSpan"] => {
-  const lifeSpanRegex = /^\d+ - \d+ years$/;
-  if (!lifeSpanRegex.test(lifeSpan)) return true;
-  else return false;
-};

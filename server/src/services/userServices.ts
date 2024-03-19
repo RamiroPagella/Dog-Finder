@@ -77,8 +77,6 @@ export const LogUser = async (
 
   if (!isPwdCorrect) throw new Error("Incorrect password");
 
-  console.log('aver',User);
-
   const userWithId: IdUser = {
     username: User.username,
     email: User.email,

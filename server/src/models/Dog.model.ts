@@ -22,13 +22,13 @@ class DogModel extends Model {
   @AutoIncrement
   @Column({
     type: DataType.INTEGER,
-    allowNull: false
+    allowNull: false,
   })
   id!: number;
 
   @Column({
     type: DataType.STRING,
-    allowNull: false
+    allowNull: false,
   })
   name!: string;
 
@@ -42,38 +42,47 @@ class DogModel extends Model {
     type: DataType.STRING,
     allowNull: false,
   })
-  height!: string;
+  height!: `${number}` | `${number} - ${number}`;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-  weight!: string;
+  weight!: `${number}` | `${number} - ${number}`;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-  lifeSpan!: string;
+  lifeSpan!: `${number} years` | `${number} - ${number} years`;
 
   @Column({
     type: DataType.STRING,
   })
-  breedGroup!: string;
+  breedGroup!:
+    | "Toy"
+    | "Hound"
+    | "Unknown"
+    | "Terrier"
+    | "Working"
+    | "Mixed"
+    | "Non-Sporting"
+    | "Sporting"
+    | "Herding";
 
   @Column({
     type: DataType.ARRAY(DataType.STRING),
   })
-  temperaments!: string[]
+  temperaments!: string[];
 
   @ForeignKey(() => UserModel)
-  userId!: string
+  userId!: string;
 
   @BelongsTo(() => UserModel)
-  user!: UserModel
+  user!: UserModel;
 
   @BelongsToMany(() => UserModel, () => LikesModel)
-  likes!: UserModel[]
+  likes!: UserModel[];
 }
 
 export default DogModel;
