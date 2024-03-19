@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Dog } from "../types";
 import { AxiosError, AxiosResponse } from "axios";
 import Axios from "../axios";
-import { errorToast } from "../toasts";
 import toast from "react-hot-toast";
 
 const usePendingDogs = () => {
@@ -26,11 +25,11 @@ const usePendingDogs = () => {
       });
   }, []);
 
-  const handleApproveOrDisapprove = (dogId: string, approve: boolean) => {
+  const approveOrDisapprove = (dogId: Dog['id'], approve: boolean) => {
     const asyncFunction = async () => {
-      const response = await Axios.put<string>("/dog-pending", {
+      const response = await Axios.put("/dog-pending", {
         id: dogId,
-        isApproved: approve,
+        approve,
       });
       setData(data.filter((dog) => dog.id !== dogId));
       console.log("la response", response);
@@ -41,18 +40,38 @@ const usePendingDogs = () => {
       loading: `${approve ? "Aprobando" : "Desaprobando"} perro...`,
       success: () => `Perro ${approve ? "aprobado" : "desaprobado"} con exito`,
       error: (err) => {
-        console.log('el error del toastPromise',err);
         return err instanceof AxiosError ? err.message : "Error";
       },
     });
   };
+
+  const approveOrDisapproveAll = (approve: boolean) => {
+    const dogIds: Array<Dog['id']> = data.map(dog => dog.id);
+    const asyncFunction = async () => {
+      const response = await Axios.put("/dog-pending/all", {
+        ids: dogIds,
+        approve,
+      });
+      setData([]);
+      return response;
+    };
+
+    toast.promise(asyncFunction(), {
+      loading: `${approve ? "Aprobando" : "Desaprobando"} perros...`,
+      success: () => `Perros ${approve ? "aprobados" : "desaprobados"} con exito`,
+      error: (err) => {
+        return err instanceof AxiosError ? err.message : "Error";
+      },
+    });
+  }
 
   return {
     isLoading,
     isError,
     error,
     data,
-    handleApproveOrDisapprove,
+    approveOrDisapprove,
+    approveOrDisapproveAll
   };
 };
 

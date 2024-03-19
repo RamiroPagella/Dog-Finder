@@ -4,17 +4,16 @@ import usePendingDogs from "../../../hooks/usePendingDogs";
 import PendingDogCard from "../PendingDogCard/PendingDogCard";
 
 const PendingDogs = () => {
-  const { isLoading, isError, error, data, handleApproveOrDisapprove } =
+  const { isLoading, isError, error, data, approveOrDisapprove, approveOrDisapproveAll } =
     usePendingDogs();
 
-    console.log(data)
 
   return (
     <div className={style.PendingDogs}>
       <section className={style.buttons}>
-        <button>Aprobar todos</button>
+        <button onClick={() => approveOrDisapproveAll(true)}>Aprobar todos</button>
 
-        <button>Desaprobar todos</button>
+        <button onClick={() => approveOrDisapproveAll(false)}>Desaprobar todos</button>
       </section>
 
       <section className={style.cards}>
@@ -26,7 +25,7 @@ const PendingDogs = () => {
             <PendingDogCard
               user={dog.user}
               userId={dog.userId}
-              handleApproveOrDisapprove={handleApproveOrDisapprove}
+              approveOrDisapprove={approveOrDisapprove}
               key={dog.id}
               id={dog.id}
               img={dog.img}

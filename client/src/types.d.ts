@@ -9,7 +9,7 @@ export interface User {
 export type DogUser = Omit<User, 'admin', 'likes'>;
 
 export interface Dog {
-  id: string;
+  id: number;
   name: string;
   img: string;
   height: string;

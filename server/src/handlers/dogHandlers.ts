@@ -196,7 +196,9 @@ export const getPendingDogs: RequestHandler = async (req, res) => {
 
 export const getPendingDogById: RequestHandler = async (req, res) => {
   try {
-    const { id } = req.params;
+    const id = Number(req.params.id);
+    if (!id) res.status(400).json({ error: "Incorrect or missing data" });
+
     const pendingDog = await DogPendingModel.findOne({
       where: {
         id,
@@ -242,9 +244,13 @@ export const getPendingDogById: RequestHandler = async (req, res) => {
   }
 };
 
-export const approveOrDissaproveDog: RequestHandler = async (req, res) => {
+export const approveOrDissaprove: RequestHandler = async (req, res) => {
   try {
-    const { id, isApproved } = req.body;
+    const id: DogType["id"] = req.body.id;
+    const approve: boolean = req.body.approve;
+
+    if (!id || typeof id !== "number" || typeof approve !== "boolean")
+      res.status(400).json({ error: "Incorrect or missing data" });
 
     const pendingDog: DogPendingModel | null =
       await DogPendingModel.findByPk(id);
@@ -255,7 +261,7 @@ export const approveOrDissaproveDog: RequestHandler = async (req, res) => {
 
     pendingDog?.destroy();
 
-    if (!isApproved) return res.status(200).send("Dog disapproved succesfully");
+    if (!approve) return res.status(200).send("Dog disapproved succesfully");
 
     await DogModel.create({
       name: pendingDog.name,
@@ -265,7 +271,7 @@ export const approveOrDissaproveDog: RequestHandler = async (req, res) => {
       temperaments: pendingDog.temperaments,
       breedGroup: pendingDog.breedGroup,
       img: pendingDog.img,
-      userId: pendingDog.userId
+      userId: pendingDog.userId,
     });
 
     res.status(200).send("Dog approved succesfully");
@@ -274,5 +280,54 @@ export const approveOrDissaproveDog: RequestHandler = async (req, res) => {
       .status(500)
       .json({ error: error instanceof Error ? error.message : error });
     console.log(error);
+  }
+};
+
+export const approveOrDisapproveAll: RequestHandler = async (req, res) => {
+  try {
+    const ids: Array<DogType["id"]> = req.body.ids;
+    const approve: boolean = req.body.approve;
+
+    if (!ids || !Array.isArray(ids) || typeof approve !== "boolean")
+      res.status(400).json({ error: "Incorrect or missing data" });
+    for (let id of ids) {
+      if (typeof id !== "number") {
+        res.status(400).json({ error: "Incorrect data" });
+      }
+    }
+
+    const pendingDogs: DogPendingModel[] = await DogPendingModel.findAll({
+      where: {
+        id: ids,
+      },
+    });
+
+    await Promise.all(
+      pendingDogs.map(async (dog): Promise<void> => {
+        dog.destroy();
+      }),
+    );
+
+    console.log('a ver si siguen vivos los ropes', pendingDogs);
+
+    await DogModel.bulkCreate(
+      pendingDogs.map((dog) => ({
+        name: dog.name,
+        height: dog.height,
+        weight: dog.weight,
+        lifeSpan: dog.lifeSpan,
+        temperaments: dog.temperaments,
+        breedGroup: dog.breedGroup,
+        img: dog.img,
+        userId: dog.userId,
+      })),
+    );
+
+    res.status(200).send("Dogs approved succesfully");
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ error: error instanceof Error ? error.message : error });
   }
 };

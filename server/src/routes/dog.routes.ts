@@ -1,7 +1,8 @@
 import { Router } from "express";
 import {
   GetDogs,
-  approveOrDissaproveDog,
+  approveOrDisapproveAll,
+  approveOrDissaprove,
   createDog,
   getDogById,
   getPendingDogById,
@@ -24,7 +25,8 @@ dogRouter.get("/dogs/pending", getPendingDogs);
 
 dogRouter.post("/dog", verifyToken, upload.single("img"), createDog);
 
-dogRouter.put("/dog-pending", verifyToken, approveOrDissaproveDog);
+dogRouter.put("/dog-pending", verifyToken, approveOrDissaprove);
+dogRouter.put("/dog-pending/all", verifyToken, approveOrDisapproveAll);
 
 dogRouter.get("/dog/:id", getDogById);
 
