@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { Register, Login, UserInfo } from "../handlers/userHandlers";
-import { verifyToken } from "../middlewares/verifyToken";
+import { verifyToken } from "../middlewares";
 import multer from "multer";
 
 const userRouter = Router();

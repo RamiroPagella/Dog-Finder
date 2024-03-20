@@ -26,14 +26,14 @@ const Card = (props: Dog) => {
     if (isLoading) return;
 
     setIsLoading(true);
-    favDog(props.id as string)
+    favDog(props.id)
       .then(({ data }) => {
         setUser(data.User);
         setIsFav(data.isFav);
         setIsLoading(false);
       })
-      .catch((err: Error) => {
-        errorToast(err.message);
+      .catch((err) => {
+        err instanceof Error && errorToast(err.message);
         setIsLoading(false);
         setIsFav(false);
         console.log(err);
@@ -82,16 +82,14 @@ const Card = (props: Dog) => {
       }}
     >
       <div className={style.iconContainer} onClick={handleFav}>
-        {isLoading ? (
-          <div className={style.loader}></div>
-        ) : isFav ? (
-          <HeartFill className={hover ? style.icon_on : style.icon} />
+        {isFav ? (
+          <HeartFill className={style.icon} />
           ) : (
-          <Heart className={hover ? style.icon_on : style.icon} />
+          <Heart className={style.icon} />
         )}
       </div>
 
-      <p className={hover ? style.text_on : style.text}>Click para ver mas</p>
+      <p className={style.text}>Click para ver mas</p>
     </div>
   );
 

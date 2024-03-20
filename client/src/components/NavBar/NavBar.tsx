@@ -24,7 +24,7 @@ const NavBar = () => {
     createDog: pathname === "/create-dog",
     explore: pathname === "/",
     favorites: pathname === "/favorites",
-    profile: pathname === "/profile",
+    profile: pathname === "/profile" || pathname === "/profile/pending-dogs",
   };
 
   const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -90,7 +90,7 @@ const NavBar = () => {
       </div>
 
       <div className={style.Container2}>
-        <SearchBar />
+        {pathname !== "/create-dog" && pathname !== "/profile" && <SearchBar />}
       </div>
 
       <div className={style.Container3}>

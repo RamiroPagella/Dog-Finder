@@ -100,11 +100,7 @@ export function DogHouse(props: SVGProps<SVGSVGElement>) {
 
 export function Search(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 32 32"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" {...props}>
       <path
         fill="currentColor"
         d="M13.5 3C7.701 3 3 7.701 3 13.5S7.701 24 13.5 24c2.54 0 4.868-.901 6.684-2.402l7.109 7.11a1 1 0 0 0 1.414-1.415l-7.109-7.11A10.457 10.457 0 0 0 24 13.5C24 7.701 19.299 3 13.5 3M5 13.5a8.5 8.5 0 1 1 17 0a8.5 8.5 0 0 1-17 0"
@@ -214,11 +210,7 @@ export function DissaproveIcon(props: SVGProps<SVGSVGElement>) {
 
 export function ApproveIcon(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 16 16"
-      {...props}
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" {...props}>
       <path
         fill="none"
         stroke="currentColor"
@@ -226,6 +218,21 @@ export function ApproveIcon(props: SVGProps<SVGSVGElement>) {
         strokeLinejoin="round"
         strokeWidth="1"
         d="m2.75 8.75l3.5 3.5l7-7.5"
+      />
+    </svg>
+  );
+}
+
+export function DeleteIcon (props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      {...props}
+    >
+      <path
+        fill="currentColor"
+        d="m9.4 16.5l2.6-2.6l2.6 2.6l1.4-1.4l-2.6-2.6L16 9.9l-1.4-1.4l-2.6 2.6l-2.6-2.6L8 9.9l2.6 2.6L8 15.1zM7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21z"
       />
     </svg>
   );

@@ -1,7 +1,6 @@
 import { AxiosRequestConfig } from "axios";
 import Axios from "../axios";
-import { Dog as DogType, Filters, User } from "../types";
-import { useUserContext } from "../hooks/contextHooks";
+import { Dog, Dog as DogType, Filters, User } from "../types";
 
 interface GetDogsResponse {
   dogs: DogType[];
@@ -26,6 +25,6 @@ interface favDogResponse {
   User: User,
   isFav: boolean
 }
-export const favDog = async (dogId: string) => {
+export const favDog = async (dogId: Dog['id']) => {
   return Axios.post<favDogResponse>("/like", { dogId }).then(res => res)
 };

@@ -9,7 +9,6 @@ const Cards = () => {
   const { currentPage } = usePagingContext();
   const { dogs, isLoading, isError, error } = useDogs(currentPage);
 
-
   return (
     <div className={style.Cards}>
       {

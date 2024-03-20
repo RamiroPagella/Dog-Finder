@@ -6,7 +6,6 @@ export interface User {
   likes: Dog[];
 }
 
-export type DogUser = Omit<User, 'admin', 'likes'>;
 
 export interface Dog {
   id: number;
@@ -17,7 +16,7 @@ export interface Dog {
   lifeSpan: string;
   breedGroup: string | "Unknown";
   temperaments: string[];
-  user?: DogUser;
+  user?: Pick<User, 'username'>;
   userId?: string;
 }
 

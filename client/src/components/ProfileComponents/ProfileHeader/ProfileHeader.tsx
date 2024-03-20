@@ -1,5 +1,6 @@
-import { useUserContext } from "../../../hooks/contextHooks";
 import style from "./profileHeader.module.scss";
+import { Link } from "react-router-dom";
+import { useUserContext } from "../../../hooks/contextHooks";
 
 interface Props {
   setTogglePage: React.Dispatch<
@@ -17,22 +18,22 @@ const ProfileHeader = ({ setTogglePage, togglePage }: Props) => {
 
       {User?.admin ? (
         <div className={style.buttons}>
-          <button
+          <Link to={'/profile'}
             onClick={() => {
               setTogglePage("MyProfile");
             }}
             className={togglePage === "MyProfile" ? style.btnSelected : ""}
           >
             Mi perfil
-          </button>
-          <button
+          </Link>
+          <Link to={'/profile/pending-dogs'}
             onClick={() => {
               setTogglePage("PendingDogs");
             }}
             className={togglePage === "PendingDogs" ? style.btnSelected : ""}
           >
             Perros pendientes
-          </button>
+          </Link>
         </div>
       ) : null}
     </div>

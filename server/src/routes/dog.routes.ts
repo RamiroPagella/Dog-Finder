@@ -10,7 +10,7 @@ import {
   getTempsAndBreedGroups,
   likeDog,
 } from "../handlers/dogHandlers";
-import { verifyToken } from "../middlewares/verifyToken";
+import { verifyToken } from "../middlewares";
 import multer from "multer";
 import data from "../../data";
 
@@ -21,16 +21,16 @@ const dogRouter = Router();
 
 dogRouter.get("/dogs", GetDogs);
 
-dogRouter.get("/dogs/pending", getPendingDogs);
+dogRouter.get("/dogs/pending", verifyToken, getPendingDogs);
 
 dogRouter.post("/dog", verifyToken, upload.single("img"), createDog);
 
-dogRouter.put("/dog-pending", verifyToken, approveOrDissaprove);
-dogRouter.put("/dog-pending/all", verifyToken, approveOrDisapproveAll);
+dogRouter.put("/pending-dog", verifyToken, approveOrDissaprove);
+dogRouter.put("/pending-dog/all", verifyToken, approveOrDisapproveAll);
 
 dogRouter.get("/dog/:id", getDogById);
 
-dogRouter.get("/dog-pending/:id", verifyToken, getPendingDogById);
+dogRouter.get("/pending-dog/:id", verifyToken, getPendingDogById);
 
 dogRouter.get("/temps-and-breedgroups", getTempsAndBreedGroups);
 

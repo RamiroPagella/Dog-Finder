@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Dog } from "../types";
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosError } from "axios";
 import Axios from "../axios";
 import toast from "react-hot-toast";
 
@@ -27,7 +27,7 @@ const usePendingDogs = () => {
 
   const approveOrDisapprove = (dogId: Dog['id'], approve: boolean) => {
     const asyncFunction = async () => {
-      const response = await Axios.put("/dog-pending", {
+      const response = await Axios.put("/pending-dog", {
         id: dogId,
         approve,
       });
@@ -48,7 +48,7 @@ const usePendingDogs = () => {
   const approveOrDisapproveAll = (approve: boolean) => {
     const dogIds: Array<Dog['id']> = data.map(dog => dog.id);
     const asyncFunction = async () => {
-      const response = await Axios.put("/dog-pending/all", {
+      const response = await Axios.put("/pending-dog/all", {
         ids: dogIds,
         approve,
       });

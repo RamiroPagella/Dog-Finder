@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { IdUser, PwdUser, User } from "../types/user.types";
+import { IdUser } from './types/user.types';
 
 interface CustomRequest extends Request {
   user?: IdUser;

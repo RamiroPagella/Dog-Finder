@@ -5,6 +5,7 @@ import { errorToast } from "../toasts";
 import { useUserContext } from "./contextHooks";
 import { favDog } from "../services/dogsServices";
 import { useLocation } from "react-router-dom";
+import { isPending } from "@reduxjs/toolkit";
 
 interface Response {
   message: "string";
@@ -12,13 +13,13 @@ interface Response {
   prevAndNext: { prev: `${number}` | null; next: `${number}` | null };
 }
 
-const useDogDetail = (id: string) => {
+const useDogDetail = (id: DogType["id"]) => {
   const { isAuthenticated, User, setUser } = useUserContext();
   const { pathname } = useLocation();
   const [dog, setDog] = useState<DogType | null>(null);
   const [isError, setIsError] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
-  const [prevAndNext, setPrevAndNext] = useState<Response['prevAndNext']>({
+  const [prevAndNext, setPrevAndNext] = useState<Response["prevAndNext"]>({
     prev: null,
     next: null,
   });
@@ -34,7 +35,7 @@ const useDogDetail = (id: string) => {
     if (isFavLoading) return;
 
     setIsFavLoading(true);
-    favDog(id as string)
+    favDog(id)
       .then(({ data }) => {
         setUser(data.User);
         setIsFav(data.isFav);
@@ -56,9 +57,8 @@ const useDogDetail = (id: string) => {
     const controller = new AbortController();
     const { signal } = controller;
 
-    const url = pathname.includes("/dog/")
-      ? `/dog/${id}`
-      : `/dog-pending/${id}`;
+    const isDogPending = pathname.includes("/pending-dog/") ? true : false;
+    const url = isDogPending ? `/pending-dog/${id}` : `/dog/${id}`;
 
     Axios.get<Response>(url, { signal })
       .then((res) => {
@@ -73,20 +73,12 @@ const useDogDetail = (id: string) => {
         console.log(err);
       });
 
-    if (id) {
-      const uuidPattern =
-        /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-      const isUuid = uuidPattern.test(id);
-
-      if (isUuid) {
-        setIsDogPending(true);
-      } else {
-        if (isAuthenticated)
-          User.likes?.map((dog) => {
-            if (Number(dog.id) === Number(id)) setIsFav(true);
-          });
-      }
-    }
+    setIsDogPending(isDogPending);
+    
+    if (isAuthenticated && !isDogPending)
+      User.likes?.map((dog) => {
+        if (Number(dog.id) === Number(id)) setIsFav(true);
+      });
 
     return () => controller.abort();
     // eslint-disable-next-line react-hooks/exhaustive-deps

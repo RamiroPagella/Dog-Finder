@@ -1,4 +1,4 @@
-import { RequestHandler, Request } from "express";
+import { RequestHandler, Request, urlencoded } from "express";
 import DogModel from "../models/Dog.model";
 import { Dog as DogType } from "../types/dog.types";
 import data from "../../data";
@@ -14,7 +14,7 @@ import { v2 as cloudinary } from "cloudinary";
 import DogPendingModel from "../models/DogPending.model";
 import { Op, Optional } from "sequelize";
 
-interface CustomRequest extends Request {
+interface ReqWithUser extends Request {
   user?: IdUser;
 }
 
@@ -50,7 +50,15 @@ export const getDogById: RequestHandler = async (req, res) => {
   }
 
   try {
-    const dog: DogType | null = await DogModel.findByPk(id);
+    const dog: DogType | null = await DogModel.findByPk(id, {
+      include: {
+        model: UserModel,
+        as: "user",
+        attributes: {
+          exclude: ["admin", "password", "email", "id"],
+        },
+      },
+    });
     if (!dog) return res.status(400).json({ error: "Dog not found" });
 
     const prevDog: DogModel | null = await DogModel.findOne({
@@ -120,7 +128,7 @@ export const getTempsAndBreedGroups: RequestHandler = async (req, res) => {
   }
 };
 
-export const likeDog: RequestHandler = async (req: CustomRequest, res) => {
+export const likeDog: RequestHandler = async (req: ReqWithUser, res) => {
   try {
     const { dogId } = req.body;
     const user = req.user;
@@ -176,13 +184,17 @@ export const createDog: RequestHandler = async (req, res) => {
   }
 };
 
-export const getPendingDogs: RequestHandler = async (req, res) => {
+export const getPendingDogs: RequestHandler = async (req: ReqWithUser, res) => {
   try {
+    const user = req.user;
+    if (!user) res.status(401).send('Missing user data');
+    if (!user?.admin) res.status(401).send("User is not admin");
+
     const pendingDogs = await DogPendingModel.findAll({
       include: {
         model: UserModel,
         as: "user",
-        attributes: { exclude: ["password", "admin"] },
+        attributes: { exclude: ["password", "admin", "id", "email"] },
       },
     });
     res.json(pendingDogs);
@@ -194,8 +206,12 @@ export const getPendingDogs: RequestHandler = async (req, res) => {
   }
 };
 
-export const getPendingDogById: RequestHandler = async (req, res) => {
+export const getPendingDogById: RequestHandler = async (req: ReqWithUser, res) => {
   try {
+    const user = req.user;
+    if (!user) res.status(401).send('Missing user data');
+    if (!user?.admin) res.status(401).send("User is not admin");
+
     const id = Number(req.params.id);
     if (!id) res.status(400).json({ error: "Incorrect or missing data" });
 
@@ -203,6 +219,7 @@ export const getPendingDogById: RequestHandler = async (req, res) => {
       where: {
         id,
       },
+      include: {model: UserModel, as: 'user', attributes: {exclude: ['id', 'email', 'password', 'admin']}}
     });
     if (!pendingDog) return res.status(404).send("Pending dog not found");
 
@@ -308,7 +325,7 @@ export const approveOrDisapproveAll: RequestHandler = async (req, res) => {
       }),
     );
 
-    console.log('a ver si siguen vivos los ropes', pendingDogs);
+    console.log("a ver si siguen vivos los ropes", pendingDogs);
 
     await DogModel.bulkCreate(
       pendingDogs.map((dog) => ({

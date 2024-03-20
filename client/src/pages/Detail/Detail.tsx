@@ -1,5 +1,5 @@
 import style from "./detail.module.scss";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import FullSizeImage from "../../components/DetailComponents/FullSizeImage/FullSizeImage";
 import DogDescription from "../../components/DetailComponents/DogDescription/DogDescription";
@@ -8,7 +8,7 @@ import DetailHeader from "../../components/DetailComponents/DetailHeader/DetailH
 import useDogDetail from "../../hooks/useDogDetail";
 
 const Detail = () => {
-  const { id } = useParams();
+  const params = useParams();
   const {
     dog,
     isError,
@@ -18,7 +18,7 @@ const Detail = () => {
     isFav,
     isDogPending,
     isFavLoading,
-  } = useDogDetail(id as string);
+  } = useDogDetail(Number(params?.id));
   const [isImageOpen, setIsImageOpen] = useState<boolean>(false);
   const [showToolTip, setShowToolTip] = useState<boolean>(false);
 
@@ -26,8 +26,7 @@ const Detail = () => {
     setIsImageOpen(!isImageOpen);
   };
 
-  console.log(dog);
-  
+  console.log(isDogPending);
 
   return (
     <div className={style.Detail}>
@@ -35,7 +34,11 @@ const Detail = () => {
         <p>{error?.message}</p>
       ) : dog ? (
         <>
-          <DetailHeader name={dog?.name} prevAndNext={prevAndNext} />
+          <DetailHeader
+            dogName={dog?.name}
+            prevAndNext={prevAndNext}
+            username={dog?.user?.username}
+          />
 
           <div className={style.content}>
             <div className={style.imageContainer} onClick={handleClick}>

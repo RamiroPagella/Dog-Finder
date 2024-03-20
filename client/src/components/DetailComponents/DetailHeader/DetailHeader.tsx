@@ -1,13 +1,14 @@
 import style from "./detailHeader.module.scss";
-import { Dog as DogType } from "../../../types";
+import { Dog as DogType, User } from "../../../types";
 import { useLocation, useNavigate } from "react-router-dom";
 
 interface Props {
-  name: DogType["name"] | undefined;
+  dogName: DogType["name"] | undefined;
   prevAndNext: { prev: `${number}` | null; next: `${number}` | null };
+  username: User['username'] | undefined;
 }
 
-const DetailHeader = ({ name, prevAndNext }: Props) => {
+const DetailHeader = ({ username, dogName, prevAndNext }: Props) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -28,9 +29,11 @@ const DetailHeader = ({ name, prevAndNext }: Props) => {
     );
   };
 
+
   return (
     <div className={style.pageHeader}>
-      <h1>{name}</h1>
+      <h1>{`${dogName} `}</h1>
+      <h1>{`${username ? `(Creado por: ${username})` : ''} ${pathname.includes('/pending-dog') ? ' | pendiente' : ''}`}</h1>
       <div className={style.headerButtons}>
         <button
           onClick={prevHandler}

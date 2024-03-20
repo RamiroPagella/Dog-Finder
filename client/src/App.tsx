@@ -15,6 +15,7 @@ import { GetTempsAndBreedGroups } from "./services/appServices";
 import { useAppContext, useUserContext } from "./hooks/contextHooks";
 import Profile from "./Pages/Profile/Profile";
 
+
 function App() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
@@ -40,7 +41,9 @@ function App() {
         <Route path="/create-dog" element={<CreateDog />} />
         <Route path="/dog/:id" element={<Detail />} />
         <Route path="/pending-dog/:id" element={<Detail />}/>
-        <Route path="/profile" element={<Profile />}/>
+
+        <Route path="/profile/*" element={<Profile />}/>
+
 
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Landing />} />

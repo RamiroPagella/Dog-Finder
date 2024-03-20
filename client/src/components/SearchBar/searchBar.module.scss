@@ -7,6 +7,7 @@
 
   input {
     @include input();
+    padding-right: 35px;
     width: 100%;
   }
 
@@ -14,6 +15,6 @@
     position: absolute;
     right: 2.5%;
     height: 80%;
-    background-color: var(--color2);
+    color: var(--color8);
   }
 }

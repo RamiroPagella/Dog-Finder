@@ -89,6 +89,8 @@
         left: 0;
         transition: background-color 0.2s;
         cursor: pointer;
+        opacity: 0;
+        transition: opacity 0.2s, background-color 0.2s;
 
         .iconContainer {
             @include flex(center, center);
@@ -98,30 +100,10 @@
             width: 40px;
             position: absolute;
 
-            .favLoader {
-                height: 100%;
-                width: 100%;
-                border: solid #6c757d 3px;
-                border-top: solid #343a40 3px;
-                border-radius: 100px;
-                animation: fav-loader 1s linear infinite;
-            }
-
             .icon {
                 height: 100%;
                 width: 100%;
                 color: var(--color4);
-                opacity: 0;
-                transition: opacity 0.2s;
-            }
-            .icon_on {
-                @extend .icon;
-                opacity: 1;
-            }
-
-            .favToolTip {
-                @include toolTip();
-                top: -40px;
             }
         }
 
@@ -135,16 +117,11 @@
             text-align: center;
             color: var(--color4);
             padding: 5px;
-            opacity: 0;
-            transition: opacity 0.2s;
-        }
-        .text_on {
-            @extend .text;
-            opacity: 1;
         }
     }
     .hoverContent:hover {
         background-color: rgba(0, 0, 0, 0.516);
+        opacity: 1;
     }
 }
 

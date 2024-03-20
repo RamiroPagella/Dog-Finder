@@ -1,12 +1,17 @@
 @import '../../../style/mixins.scss';
 
 .pageHeader {
-  @include flex (flex-start, center);
+  @include flex (flex-start, flex-end);
   position: relative;
   width: 100%;
   border-bottom: solid var(--color7);
   height: 50px;
   margin-bottom: 10px;
+  padding: 5px 0;
+
+  h1 {
+    margin-right: 15px;
+  }
 
   .headerButtons {
     @include flex (space-between, center);
