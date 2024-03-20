@@ -26,7 +26,7 @@ const PagingContextProvider = ({ children }: Props) => {
   const [totalPages, changeTotalPages] = useState<number>(1);
   const [favCurrentPage, changeFavCurrentPage] = useState<number>(1);
   const [favTotalPages, changeFavTotalPages] = useState<number>(1);
-  const [pendingsCurrentPage, changePendingCurrentPage] = useState<number>(1);
+  const [pendingsCurrentPage, changePendingsCurrentPage] = useState<number>(1);
   const [pendingsTotalPages, changePendingsTotalPages] = useState<number>(1);
 
   const setCurrentPage = (currentPage: number) => {
@@ -42,7 +42,7 @@ const PagingContextProvider = ({ children }: Props) => {
     changeFavTotalPages(totalPages);
   };
   const setPendingsCurrentPage = (currentPage: number) => {
-    changePendingsTotalPages(currentPage);
+    changePendingsCurrentPage(currentPage);
   }
   const setPendingsTotalPages = (totalPages: number) => {
     changePendingsTotalPages(totalPages);
