@@ -8,7 +8,7 @@ import { errorToast } from "../toasts";
 import toast from "react-hot-toast";
 
 const useCreateDog = () => {
-  const { User } = useUserContext();
+  const { User, setUser } = useUserContext();
   const { createdDog, setCreatedDog } = useAppContext();
   const [height, setHeight] = useState<{ min: string; max: string }>({
     min: "",
@@ -149,23 +149,37 @@ const useCreateDog = () => {
       return;
     }
 
-    if (Number(height.min) > Number(height.max)) {
+    if (
+      height.min !== "" &&
+      height.max !== "" &&
+      Number(height.min) > Number(height.max)
+    ) {
       errorToast("La altura minima no puede ser mayor a la maxima");
       return;
-    } else if (Number(weight.min) > Number(weight.max)) {
+    } else if (
+      weight.min !== "" &&
+      weight.max !== "" &&
+      Number(weight.min) > Number(weight.max)
+    ) {
       errorToast("El peso minimo no puede ser mayor al maximo");
       return;
-    } else if (Number(lifeSpan.min) > Number(lifeSpan.max)) {
+    } else if (
+      lifeSpan.min !== "" &&
+      lifeSpan.max !== "" &&
+      Number(lifeSpan.min) > Number(lifeSpan.max)
+    ) {
       errorToast("La esperanza de vida minima no puede ser mayor a la maxima");
       return;
     }
 
-    const newDog = { ...createdDog, userId: User.id, lifeSpan: `${createdDog.lifeSpan} years` };
-
-    console.log('nuevo perro a punto de ser enviado al server', newDog);
+    const newDog = {
+      ...createdDog,
+      userId: User.id,
+      lifeSpan: `${createdDog.lifeSpan} years`,
+    };
 
     const request = async (): Promise<AxiosResponse> => {
-      const response = await Axios.post("/dog", newDog, {
+      const response = await Axios.post<Dog>("/dog", newDog, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       return response;
@@ -175,7 +189,9 @@ const useCreateDog = () => {
       request(),
       {
         loading: "Enviando perro...",
-        success: () => {
+        success: (response) => {
+          const newDog: Dog = response.data;
+          setUser({ ...User, pendingDogs: [...User.pendingDogs, newDog] });
           restoreDog();
           return "Perro creado con exito";
         },
@@ -226,7 +242,7 @@ const useCreateDog = () => {
     const newLifeSpan: string =
       lifeSpan.min !== lifeSpan.max
         ? [lifeSpan.min, lifeSpan.max].join(
-            lifeSpan.min !== "" && lifeSpan.max !== "" ? " - " : " - ",
+            lifeSpan.min !== "" && lifeSpan.max !== "" ? " - " : "",
           )
         : lifeSpan.min;
 

@@ -1,0 +1,56 @@
+import { AxiosError } from "axios";
+import Axios from "../../axios";
+import { useAppContext, usePagingContext, useSearcAndfiltersContext, useUserContext } from "../../hooks/contextHooks";
+import { errorToast } from "../../toasts";
+import { Dog } from "../../types";
+import style from "./deleteDog.module.scss";
+import { createPortal } from "react-dom";
+import { getDogs } from "../../services/dogsServices";
+import { GetUserInfo } from "../../services/userServices";
+import { useLocation } from "react-router-dom";
+
+interface Props {
+  setOpenDelete: React.Dispatch<React.SetStateAction<boolean>>;
+  id: Dog["id"];
+}
+
+const DeleteDog = ({ setOpenDelete, id }: Props) => {
+  const rootElement = document.getElementById("root") as Element;
+  const {pathname} = useLocation();
+  const { setDogs } = useAppContext();
+  const { setIsAuthenticated, setUser } = useUserContext();
+  const { currentPage, setTotalPages } = usePagingContext();
+  const { searchAndFilters } = useSearcAndfiltersContext();
+
+  const handleDelete = async () => {
+    try {
+      const url = pathname === '/' ? `/dog?id=${id}` : `/pending-dog?id=${id}`
+      const response = await Axios.delete(url);
+      console.log(response)
+      const dogsData = await getDogs(currentPage, searchAndFilters);
+      await GetUserInfo({setIsAuthenticated, setUser});
+      setDogs(dogsData.dogs);
+      setTotalPages(dogsData.totalPages);
+    } catch (error) {
+      console.log(error);
+      errorToast(error instanceof AxiosError ? error.message : 'Error');
+    }
+    setOpenDelete(false);
+  };
+
+  return createPortal(
+    <div className={style.Container}>
+      <div className={style.modal}>
+        <h3>¿Eliminar Perro?</h3>
+
+        <div>
+          <button onClick={handleDelete}>Si</button>
+          <button onClick={() => setOpenDelete(false)}>No</button>
+        </div>
+      </div>
+    </div>,
+    rootElement,
+  );
+};
+
+export default DeleteDog;

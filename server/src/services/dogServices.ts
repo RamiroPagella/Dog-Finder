@@ -106,7 +106,7 @@ export const filterAndPageDogs = (dogs: DogType[], filters: DogFilters) => {
   }
 
   return {
-    dogsPage: pagedDogs[filters.page - 1],
+    dogsPage: pagedDogs[filters.page - 1] ? pagedDogs[filters.page - 1] : [],
     totalPages: pagedDogs.length,
   };
 };

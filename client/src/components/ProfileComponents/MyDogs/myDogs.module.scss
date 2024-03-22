@@ -1,0 +1,14 @@
+@import '../../../style/mixins.scss';
+
+.MyDogs {
+  
+  
+  .cards {
+    @include flex (center, center);
+    height: 450px;
+    border: solid red 1px;
+    gap: 30px;
+    flex-wrap: wrap;
+    
+  }
+}

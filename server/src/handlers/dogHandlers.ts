@@ -1,7 +1,6 @@
 import { RequestHandler, Request, urlencoded } from "express";
 import DogModel from "../models/Dog.model";
 import { Dog as DogType } from "../types/dog.types";
-import data from "../../data";
 import {
   validateFilters,
   filterAndPageDogs,
@@ -95,6 +94,60 @@ export const getDogById: RequestHandler = async (req, res) => {
   }
 };
 
+export const deleteDog: RequestHandler = async (req: ReqWithUser, res) => {
+  try {
+    const isAdmin = req.user?.admin;
+    const userId = req.user?.id;
+    const dogId = Number(req.query.id);
+    if (!dogId || isNaN(dogId))
+      return res.status(400).send("Missing or invalid data");
+
+    const dog = await DogModel.findByPk(dogId);
+    if (!dog) return res.status(400).send("Dog not found");
+
+    if (!isAdmin) {
+      if (dog.userId !== userId) {
+        return res.status(401).send("Unhautorized to delete this dog");
+      }
+      await dog.destroy();
+      return res.status(200).send("Dog deleted succesfully");
+    }
+
+    await dog.destroy();
+    res.status(200).send("Dog deleted succesfully");
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: error instanceof Error ? error.message : error });
+  }
+};
+
+export const cancelPendingDog: RequestHandler = async (
+  req: ReqWithUser,
+  res,
+) => {
+  try {
+    const userId = req.user?.id;
+    const dogId = Number(req.query.id);
+    if (!dogId || isNaN(dogId))
+      return res.status(400).send("Missing or invalid data");
+
+    const dog = await DogPendingModel.findByPk(dogId);
+
+    if (!dog) return res.status(400).send("Missing or invalid data");
+    if (dog.userId !== userId) {
+      return res.status(401).send("Unhautorized to delete this dog");
+    }
+    await dog.destroy();
+
+    res.status(200).send("Dog deleted succesfully");
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: error instanceof Error ? error.message : error });
+  }
+};
+
 export const getTempsAndBreedGroups: RequestHandler = async (req, res) => {
   try {
     const dogs: DogType[] = (await DogModel.findAll()).map(
@@ -168,14 +221,14 @@ export const createDog: RequestHandler = async (req, res) => {
     const imageAsString = req.file?.buffer.toString("base64");
     const result = await cloudinary.uploader.upload(
       `data:image/png;base64,${imageAsString}`,
-      { public_id: req.body.name },
+      { public_id: req.body.name.trim() },
     );
 
     const Dog: DogType = { ...createdDog, img: result.url };
 
-    await DogPendingModel.create(Dog as Optional<DogType, "id">);
+    const newDog = await DogPendingModel.create(Dog as Optional<DogType, "id">);
 
-    res.status(200).send("Dog created succesfully");
+    res.status(200).send(newDog);
   } catch (error) {
     res
       .status(500)
@@ -187,17 +240,40 @@ export const createDog: RequestHandler = async (req, res) => {
 export const getPendingDogs: RequestHandler = async (req: ReqWithUser, res) => {
   try {
     const user = req.user;
-    if (!user) res.status(401).send('Missing user data');
+    if (!user) res.status(401).send("Missing user data");
     if (!user?.admin) res.status(401).send("User is not admin");
 
-    const pendingDogs = await DogPendingModel.findAll({
+    const { page, search } = req.query;
+
+    if (!page || isNaN(Number(page)) || search === undefined || search === null)
+      return res.status(400).send("Missing or invalid data");
+
+    let pendingDogs = await DogPendingModel.findAll({
       include: {
         model: UserModel,
         as: "user",
         attributes: { exclude: ["password", "admin", "id", "email"] },
       },
     });
-    res.json(pendingDogs);
+
+    if (search.toString() !== "") {
+      pendingDogs = pendingDogs.filter((dog) =>
+        dog.name.toLowerCase().includes(search.toString().trim().toLowerCase()),
+      );
+    }
+
+    const itemsPerPage: number = 4;
+    let pagedDogs: DogPendingModel[][] = [];
+
+    for (let i = 0; i < pendingDogs.length; i += itemsPerPage) {
+      const slice = pendingDogs.slice(i, i + itemsPerPage);
+      pagedDogs.push(slice);
+    }
+
+    res.json({
+      totalPages: pagedDogs.length,
+      dogs: pagedDogs[Number(page) - 1],
+    });
   } catch (error) {
     res
       .status(500)
@@ -206,10 +282,13 @@ export const getPendingDogs: RequestHandler = async (req: ReqWithUser, res) => {
   }
 };
 
-export const getPendingDogById: RequestHandler = async (req: ReqWithUser, res) => {
+export const getPendingDogById: RequestHandler = async (
+  req: ReqWithUser,
+  res,
+) => {
   try {
     const user = req.user;
-    if (!user) res.status(401).send('Missing user data');
+    if (!user) res.status(401).send("Missing user data");
     if (!user?.admin) res.status(401).send("User is not admin");
 
     const id = Number(req.params.id);
@@ -219,7 +298,11 @@ export const getPendingDogById: RequestHandler = async (req: ReqWithUser, res) =
       where: {
         id,
       },
-      include: {model: UserModel, as: 'user', attributes: {exclude: ['id', 'email', 'password', 'admin']}}
+      include: {
+        model: UserModel,
+        as: "user",
+        attributes: { exclude: ["id", "email", "password", "admin"] },
+      },
     });
     if (!pendingDog) return res.status(404).send("Pending dog not found");
 
@@ -324,8 +407,6 @@ export const approveOrDisapproveAll: RequestHandler = async (req, res) => {
         dog.destroy();
       }),
     );
-
-    console.log("a ver si siguen vivos los ropes", pendingDogs);
 
     await DogModel.bulkCreate(
       pendingDogs.map((dog) => ({

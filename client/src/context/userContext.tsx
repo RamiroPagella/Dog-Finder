@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useEffect, useState } from "react";
+import { ReactNode, createContext, useState } from "react";
 import { User as UserType } from "../types";
 
 export interface UserContextType {
@@ -21,6 +21,8 @@ export const UserContextProvider = ({ children }: Props) => {
     id: "",
     admin: false,
     likes: [],
+    dogs: [],
+    pendingDogs: []
   });
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 

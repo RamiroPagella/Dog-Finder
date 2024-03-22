@@ -1,0 +1,54 @@
+@import '../../../style/mixins.scss';
+
+.PaginationBar {
+  @include flex(center, center, row);
+  height: 65px;
+  user-select: none;
+
+  .arrowButton {
+    border-radius: 100px;
+    cursor: pointer;
+    height: 50px;
+    width: 50px;
+    margin: 0 10px;
+    border: solid var(--color4) 1px;
+    box-shadow: var(--boxShadow);
+
+    &:active {
+      background-color: var(--color8);
+      color: var(--color4)
+    }
+
+    .icon {
+      height: 100%;
+      width: 100%;
+      border-radius: 100px;
+    }
+  }
+
+  .pages {
+    @include flex(center, center);
+    width: 600px;
+    height: 100%;
+    gap: 20px;
+    padding: 0 20px;
+
+    .pageNumber {
+      display: grid;
+      place-items: center;
+      height: 40px;
+      width: 40px;
+      border-radius: 100px;
+      cursor: pointer;
+      background-color: var(--color5);
+      border: solid var(--color4) 1px;
+      box-shadow: var(--boxShadow);
+    }
+    .pageNumber_on {
+      background-color: var(--color8);
+      color: var(--color4);
+      height: 50px;
+      width: 50px
+    }
+  }
+}

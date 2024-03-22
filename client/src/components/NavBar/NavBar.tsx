@@ -24,7 +24,7 @@ const NavBar = () => {
     createDog: pathname === "/create-dog",
     explore: pathname === "/",
     favorites: pathname === "/favorites",
-    profile: pathname === "/profile" || pathname === "/profile/pending-dogs",
+    profile: pathname.includes('/profile'),
   };
 
   const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {

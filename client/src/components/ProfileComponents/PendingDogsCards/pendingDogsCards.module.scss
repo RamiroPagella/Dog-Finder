@@ -1,0 +1,8 @@
+@import '../../../style/mixins.scss';
+
+.PendingDogCards {
+    @include flex(center, center);
+    height: 450px;
+    flex-wrap: wrap;
+    gap: 30px;
+}

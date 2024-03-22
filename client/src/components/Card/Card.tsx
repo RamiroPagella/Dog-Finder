@@ -1,26 +1,29 @@
 import style from "./card.module.scss";
 import { useEffect, useState } from "react";
-import { Heart, HeartFill } from "../../assets/icons";
+import { DeleteIcon, Heart, HeartFill } from "../../assets/icons";
 import { useUserContext } from "../../hooks/contextHooks";
 import { Dog } from "../../types";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { favDog } from "../../services/dogsServices";
 import { errorToast } from "../../toasts";
+import DeleteDog from "../DeleteDog/DeleteDog";
 
 const Card = (props: Dog) => {
+  const { pathname } = useLocation();
   const [hover, setHover] = useState<boolean>(false);
   const {
     isAuthenticated,
-    User: { likes },
+    User: { likes, admin },
     setUser,
   } = useUserContext();
   const [isFav, setIsFav] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [openDelete, setOpenDelete] = useState<boolean>(false);
 
-  const handleFav = async (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleFav = async (e: React.MouseEvent<SVGSVGElement>) => {
     e.preventDefault();
     if (!isAuthenticated) {
-      errorToast('Debes iniciar sesión')
+      errorToast("Debes iniciar sesión");
       return;
     }
     if (isLoading) return;
@@ -46,7 +49,7 @@ const Card = (props: Dog) => {
         setIsFav(true);
       }
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const content = (
@@ -81,11 +84,19 @@ const Card = (props: Dog) => {
         setHover(false);
       }}
     >
-      <div className={style.iconContainer} onClick={handleFav}>
+      <div className={style.iconsContainer}>
+        {(pathname === "/profile/my-dogs" || admin) && (
+          <DeleteIcon
+            onClick={(e) => {
+              e.preventDefault();
+              setOpenDelete(true);
+            }}
+          />
+        )}
         {isFav ? (
-          <HeartFill className={style.icon} />
-          ) : (
-          <Heart className={style.icon} />
+          <HeartFill onClick={handleFav} />
+        ) : (
+          <Heart onClick={handleFav} />
         )}
       </div>
 
@@ -94,10 +105,15 @@ const Card = (props: Dog) => {
   );
 
   return (
-    <Link className={style.Card} to={`/dog/${props.id}`}>
-      {content}
-      {hoverContent}
-    </Link>
+    <>
+      <Link className={style.Card} to={`/dog/${props.id}`}>
+        {content}
+        {hoverContent}
+      </Link>
+      {openDelete ? (
+        <DeleteDog setOpenDelete={setOpenDelete} id={props.id} />
+      ) : null}
+    </>
   );
 };
 

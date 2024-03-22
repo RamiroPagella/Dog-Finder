@@ -1,27 +1,31 @@
 import { NavigateFunction } from "react-router-dom";
 import Axios from "../axios";
 import { UserContextType } from "../context/userContext";
+import { User } from "../types";
 
 interface GetUserInfoParams {
-  setIsAuthenticated: UserContextType['setIsAuthenticated'];
-  setUser: UserContextType['setUser'];
-  navigate: NavigateFunction
+  setIsAuthenticated: UserContextType["setIsAuthenticated"];
+  setUser: UserContextType["setUser"];
+  navigate?: NavigateFunction;
 }
 
-export const GetUserInfo = ({ setIsAuthenticated, setUser, navigate }: GetUserInfoParams) => {
+export const GetUserInfo = async ({
+  setIsAuthenticated,
+  setUser,
+  navigate,
+}: GetUserInfoParams) => {
   const token = localStorage.getItem("jwtToken");
 
-  if (token) {
-    Axios.get("/user/info")
-      .then((res) => {
-        if (!res.data.username) throw new Error("Unauthorized");
-        setIsAuthenticated(true);
-        setUser(res.data);
-        navigate("/");
-      })
-      .catch((err) => {
-        setIsAuthenticated(false);
-        console.log(err);
-      });
+  try {
+    if (!token) return;
+    const response = await Axios.get<User>("/user/info");
+    if (!response.data.username) throw new Error("Unauthorized");
+    setIsAuthenticated(true);
+    setUser(response.data);
+    if (navigate) navigate("/");
+    console.log(response)
+  } catch (error) {
+    setIsAuthenticated(false);
+    console.log(error);
   }
 };

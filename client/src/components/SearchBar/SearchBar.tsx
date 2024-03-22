@@ -5,11 +5,14 @@ import {
   useSearcAndfiltersContext,
 } from "../../hooks/contextHooks";
 import { Search } from "../../assets/icons";
+import { useLocation } from "react-router-dom";
 
 const SearchBar = () => {
   const [inputValue, setInputValue] = useState<string>("");
-  const { setSearchAndFilters } = useSearcAndfiltersContext();
+  const { setSearchAndFilters, setFavSearch, setPendingDogsSearch } =
+    useSearcAndfiltersContext();
   const { setCurrentPage } = usePagingContext();
+  const { pathname } = useLocation();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -19,10 +22,17 @@ const SearchBar = () => {
   useEffect(() => {
     const debounce = setTimeout(() => {
       setCurrentPage(1);
-      setSearchAndFilters((prev) => ({
-        ...prev,
-        search: inputValue,
-      }));
+
+      if (pathname === "/") {
+        setSearchAndFilters((prev) => ({
+          ...prev,
+          search: inputValue,
+        }));
+      } else if (pathname === "/favorites") {
+        setFavSearch(inputValue);
+      } else if (pathname === "/profile/pending-dogs") {
+        setPendingDogsSearch(inputValue);
+      }
     }, 500);
 
     return () => {
@@ -33,13 +43,9 @@ const SearchBar = () => {
 
   return (
     <div className={style.SearchBarContainer}>
-      <input
-        onChange={handleChange}
-        value={inputValue}
-      />
+      <input onChange={handleChange} value={inputValue} />
 
       <Search className={style.icon} />
-
     </div>
   );
 };

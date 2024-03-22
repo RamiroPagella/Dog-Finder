@@ -4,6 +4,8 @@ export interface User {
   id: string;
   admin: boolean;
   likes: Dog[];
+  dogs: Dog[];
+  pendingDogs: Dog[]
 }
 
 

@@ -3,7 +3,9 @@ import {
   GetDogs,
   approveOrDisapproveAll,
   approveOrDissaprove,
+  cancelPendingDog,
   createDog,
+  deleteDog,
   getDogById,
   getPendingDogById,
   getPendingDogs,
@@ -21,14 +23,19 @@ const dogRouter = Router();
 
 dogRouter.get("/dogs", GetDogs);
 
-dogRouter.get("/dogs/pending", verifyToken, getPendingDogs);
+dogRouter.get("/dog/:id", getDogById);
 
 dogRouter.post("/dog", verifyToken, upload.single("img"), createDog);
 
-dogRouter.put("/pending-dog", verifyToken, approveOrDissaprove);
-dogRouter.put("/pending-dog/all", verifyToken, approveOrDisapproveAll);
+dogRouter.delete("/dog", verifyToken, deleteDog);
 
-dogRouter.get("/dog/:id", getDogById);
+dogRouter.delete("/pending-dog", verifyToken, cancelPendingDog);
+
+dogRouter.get("/dogs/pending", verifyToken, getPendingDogs);
+
+dogRouter.put("/pending-dog", verifyToken, approveOrDissaprove);
+
+dogRouter.put("/pending-dog/all", verifyToken, approveOrDisapproveAll);
 
 dogRouter.get("/pending-dog/:id", verifyToken, getPendingDogById);
 

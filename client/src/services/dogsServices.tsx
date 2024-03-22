@@ -28,3 +28,5 @@ interface favDogResponse {
 export const favDog = async (dogId: Dog['id']) => {
   return Axios.post<favDogResponse>("/like", { dogId }).then(res => res)
 };
+
+

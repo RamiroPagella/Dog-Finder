@@ -8,6 +8,7 @@ import {
   BelongsTo,
   BelongsToMany,
   AutoIncrement,
+  BeforeDestroy,
 } from "sequelize-typescript";
 import UserModel from "./User.model";
 import LikesModel from "./Likes.model";
@@ -83,6 +84,15 @@ class DogModel extends Model {
 
   @BelongsToMany(() => UserModel, () => LikesModel)
   likes!: UserModel[];
+
+  @BeforeDestroy
+  static async deleteRelation (dog: DogModel) {
+    await LikesModel.destroy({
+      where: {
+        dogId: dog.id
+      }
+    })
+  }
 }
 
 export default DogModel;

@@ -8,6 +8,7 @@ import {
 import { User, IdUser, PwdUser } from "../types/user.types";
 import UserModel from "../models/User.model";
 import DogModel from "../models/Dog.model";
+import DogPendingModel from "../models/DogPending.model";
 
 export const Register: RequestHandler = async (req, res) => {
   try {
@@ -85,18 +86,18 @@ export const UserInfo: RequestHandler = async (req: CustomRequest, res) => {
     if (!user) res.status(401);
 
     const User = await UserModel.findByPk(user?.id, {
-      include: { model: DogModel, as: "likes" },
+      include: [
+        { model: DogModel, as: "likes" },
+        { model: DogModel, as: "dogs" },
+        { model: DogPendingModel, as: "pendingDogs" },
+      ],
+      attributes: {
+        exclude: ['password']
+      }
     });
+    if (!User) return res.status(400).send("User not found");
 
-    const UserWithowtPswd = {
-      username: User?.username,
-      email: User?.email,
-      id: User?.id,
-      likes: User?.likes,
-      admin: User?.admin,
-    };
-
-    return res.status(200).json(UserWithowtPswd);
+    return res.status(200).json(User);
   } catch (error) {
     if (error instanceof Error)
       return res

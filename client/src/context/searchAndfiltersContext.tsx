@@ -1,17 +1,13 @@
 import React, { ReactNode, createContext, useState } from "react";
 import { Filters } from "../types";
 
-// export interface SearchAndfiltersContextType extends Filters {
-//   setSearch: React.Dispatch<React.SetStateAction<string>>;
-//   setWeight: React.Dispatch<React.SetStateAction<string>>;
-//   setHeight: React.Dispatch<React.SetStateAction<string>>;
-//   setTemperaments: React.Dispatch<React.SetStateAction<string[]>>;
-//   setBreedGroups: React.Dispatch<React.SetStateAction<string[]>>;
-//   setLifeSpan: React.Dispatch<React.SetStateAction<string>>;
-// }
 export interface SearchAndfiltersContextType {
   setSearchAndFilters: React.Dispatch<React.SetStateAction<Filters>>;
   searchAndFilters: Filters;
+  favSearch: string;
+  setFavSearch: React.Dispatch<React.SetStateAction<string>>;
+  pendingDogsSearch: string;
+  setPendingDogsSearch: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const SearchAndfiltersContext =
@@ -30,10 +26,12 @@ export const SearchAndFiltersProvider = ({ children }: ProviderProps) => {
     breedGroups: [],
     lifeSpan: "0 - 1000",
   });
+  const [favSearch, setFavSearch] = useState<string>('');
+  const [pendingDogsSearch, setPendingDogsSearch] = useState<string>('');
 
   return (
     <SearchAndfiltersContext.Provider
-      value={{ searchAndFilters, setSearchAndFilters }}
+      value={{ searchAndFilters, setSearchAndFilters, favSearch, setFavSearch, pendingDogsSearch, setPendingDogsSearch }}
     >
       {children}
     </SearchAndfiltersContext.Provider>

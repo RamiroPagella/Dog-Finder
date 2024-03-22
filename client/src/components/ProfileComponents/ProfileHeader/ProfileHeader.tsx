@@ -1,41 +1,39 @@
 import style from "./profileHeader.module.scss";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useUserContext } from "../../../hooks/contextHooks";
 
-interface Props {
-  setTogglePage: React.Dispatch<
-    React.SetStateAction<"MyProfile" | "PendingDogs">
-  >;
-  togglePage: "MyProfile" | "PendingDogs";
-}
-
-const ProfileHeader = ({ setTogglePage, togglePage }: Props) => {
+const ProfileHeader = () => {
+  const { pathname } = useLocation();
   const { User } = useUserContext();
 
   return (
     <div className={style.ProfileHeader}>
       <h1>Mi cuenta</h1>
 
-      {User?.admin ? (
-        <div className={style.buttons}>
-          <Link to={'/profile'}
-            onClick={() => {
-              setTogglePage("MyProfile");
-            }}
-            className={togglePage === "MyProfile" ? style.btnSelected : ""}
-          >
-            Mi perfil
-          </Link>
-          <Link to={'/profile/pending-dogs'}
-            onClick={() => {
-              setTogglePage("PendingDogs");
-            }}
-            className={togglePage === "PendingDogs" ? style.btnSelected : ""}
+      <div className={style.buttons}>
+        <Link
+          to={"/profile"}
+          className={pathname === "/profile" ? style.btnSelected : ""}
+        >
+          Mi perfil
+        </Link>
+        <Link
+          to={"/profile/my-dogs"}
+          className={pathname === "/profile/my-dogs" ? style.btnSelected : ""}
+        >
+          Mis Perros
+        </Link>
+        {User?.admin ? (
+          <Link
+            to={"/profile/pending-dogs"}
+            className={
+              pathname === "/profile/pending-dogs" ? style.btnSelected : ""
+            }
           >
             Perros pendientes
           </Link>
-        </div>
-      ) : null}
+        ) : null}
+      </div>
     </div>
   );
 };
