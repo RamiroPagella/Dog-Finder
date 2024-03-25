@@ -1,22 +1,29 @@
 import { AxiosError } from "axios";
 import Axios from "../../axios";
-import { useAppContext, usePagingContext, useSearcAndfiltersContext, useUserContext } from "../../hooks/contextHooks";
+import {
+  useAppContext,
+  usePagingContext,
+  useSearcAndfiltersContext,
+  useUserContext,
+} from "../../hooks/contextHooks";
 import { errorToast } from "../../toasts";
 import { Dog } from "../../types";
 import style from "./deleteDog.module.scss";
 import { createPortal } from "react-dom";
 import { getDogs } from "../../services/dogsServices";
 import { GetUserInfo } from "../../services/userServices";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface Props {
   setOpenDelete: React.Dispatch<React.SetStateAction<boolean>>;
   id: Dog["id"];
+  isDogPending: boolean;
+  isInDogDetail: boolean;
 }
 
-const DeleteDog = ({ setOpenDelete, id }: Props) => {
+const DeleteDog = ({ setOpenDelete, id, isDogPending, isInDogDetail }: Props) => {
   const rootElement = document.getElementById("root") as Element;
-  const {pathname} = useLocation();
+  const navigate = useNavigate();
   const { setDogs } = useAppContext();
   const { setIsAuthenticated, setUser } = useUserContext();
   const { currentPage, setTotalPages } = usePagingContext();
@@ -24,16 +31,17 @@ const DeleteDog = ({ setOpenDelete, id }: Props) => {
 
   const handleDelete = async () => {
     try {
-      const url = pathname === '/' ? `/dog?id=${id}` : `/pending-dog?id=${id}`
+      const url = !isDogPending ? `/dog?id=${id}` : `/pending-dog?id=${id}`;
       const response = await Axios.delete(url);
-      console.log(response)
+      console.log(response);
       const dogsData = await getDogs(currentPage, searchAndFilters);
-      await GetUserInfo({setIsAuthenticated, setUser});
+      await GetUserInfo({ setIsAuthenticated, setUser });
       setDogs(dogsData.dogs);
       setTotalPages(dogsData.totalPages);
+      isInDogDetail && navigate(-1);
     } catch (error) {
       console.log(error);
-      errorToast(error instanceof AxiosError ? error.message : 'Error');
+      errorToast(error instanceof AxiosError ? error.message : "Error");
     }
     setOpenDelete(false);
   };

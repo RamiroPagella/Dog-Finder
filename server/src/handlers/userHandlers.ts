@@ -10,6 +10,10 @@ import UserModel from "../models/User.model";
 import DogModel from "../models/Dog.model";
 import DogPendingModel from "../models/DogPending.model";
 
+interface ReqWithUser extends Request {
+  user?: IdUser;
+}
+
 export const Register: RequestHandler = async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -77,10 +81,7 @@ export const Login: RequestHandler = async (req, res) => {
   }
 };
 
-interface CustomRequest extends Request {
-  user?: IdUser;
-}
-export const UserInfo: RequestHandler = async (req: CustomRequest, res) => {
+export const UserInfo: RequestHandler = async (req: ReqWithUser, res) => {
   try {
     const user: IdUser | undefined = req.user;
     if (!user) res.status(401);
@@ -92,8 +93,8 @@ export const UserInfo: RequestHandler = async (req: CustomRequest, res) => {
         { model: DogPendingModel, as: "pendingDogs" },
       ],
       attributes: {
-        exclude: ['password']
-      }
+        exclude: ["password"],
+      },
     });
     if (!User) return res.status(400).send("User not found");
 
@@ -104,5 +105,37 @@ export const UserInfo: RequestHandler = async (req: CustomRequest, res) => {
         .status(500)
         .json({ error: error.name, message: error.message });
     res.status(500);
+  }
+};
+
+export const changePassword: RequestHandler = async (req: ReqWithUser, res) => {
+  try {
+    const { actualPwd, newPwd } = req.body;
+    const userId = req.user?.id;
+    if (!actualPwd || actualPwd === "" || !newPwd || newPwd === "") {
+      return res.status(400).send("Incorrect or missing data");
+    }
+
+    const User = await UserModel.findByPk(userId);
+    if (!User) return res.status(400).send("User not found");
+
+    if (User.password !== actualPwd) {
+      return res.status(403).send("Incorrect password");
+    }
+
+    await User.update(
+      { password: newPwd },
+      {
+        where: {
+          id: userId,
+        },
+      },
+    );
+
+    res.status(200).send("Password changed succesfully");
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: error instanceof Error ? error.message : error });
   }
 };

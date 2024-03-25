@@ -18,8 +18,10 @@ const ProfileHeader = () => {
           Mi perfil
         </Link>
         <Link
-          to={"/profile/my-dogs"}
-          className={pathname === "/profile/my-dogs" ? style.btnSelected : ""}
+          to={"/profile/my-dogs/accepted"}
+          className={
+            pathname.includes("/profile/my-dogs") ? style.btnSelected : ""
+          }
         >
           Mis Perros
         </Link>

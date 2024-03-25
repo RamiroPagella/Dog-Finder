@@ -1,3 +1,5 @@
+import DogModel from "../models/Dog.model";
+import DogPendingModel from "../models/DogPending.model";
 import { Dog, DogFilters, Dog as DogType } from "../types/dog.types";
 import { dogParsers, filtersParsers } from "./parsers";
 
@@ -164,3 +166,17 @@ export const validateDog = (dog: unknown): Omit<Dog, 'img'> => {
   return Dog;
 };
 
+export const hasMoreThanFourDogs = async (userId: Dog['userId']): Promise<boolean> => {
+  const DogsCount: number = await DogModel.count({
+    where: {
+      userId
+    }
+  })
+  const pendingDogsCount: number = await DogPendingModel.count({
+    where: {
+      userId
+    }
+  })
+  if (DogsCount + pendingDogsCount >= 4) return true;
+  else return false;
+}

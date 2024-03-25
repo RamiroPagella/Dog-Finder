@@ -1,14 +1,45 @@
-@import '../../../style/mixins.scss';
+@import "../../../style/mixins.scss";
 
 .MyDogs {
-  
-  
-  .cards {
-    @include flex (center, center);
-    height: 450px;
-    border: solid red 1px;
-    gap: 30px;
-    flex-wrap: wrap;
-    
-  }
+    @include flex(flex-start, stretch, column);
+    gap: 20px;
+
+    .buttons {
+        @include flex(center, center);
+        align-self: center;
+        padding: 0 25px;
+        gap: 25px;
+        height: 50px;
+        border-bottom: solid var(--color7);
+        position: relative;
+
+        a {
+            @include button;
+        }
+        .selectedBtn {
+            background-color: var(--color7);
+            color: var(--color4);
+        }
+
+        svg {
+            @include button;
+            padding: 5px;
+            position: absolute;
+            height: 40px;
+            width: 40px;
+            left: -80px;
+        }
+        .animation {
+            animation: refresh ease-in-out 0.3s;
+        }
+    }
+}
+
+@keyframes refresh {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }

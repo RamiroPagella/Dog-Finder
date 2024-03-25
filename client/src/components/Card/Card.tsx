@@ -1,7 +1,7 @@
 import style from "./card.module.scss";
 import { useEffect, useState } from "react";
 import { DeleteIcon, Heart, HeartFill } from "../../assets/icons";
-import { useUserContext } from "../../hooks/contextHooks";
+import { useAppContext, useUserContext } from "../../hooks/contextHooks";
 import { Dog } from "../../types";
 import { Link, useLocation } from "react-router-dom";
 import { favDog } from "../../services/dogsServices";
@@ -10,6 +10,7 @@ import DeleteDog from "../DeleteDog/DeleteDog";
 
 const Card = (props: Dog) => {
   const { pathname } = useLocation();
+  const { setBackRoute } = useAppContext();
   const [hover, setHover] = useState<boolean>(false);
   const {
     isAuthenticated,
@@ -93,26 +94,38 @@ const Card = (props: Dog) => {
             }}
           />
         )}
-        {isFav ? (
-          <HeartFill onClick={handleFav} />
-        ) : (
-          <Heart onClick={handleFav} />
-        )}
+        {pathname !== "/profile/my-dogs/pending" &&
+          (isFav ? (
+            <HeartFill onClick={handleFav} />
+          ) : (
+            <Heart onClick={handleFav} />
+          ))}
       </div>
 
       <p className={style.text}>Click para ver mas</p>
     </div>
   );
 
+  const handleCardClick = () => {
+    setBackRoute(pathname);
+  }
+
   return (
     <>
-      <Link className={style.Card} to={`/dog/${props.id}`}>
+      <Link
+        className={style.Card}
+        to={
+          pathname !== "/profile/my-dogs/pending"
+            ? `/dog/${props.id}`
+            : `/pending-dog/${props.id}`
+        }
+        onClick={handleCardClick}
+      >
         {content}
         {hoverContent}
       </Link>
-      {openDelete ? (
-        <DeleteDog setOpenDelete={setOpenDelete} id={props.id} />
-      ) : null}
+
+      {openDelete && <DeleteDog setOpenDelete={setOpenDelete} id={props.id} isDogPending={pathname.includes("/pending")} isInDogDetail={false}/>}
     </>
   );
 };

@@ -2,10 +2,12 @@ import { useState } from "react";
 import { useUserContext } from "../../../hooks/contextHooks";
 import style from "./profileInfo.module.scss";
 import LogOutModal from "../LogOutModal/LogOutModal";
+import ChangePassword from "../ChangePassword/ChangePassword";
 
 const ProfileInfo = () => {
   const { User } = useUserContext();
   const [openLogOutModal, setOpenLogOutModal] = useState<boolean>(false);
+  const [openChangePassword, setOpenChangePassword] = useState<boolean>(false);
 
   return (
     <div className={style.ProfileInfo}>
@@ -18,7 +20,6 @@ const ProfileInfo = () => {
         <h3>Correo Electronico</h3>
         <p>{User?.email}</p>
       </div>
-
       <div className={style.buttons}>
         <button
           className={style.button}
@@ -26,13 +27,13 @@ const ProfileInfo = () => {
         >
           Cerrar sesión
         </button>
-        <button className={style.button}>Cambiar contraseña</button>
+        <button className={style.button} onClick={() => setOpenChangePassword(true)}>Cambiar contraseña</button>
         <button className={style.button}>Eliminar cuenta</button>
       </div>
-
-      {openLogOutModal ? (
+      {openLogOutModal && (
         <LogOutModal setOpenLogOutModal={setOpenLogOutModal} />
-      ) : null}
+      )}
+      {openChangePassword && <ChangePassword setOpenChangePassword={setOpenChangePassword}/>}
     </div>
   );
 };

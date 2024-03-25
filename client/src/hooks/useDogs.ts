@@ -10,6 +10,10 @@ const useDogs = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    console.log(currentPage);
+  }, [currentPage])
   
 
   useEffect(() => {
@@ -26,7 +30,6 @@ const useDogs = () => {
         setDogs(data.dogs);
         setIsLoading(false);
         setTotalPages(data.totalPages);
-        console.log(data);
       })
       .catch((err) => {
         setIsLoading(false);

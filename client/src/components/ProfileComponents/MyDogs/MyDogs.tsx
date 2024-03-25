@@ -1,46 +1,44 @@
-import { Link } from "react-router-dom";
-import { useUserContext } from "../../../hooks/contextHooks";
-import Card from "../../Card/Card";
 import style from "./myDogs.module.scss";
+import { Link, useLocation } from "react-router-dom";
+import MyDogsCards from "../MyDogsCards/MyDogsCards";
+import { RefreshIcon } from "../../../assets/icons";
+import { useState } from "react";
+import { useUserContext } from "../../../hooks/contextHooks";
+import { GetUserInfo } from "../../../services/userServices";
 
 const MyDogs = () => {
-  const {
-    User: { dogs, pendingDogs },
-  } = useUserContext();
+  const { pathname } = useLocation();
+  const [toggleAnimation, setToggleAnimation] = useState<boolean>(false);
+  const { setIsAuthenticated, setUser } = useUserContext();
 
-  const userDogs = [...dogs, ...pendingDogs];
+  const handleRefresh = () => {
+    setToggleAnimation(true);
+    setTimeout(() => {setToggleAnimation(false)}, 300);
+    GetUserInfo({ setIsAuthenticated, setUser });
+  };
 
   return (
     <div className={style.MyDogs}>
       <section className={style.buttons}>
-        <Link>
+        <Link
+          to={"/profile/my-dogs/accepted"}
+          className={pathname.includes("/accepted") ? style.selectedBtn : ""}
+        >
+          Aceptados
         </Link>
-        <Link>
+        <Link
+          to={"/profile/my-dogs/pending"}
+          className={pathname.includes("/pending") ? style.selectedBtn : ""}
+        >
+          Pendientes
         </Link>
+        <RefreshIcon
+          onClick={() => handleRefresh()}
+          className={toggleAnimation ? style.animation : ""}
+        />
       </section>
 
-    
-      <section className={style.cards}>
-        {userDogs?.length ? (
-          userDogs.map((dog) => (
-            <Card
-              user={dog.user}
-              userId={dog.userId}
-              key={dog.id}
-              id={dog.id}
-              img={dog.img}
-              name={dog.name}
-              height={dog.height}
-              weight={dog.weight}
-              lifeSpan={dog.lifeSpan}
-              temperaments={dog.temperaments}
-              breedGroup={dog.breedGroup}
-            />
-          ))
-        ) : (
-          <p>No has creado ningun perro</p>
-        )}
-      </section>
+      <MyDogsCards />
     </div>
   );
 };

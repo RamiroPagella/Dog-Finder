@@ -10,6 +10,10 @@ export interface AppContextType {
   setCreatedDog: React.Dispatch<React.SetStateAction<CreatedDog>>;
   dogs: Dog[];
   setDogs: React.Dispatch<React.SetStateAction<Dog[]>>;
+  backRoute: string;
+  setBackRoute: React.Dispatch<React.SetStateAction<string>>;
+  modifying: boolean;
+  setModifying: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const AppContext = createContext<AppContextType | null>(null);
@@ -18,7 +22,8 @@ interface Props {
   children: ReactNode;
 }
 export const AppContextProvider = ({ children }: Props) => {
-  const [dogs, setDogs] = useState<Dog[]>([])
+  const [backRoute, setBackRoute] = useState<string>("");
+  const [dogs, setDogs] = useState<Dog[]>([]);
   const [allTemperaments, setAllTemperaments] = useState<string[]>([]);
   const [allBreedGroups, setAllBreedGroups] = useState<string[]>([]);
   const [createdDog, setCreatedDog] = useState<CreatedDog>({
@@ -30,6 +35,7 @@ export const AppContextProvider = ({ children }: Props) => {
     lifeSpan: "",
     img: null,
   });
+  const [modifying, setModifying] = useState<boolean>(false);
 
   return (
     <AppContext.Provider
@@ -41,7 +47,11 @@ export const AppContextProvider = ({ children }: Props) => {
         createdDog,
         setCreatedDog,
         dogs,
-        setDogs
+        setDogs,
+        backRoute,
+        setBackRoute,
+        modifying,
+        setModifying,
       }}
     >
       {children}

@@ -13,6 +13,7 @@ const SearchBar = () => {
     useSearcAndfiltersContext();
   const { setCurrentPage } = usePagingContext();
   const { pathname } = useLocation();
+  const [isFirstRender, setIsFirstRender] = useState(true);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -20,6 +21,11 @@ const SearchBar = () => {
   };
 
   useEffect(() => {
+    if (isFirstRender) {
+      setIsFirstRender(false);
+      return;
+    }
+
     const debounce = setTimeout(() => {
       setCurrentPage(1);
 

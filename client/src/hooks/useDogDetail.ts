@@ -3,9 +3,11 @@ import { Dog as DogType } from "../types";
 import Axios from "../axios";
 import { errorToast } from "../toasts";
 import { useUserContext } from "./contextHooks";
-import { favDog } from "../services/dogsServices";
+import { favDog, getDogs } from "../services/dogsServices";
 import { useLocation } from "react-router-dom";
 import { isPending } from "@reduxjs/toolkit";
+import { GetUserInfo } from "../services/userServices";
+import { AxiosError } from "axios";
 
 interface Response {
   message: "string";
@@ -14,7 +16,8 @@ interface Response {
 }
 
 const useDogDetail = (id: DogType["id"]) => {
-  const { isAuthenticated, User, setUser } = useUserContext();
+  const { setIsAuthenticated, isAuthenticated, User, setUser } =
+    useUserContext();
   const { pathname } = useLocation();
   const [dog, setDog] = useState<DogType | null>(null);
   const [isError, setIsError] = useState<boolean>(false);
@@ -49,6 +52,10 @@ const useDogDetail = (id: DogType["id"]) => {
       });
   };
 
+  const handleModify = () => {
+    console.log(dog);
+  }
+
   useEffect(() => {
     setIsError(false);
     setError(null);
@@ -74,7 +81,7 @@ const useDogDetail = (id: DogType["id"]) => {
       });
 
     setIsDogPending(isDogPending);
-    
+
     if (isAuthenticated && !isDogPending)
       User.likes?.map((dog) => {
         if (Number(dog.id) === Number(id)) setIsFav(true);
@@ -90,6 +97,7 @@ const useDogDetail = (id: DogType["id"]) => {
     error,
     prevAndNext,
     handleFav,
+    handleModify,
     isFav,
     isDogPending,
     isFavLoading,

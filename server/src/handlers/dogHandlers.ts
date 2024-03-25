@@ -5,6 +5,7 @@ import {
   validateFilters,
   filterAndPageDogs,
   validateDog,
+  hasMoreThanFourDogs,
 } from "../services/dogServices";
 import UserModel from "../models/User.model";
 import LikesModel from "../models/Likes.model";
@@ -99,6 +100,7 @@ export const deleteDog: RequestHandler = async (req: ReqWithUser, res) => {
     const isAdmin = req.user?.admin;
     const userId = req.user?.id;
     const dogId = Number(req.query.id);
+
     if (!dogId || isNaN(dogId))
       return res.status(400).send("Missing or invalid data");
 
@@ -200,7 +202,11 @@ export const likeDog: RequestHandler = async (req: ReqWithUser, res) => {
     }
 
     const User = await UserModel.findByPk(user?.id, {
-      include: { model: DogModel, as: "likes" },
+      include: [
+        { model: DogModel, as: "likes" },
+        { model: DogModel, as: "dogs" },
+        { model: DogPendingModel, as: "pendingDogs" },
+      ],
     });
 
     if (!User) return res.status(404).send("User not found");
@@ -214,8 +220,13 @@ export const likeDog: RequestHandler = async (req: ReqWithUser, res) => {
   }
 };
 
-export const createDog: RequestHandler = async (req, res) => {
+export const createDog: RequestHandler = async (req: ReqWithUser, res) => {
   try {
+    const userId = req.user?.id;
+    if (await hasMoreThanFourDogs(userId)) {
+      return res.status(403).send("Already have more than four dogs");
+    }
+
     const createdDog: Omit<DogType, "img"> = validateDog(req.body);
 
     const imageAsString = req.file?.buffer.toString("base64");
@@ -245,8 +256,14 @@ export const getPendingDogs: RequestHandler = async (req: ReqWithUser, res) => {
 
     const { page, search } = req.query;
 
-    if (!page || isNaN(Number(page)) || search === undefined || search === null)
+    if (
+      !page ||
+      isNaN(Number(page)) ||
+      search === undefined ||
+      search === null
+    ) {
       return res.status(400).send("Missing or invalid data");
+    }
 
     let pendingDogs = await DogPendingModel.findAll({
       include: {
@@ -272,7 +289,7 @@ export const getPendingDogs: RequestHandler = async (req: ReqWithUser, res) => {
 
     res.json({
       totalPages: pagedDogs.length,
-      dogs: pagedDogs[Number(page) - 1],
+      dogs: pagedDogs.length ? pagedDogs[Number(page) - 1] : [],
     });
   } catch (error) {
     res
@@ -288,8 +305,7 @@ export const getPendingDogById: RequestHandler = async (
 ) => {
   try {
     const user = req.user;
-    if (!user) res.status(401).send("Missing user data");
-    if (!user?.admin) res.status(401).send("User is not admin");
+    if (!user) return res.status(401).send("Missing user data");
 
     const id = Number(req.params.id);
     if (!id) res.status(400).json({ error: "Incorrect or missing data" });
@@ -325,6 +341,10 @@ export const getPendingDogById: RequestHandler = async (
         },
         order: [["id", "ASC"]],
       });
+
+    if (!user.admin && pendingDog.userId !== user.id) {
+      return res.status(403);
+    }
 
     const prevAndNext = {
       prev: prevPendingDog ? prevPendingDog.id : null,

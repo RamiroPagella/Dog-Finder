@@ -197,7 +197,12 @@ const useCreateDog = () => {
         },
         error: (err) => {
           console.log(err);
-          return err instanceof AxiosError ? err.message : "Error";
+          let errorMsg = "Error";
+          if (err instanceof AxiosError) {
+            errorMsg = err.message;
+            if (err.status === 403) return "No puedes crear mas de 4 perros";
+          }
+          return errorMsg;
         },
       },
       {

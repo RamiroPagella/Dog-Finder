@@ -1,6 +1,7 @@
 import style from "./paginationBar.module.scss";
 import { ArrowLeft, ArrowRight } from "../../../assets/icons";
 import { usePagingContext } from "../../../hooks/contextHooks";
+import { useEffect } from "react";
 
 const PaginationBar = () => {
   const { currentPage, setCurrentPage, totalPages } = usePagingContext();

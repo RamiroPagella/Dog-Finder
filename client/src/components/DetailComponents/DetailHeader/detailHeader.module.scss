@@ -13,11 +13,20 @@
     margin-right: 15px;
   }
 
-  .headerButtons {
+  .buttons {
     @include flex (space-between, center);
     gap: 20px;
     position: absolute;
     right: 0;
+    
+    .backButton {
+      border-right: solid var(--color7);
+      padding-right: 20px;
+  
+      button {
+        @include button;
+      }
+    }
 
     button {
       @include button();

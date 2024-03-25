@@ -10,7 +10,6 @@ interface Props extends Dog {
 
 const PendingDogCard = (props: Props) => {
   const [hover, setHover] = useState<boolean>(false);
-  
 
   return (
     <div className={style.Container}>

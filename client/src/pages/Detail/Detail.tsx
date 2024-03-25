@@ -1,32 +1,41 @@
 import style from "./detail.module.scss";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import FullSizeImage from "../../components/DetailComponents/FullSizeImage/FullSizeImage";
 import DogDescription from "../../components/DetailComponents/DogDescription/DogDescription";
-import { Heart, Loader, HeartFill } from "../../assets/icons";
+import {
+  Heart,
+  Loader,
+  HeartFill,
+  DeleteIcon,
+  ModifyIcon,
+} from "../../assets/icons";
 import DetailHeader from "../../components/DetailComponents/DetailHeader/DetailHeader";
 import useDogDetail from "../../hooks/useDogDetail";
+import { useUserContext } from "../../hooks/contextHooks";
+import DeleteDog from "../../components/DeleteDog/DeleteDog";
 
 const Detail = () => {
   const params = useParams();
+  const { pathname } = useLocation();
+  const { User } = useUserContext();
   const {
     dog,
     isError,
     error,
     prevAndNext,
     handleFav,
+    handleModify,
     isFav,
     isDogPending,
     isFavLoading,
   } = useDogDetail(Number(params?.id));
   const [isImageOpen, setIsImageOpen] = useState<boolean>(false);
-  const [showToolTip, setShowToolTip] = useState<boolean>(false);
+  const [openDelete, setOpenDelete] = useState<boolean>(false);
 
   const handleClick = () => {
     setIsImageOpen(!isImageOpen);
   };
-
-  console.log(isDogPending);
 
   return (
     <div className={style.Detail}>
@@ -46,30 +55,37 @@ const Detail = () => {
               <img src={dog?.img} className={style.img} />
             </div>
 
-            {!isDogPending ? (
-              <div className={style.iconContainer}>
-                {isFavLoading ? (
+            <div className={style.iconsContainer}>
+              {!isDogPending &&
+                (isFavLoading ? (
                   <div className={style.favLoader}></div>
                 ) : isFav ? (
-                  <HeartFill
-                    onClick={handleFav}
-                    onMouseEnter={() => setShowToolTip(true)}
-                    onMouseLeave={() => setShowToolTip(false)}
-                  />
+                  <div className={style.heartFillContainer} onClick={handleFav}>
+                    <HeartFill className={style.heartFill} />
+                  </div>
                 ) : (
-                  <Heart
-                    onClick={handleFav}
-                    onMouseEnter={() => setShowToolTip(true)}
-                    onMouseLeave={() => setShowToolTip(false)}
-                  />
-                )}
-                {showToolTip ? (
-                  <p className={style.favTooltip}>
-                    {isFav ? "Eliminar de favoritos" : "Agregar a favoritos"}
-                  </p>
-                ) : null}
-              </div>
-            ) : null}
+                  <div className={style.heartContainer} onClick={handleFav}>
+                    <Heart className={style.heart} />
+                  </div>
+                ))}
+
+              {(User?.id === dog?.userId || User?.admin) && (
+                <div
+                  className={style.deleteContainer}
+                  onClick={() => setOpenDelete(true)}
+                >
+                  <DeleteIcon />
+                </div>
+              )}
+              {User?.id === dog?.userId && (
+                <div
+                  className={style.modifyContainer}
+                  onClick={() => handleModify()}
+                >
+                  <ModifyIcon />
+                </div>
+              )}
+            </div>
 
             <DogDescription
               breedGroup={dog?.breedGroup}
@@ -80,14 +96,22 @@ const Detail = () => {
             />
           </div>
 
-          {isImageOpen ? (
+          {isImageOpen && (
             <FullSizeImage
               img={dog?.img}
               setIsImageOpen={() => {
                 setIsImageOpen(false);
               }}
             />
-          ) : null}
+          )}
+          {openDelete && (
+            <DeleteDog
+              setOpenDelete={setOpenDelete}
+              id={dog.id}
+              isDogPending={pathname.includes("/dog-pending/")}
+              isInDogDetail
+            />
+          )}
         </>
       ) : (
         <div className={style.loaderContainer}>

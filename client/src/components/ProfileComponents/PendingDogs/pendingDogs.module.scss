@@ -11,9 +11,32 @@
         gap: 25px;
         height: 50px;
         border-bottom: solid var(--color7);
+        position: relative;
+        user-select: none;
 
         button {
             @include button;
         }
+
+        svg {
+            @include button;
+            padding: 5px;
+            position: absolute;
+            height: 40px;
+            width: 40px;
+            left: -80px;
+        }
+        .animation {
+            animation: refresh ease-in-out 0.3s;
+        }
+    }
+}
+
+@keyframes refresh {
+    from {
+        transform: rotate(0)
+    }
+    to {
+        transform: rotate(360deg);
     }
 }

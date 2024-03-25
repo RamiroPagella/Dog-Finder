@@ -27,6 +27,7 @@ const usePendingDogs = () => {
     Axios<Response>(`/dogs/pending?page=${pendingsCurrentPage}&search=${pendingDogsSearch}`)
       .then(({ data }) => {
         const { dogs, totalPages } = data;
+        // console.log(dogs)
         setData(dogs.sort((a, b) => (Number(a.id) > Number(b.id) ? 1 : -1)));
         setPendingsTotalPages(totalPages);
         setIsLoading(false);
@@ -62,6 +63,8 @@ const usePendingDogs = () => {
   };
 
   const approveOrDisapproveAll = (approve: boolean) => {
+    if (!data.length) return;
+    
     const dogIds: Array<Dog["id"]> = data.map((dog) => dog.id);
     const asyncFunction = async () => {
       const response = await Axios.put("/pending-dog/all", {
