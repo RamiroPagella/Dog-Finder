@@ -23,7 +23,7 @@ export const useUserContext = () => {
   };
 };
 
-export const useSearcAndfiltersContext = () => {
+export const useSearchAndFiltersContext = () => {
   const context = useContext(
     SearchAndfiltersContext,
   ) as SearchAndfiltersContextType;

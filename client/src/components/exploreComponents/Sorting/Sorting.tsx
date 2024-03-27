@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import { CloseButton } from "../../../assets/icons";
 import { useEffect, useState } from "react";
 import { Filters } from "../../../types";
-import { useSearcAndfiltersContext } from "../../../hooks/contextHooks";
+import { useSearchAndFiltersContext } from "../../../hooks/contextHooks";
 
 interface Props {
   setSortingOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,7 +12,7 @@ interface Props {
 const Sorting = ({ setSortingOpen }: Props) => {
   const rootElement = document.getElementById("root") as Element;
   const [selected, setSelected] = useState<Filters["sort"]>("A-Z");
-  const { setSearchAndFilters, searchAndFilters } = useSearcAndfiltersContext();
+  const { setSearchAndFilters, searchAndFilters } = useSearchAndFiltersContext();
 
   const handleClick = () => {
     setSearchAndFilters((prev) => ({ ...prev, sort: selected }));

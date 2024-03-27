@@ -28,6 +28,5 @@ export const GetUserInfo = async ({
   } catch (error) {
     setIsAuthenticated(false);
     console.log(error);
-    error instanceof AxiosError && errorToast(error.message);
   }
 };

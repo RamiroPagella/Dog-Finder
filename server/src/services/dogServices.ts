@@ -4,8 +4,16 @@ import { Dog, DogFilters, Dog as DogType } from "../types/dog.types";
 import { dogParsers, filtersParsers } from "./parsers";
 
 export const filterAndPageDogs = (dogs: DogType[], filters: DogFilters) => {
-  const { search, height, weight, temperaments, breedGroups, lifeSpan, sort } =
-    filters;
+  const {
+    search,
+    height,
+    weight,
+    temperaments,
+    breedGroups,
+    lifeSpan,
+    sort,
+    onlyCreated,
+  } = filters;
 
   if (height !== "") {
     const selectedHeight = height.split(" - ");
@@ -98,6 +106,10 @@ export const filterAndPageDogs = (dogs: DogType[], filters: DogFilters) => {
     });
   }
 
+  if (onlyCreated) {
+    dogs = dogs.filter((dog) => (dog.userId ? true : false));
+  }
+
   switch (sort) {
     case "A-Z":
       dogs = dogs.sort((a, b) =>
@@ -159,7 +171,8 @@ export const validateFilters = (dogFilters: unknown): DogFilters => {
     "breedGroups" in dogFilters &&
     "lifeSpan" in dogFilters &&
     "page" in dogFilters &&
-    "sort" in dogFilters
+    "sort" in dogFilters && 
+    "onlyCreated" in dogFilters
   ) {
     const filters = {
       page: filtersParsers.page(dogFilters.page),
@@ -170,6 +183,7 @@ export const validateFilters = (dogFilters: unknown): DogFilters => {
       breedGroups: filtersParsers.breedGroups(dogFilters.breedGroups),
       lifeSpan: filtersParsers.lifeSpan(dogFilters.lifeSpan),
       sort: filtersParsers.sort(dogFilters.sort),
+      onlyCreated: filtersParsers.onlyCreated(dogFilters.onlyCreated)
     };
     return filters;
   } else throw new Error("Incorrect or missing data");

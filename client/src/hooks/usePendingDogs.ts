@@ -3,7 +3,7 @@ import { Dog } from "../types";
 import { AxiosError } from "axios";
 import Axios from "../axios";
 import toast from "react-hot-toast";
-import { usePagingContext, useSearcAndfiltersContext } from "./contextHooks";
+import { usePagingContext, useSearchAndFiltersContext } from "./contextHooks";
 
 interface Response {
   dogs: Dog[];
@@ -17,7 +17,7 @@ const usePendingDogs = () => {
   const [data, setData] = useState<Dog[]>([]);
 
   const { pendingsCurrentPage, setPendingsTotalPages } = usePagingContext();
-  const { pendingDogsSearch } = useSearcAndfiltersContext();
+  const { pendingDogsSearch } = useSearchAndFiltersContext();
 
   const [resfresh, setRefresh] = useState<boolean>(false);
 

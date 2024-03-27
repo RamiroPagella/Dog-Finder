@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { usePagingContext, useSearcAndfiltersContext } from "./contextHooks";
+import { usePagingContext, useSearchAndFiltersContext } from "./contextHooks";
 import { Filters } from "../types";
 import { errorToast } from "../toasts";
 
 const useFilters = () => {
-  const { searchAndFilters, setSearchAndFilters } = useSearcAndfiltersContext();
+  const { searchAndFilters, setSearchAndFilters } = useSearchAndFiltersContext();
   const { setCurrentPage } = usePagingContext();
 
   const [searchAndFiltersLocal, setSearchAndFiltersLocal] = useState<Filters>({

@@ -14,7 +14,7 @@ const Cards = () => {
           <Loader />
         </div>
       )}
-      {isError && <p>{error?.message}</p>}
+      {isError && <p>{`Error al obtener los perros: ${error?.message}`}</p>}
       {!isLoading &&
         !isError &&
         (dogs.length ? (

@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { getDogs } from "../services/dogsServices";
-import { useAppContext, usePagingContext, useSearcAndfiltersContext } from "./contextHooks";
+import { useAppContext, usePagingContext, useSearchAndFiltersContext } from "./contextHooks";
 
 const useDogs = () => {
   const { setTotalPages, currentPage } = usePagingContext();
-  const { searchAndFilters } = useSearcAndfiltersContext();
+  const { searchAndFilters } = useSearchAndFiltersContext();
   const { dogs, setDogs } = useAppContext();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -19,8 +19,6 @@ const useDogs = () => {
     const controller = new AbortController();
     const { signal } = controller;
 
-    console.log('antes del getDogs', searchAndFilters);
-
     getDogs(currentPage, searchAndFilters, { signal })
       .then((data) => {
         setDogs(data.dogs);
@@ -32,7 +30,6 @@ const useDogs = () => {
         if (signal.aborted) return;
         setIsError(true);
         setError(err);
-        console.log(err);
       });
 
     return () => controller.abort();

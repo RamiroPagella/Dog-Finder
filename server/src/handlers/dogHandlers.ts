@@ -19,7 +19,6 @@ interface ReqWithUser extends Request {
 }
 
 export const GetDogs: RequestHandler = async (req, res) => {
-  console.log("las query", req.query);
   const filters = validateFilters(req.query);
   try {
     const dogs: DogType[] = (await DogModel.findAll()).map(

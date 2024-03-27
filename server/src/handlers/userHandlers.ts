@@ -9,6 +9,7 @@ import { User, IdUser, PwdUser } from "../types/user.types";
 import UserModel from "../models/User.model";
 import DogModel from "../models/Dog.model";
 import DogPendingModel from "../models/DogPending.model";
+import bcrypt from "bcryptjs";
 
 interface ReqWithUser extends Request {
   user?: IdUser;
@@ -112,6 +113,7 @@ export const changePassword: RequestHandler = async (req: ReqWithUser, res) => {
   try {
     const { actualPwd, newPwd } = req.body;
     const userId = req.user?.id;
+    
     if (!actualPwd || actualPwd === "" || !newPwd || newPwd === "") {
       return res.status(400).send("Incorrect or missing data");
     }
@@ -119,12 +121,16 @@ export const changePassword: RequestHandler = async (req: ReqWithUser, res) => {
     const User = await UserModel.findByPk(userId);
     if (!User) return res.status(400).send("User not found");
 
-    if (User.password !== actualPwd) {
+    const isPwdCorrect = await bcrypt.compare(actualPwd, User.password);
+
+    if (!isPwdCorrect) {
       return res.status(403).send("Incorrect password");
     }
 
+    const hashedPwd = await bcrypt.hash(newPwd, 10);
+
     await User.update(
-      { password: newPwd },
+      { password: hashedPwd },
       {
         where: {
           id: userId,

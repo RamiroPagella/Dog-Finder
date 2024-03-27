@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   usePagingContext,
-  useSearcAndfiltersContext,
+  useSearchAndFiltersContext,
   useUserContext,
 } from "../../../hooks/contextHooks";
 import { Dog } from "../../../types";
@@ -13,7 +13,7 @@ const FavCards = () => {
     User: { likes },
   } = useUserContext();
   const { favCurrentPage, setFavTotalPages } = usePagingContext();
-  const { favSearch } = useSearcAndfiltersContext();
+  const { favSearch } = useSearchAndFiltersContext();
   const [actualSlice, setActualSlice] = useState<Dog[]>([]);
   const pageLength = 8;
 

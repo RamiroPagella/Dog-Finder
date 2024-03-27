@@ -3,7 +3,7 @@ import Axios from "../../axios";
 import {
   useAppContext,
   usePagingContext,
-  useSearcAndfiltersContext,
+  useSearchAndFiltersContext,
   useUserContext,
 } from "../../hooks/contextHooks";
 import { errorToast } from "../../toasts";
@@ -27,7 +27,7 @@ const DeleteDogModal = ({ setOpenDelete, id, isDogPending, isInDogDetail }: Prop
   const { setDogs } = useAppContext();
   const { setIsAuthenticated, setUser } = useUserContext();
   const { currentPage, setTotalPages } = usePagingContext();
-  const { searchAndFilters } = useSearcAndfiltersContext();
+  const { searchAndFilters } = useSearchAndFiltersContext();
 
   const handleDelete = async () => {
     try {

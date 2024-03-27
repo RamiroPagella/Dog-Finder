@@ -16,6 +16,11 @@
 
         button {
             @include button();
+
+            svg {
+                height: 25px;
+                margin-left: 5px;
+            }
         }
     }
 }

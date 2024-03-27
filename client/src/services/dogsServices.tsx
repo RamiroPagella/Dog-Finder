@@ -13,23 +13,20 @@ export const getDogs = async (
   filters: Filters,
   options: AxiosRequestConfig = {},
 ): Promise<GetDogsResponse> => {
-
   options.params = {
     ...filters,
     breedGroups: filters.breedGroups.join(),
     temperaments: filters.temperaments.join(),
-    page: pageNum
-  }
-  const response = await Axios.get<GetDogsResponse>('/dogs', options);
+    page: pageNum,
+  };
+  const response = await Axios.get<GetDogsResponse>("/dogs", options);
   return response.data;
 };
 
 interface favDogResponse {
-  User: User,
-  isFav: boolean
+  User: User;
+  isFav: boolean;
 }
-export const favDog = async (dogId: Dog['id']) => {
-  return Axios.post<favDogResponse>("/like", { dogId }).then(res => res)
+export const favDog = async (dogId: Dog["id"]) => {
+  return Axios.post<favDogResponse>("/like", { dogId }).then((res) => res);
 };
-
-

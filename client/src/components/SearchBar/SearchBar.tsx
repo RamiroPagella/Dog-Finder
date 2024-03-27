@@ -2,7 +2,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import style from "./searchBar.module.scss";
 import {
   usePagingContext,
-  useSearcAndfiltersContext,
+  useSearchAndFiltersContext,
 } from "../../hooks/contextHooks";
 import { Search } from "../../assets/icons";
 import { useLocation } from "react-router-dom";
@@ -10,7 +10,7 @@ import { useLocation } from "react-router-dom";
 const SearchBar = () => {
   const [inputValue, setInputValue] = useState<string>("");
   const { setSearchAndFilters, setFavSearch, setPendingDogsSearch } =
-    useSearcAndfiltersContext();
+    useSearchAndFiltersContext();
   const { setCurrentPage } = usePagingContext();
   const { pathname } = useLocation();
   const [isFirstRender, setIsFirstRender] = useState(true);

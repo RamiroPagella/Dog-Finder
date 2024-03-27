@@ -81,6 +81,11 @@ export const filtersParsers = {
     }
     return sort;
   },
+  onlyCreated: (onlyCreated: unknown): DogFilters["onlyCreated"] => {
+    if (onlyCreated !== "true" && onlyCreated !== "false")
+      throw new Error("Incorrect data");
+    return onlyCreated === "true" ? true : false;
+  },
 };
 ////
 

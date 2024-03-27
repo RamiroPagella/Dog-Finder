@@ -38,4 +38,5 @@ export interface DogFilters {
     | "weight desc"
     | "A-Z"
     | "Z-A";
+    onlyCreated: boolean;
 }

@@ -37,12 +37,14 @@ const ChangePassword = ({ setOpenChangePassword }: Props) => {
         newPwd: form.new,
       });
       succesToast("Contraseña modificada correctamente");
+      setOpenChangePassword(false);
     } catch (error) {
-      if (error instanceof AxiosError && error.status === 403) {
+      if (error instanceof AxiosError && error.response?.status === 403) {
         errorToast("La contraseña actual es incorrecta");
         return;
       }
       errorToast("Error");
+      console.log(error);
     }
   };
 

@@ -12,7 +12,7 @@ userRouter.post("/register", Register);
 
 userRouter.post("/login", Login);
 
-userRouter.put('/change-password', changePassword)
+userRouter.put('/change-password', verifyToken, changePassword)
 
 userRouter.get("/user/info", verifyToken, UserInfo);
 
