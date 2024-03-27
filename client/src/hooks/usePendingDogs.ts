@@ -19,12 +19,16 @@ const usePendingDogs = () => {
   const { pendingsCurrentPage, setPendingsTotalPages } = usePagingContext();
   const { pendingDogsSearch } = useSearcAndfiltersContext();
 
+  const [resfresh, setRefresh] = useState<boolean>(false);
+
   useEffect(() => {
     setIsLoading(true);
     setIsError(false);
     setError(null);
 
-    Axios<Response>(`/dogs/pending?page=${pendingsCurrentPage}&search=${pendingDogsSearch}`)
+    Axios<Response>(
+      `/dogs/pending?page=${pendingsCurrentPage}&search=${pendingDogsSearch}`,
+    )
       .then(({ data }) => {
         const { dogs, totalPages } = data;
         // console.log(dogs)
@@ -64,21 +68,23 @@ const usePendingDogs = () => {
 
   const approveOrDisapproveAll = (approve: boolean) => {
     if (!data.length) return;
-    
+
     const dogIds: Array<Dog["id"]> = data.map((dog) => dog.id);
+
     const asyncFunction = async () => {
       const response = await Axios.put("/pending-dog/all", {
         ids: dogIds,
         approve,
       });
-      setData([]);
       return response;
     };
 
     toast.promise(asyncFunction(), {
       loading: `${approve ? "Aprobando" : "Desaprobando"} perros...`,
-      success: () =>
-        `Perros ${approve ? "aprobados" : "desaprobados"} con exito`,
+      success: () => {
+        setData([]);
+        return `Perros ${approve ? "aprobados" : "desaprobados"} con exito`;
+      },
       error: (err) => {
         return err instanceof AxiosError ? err.message : "Error";
       },
@@ -92,6 +98,7 @@ const usePendingDogs = () => {
     data,
     approveOrDisapprove,
     approveOrDisapproveAll,
+    resfresh
   };
 };
 

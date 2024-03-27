@@ -6,7 +6,7 @@ import { Dog } from "../../types";
 import { Link, useLocation } from "react-router-dom";
 import { favDog } from "../../services/dogsServices";
 import { errorToast } from "../../toasts";
-import DeleteDog from "../DeleteDog/DeleteDog";
+import DeleteDog from "../DeleteDogModal/DeleteDogModal";
 
 const Card = (props: Dog) => {
   const { pathname } = useLocation();

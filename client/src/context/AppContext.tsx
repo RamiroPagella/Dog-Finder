@@ -12,8 +12,10 @@ export interface AppContextType {
   setDogs: React.Dispatch<React.SetStateAction<Dog[]>>;
   backRoute: string;
   setBackRoute: React.Dispatch<React.SetStateAction<string>>;
-  modifying: boolean;
-  setModifying: React.Dispatch<React.SetStateAction<boolean>>;
+  modifying: "accepted" | "pending" | false;
+  setModifying: React.Dispatch<
+    React.SetStateAction<"accepted" | "pending" | false>
+  >;
 }
 
 export const AppContext = createContext<AppContextType | null>(null);
@@ -35,7 +37,9 @@ export const AppContextProvider = ({ children }: Props) => {
     lifeSpan: "",
     img: null,
   });
-  const [modifying, setModifying] = useState<boolean>(false);
+  const [modifying, setModifying] = useState<AppContextType['modifying']>(
+    false,
+  );
 
   return (
     <AppContext.Provider

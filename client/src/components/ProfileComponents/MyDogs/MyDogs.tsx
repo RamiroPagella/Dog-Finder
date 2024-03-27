@@ -24,7 +24,7 @@ const MyDogs = () => {
           to={"/profile/my-dogs/accepted"}
           className={pathname.includes("/accepted") ? style.selectedBtn : ""}
         >
-          Aceptados
+          Aprobados
         </Link>
         <Link
           to={"/profile/my-dogs/pending"}

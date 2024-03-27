@@ -4,7 +4,7 @@ import { Dog, DogFilters, Dog as DogType } from "../types/dog.types";
 import { dogParsers, filtersParsers } from "./parsers";
 
 export const filterAndPageDogs = (dogs: DogType[], filters: DogFilters) => {
-  const { search, height, weight, temperaments, breedGroup, lifeSpan } =
+  const { search, height, weight, temperaments, breedGroups, lifeSpan, sort } =
     filters;
 
   if (height !== "") {
@@ -55,8 +55,7 @@ export const filterAndPageDogs = (dogs: DogType[], filters: DogFilters) => {
     });
   }
 
-  if (breedGroup !== "") {
-    const breedGroups = breedGroup.split(",");
+  if (breedGroups !== "") {
     dogs = dogs.filter((dog) => {
       for (let i = 0; i < breedGroups.length; i++) {
         if (breedGroups[i] === dog.breedGroup) return true;
@@ -99,6 +98,42 @@ export const filterAndPageDogs = (dogs: DogType[], filters: DogFilters) => {
     });
   }
 
+  switch (sort) {
+    case "A-Z":
+      dogs = dogs.sort((a, b) =>
+        a.name.toUpperCase() > b.name.toUpperCase() ? 1 : -1,
+      );
+      break;
+    case "Z-A":
+      dogs = dogs.sort((a, b) =>
+        a.name.toUpperCase() < b.name.toUpperCase() ? 1 : -1,
+      );
+      break;
+    case "height asc":
+      dogs = dogs.sort((a, b) =>
+        a.height.split(" - ")[0] > b.height.split(" - ")[0] ? 1 : -1,
+      );
+      break;
+
+    case "height desc":
+      dogs = dogs.sort((a, b) =>
+        a.height.split(" - ")[0] < b.height.split(" - ")[0] ? 1 : -1,
+      );
+      break;
+
+    case "weight asc":
+      dogs = dogs.sort((a, b) =>
+        a.weight.split(" - ")[0] > a.weight.split(" - ")[0] ? 1 : -1,
+      );
+      break;
+
+    case "weight desc":
+      dogs = dogs.sort((a, b) =>
+        a.weight.split(" - ")[0] < b.weight.split(" - ")[0] ? 1 : -1,
+      );
+      break;
+  }
+
   const itemsPerPage: number = 8;
   const pagedDogs: DogType[][] = [];
 
@@ -121,9 +156,10 @@ export const validateFilters = (dogFilters: unknown): DogFilters => {
     "height" in dogFilters &&
     "weight" in dogFilters &&
     "temperaments" in dogFilters &&
-    "breedGroup" in dogFilters &&
+    "breedGroups" in dogFilters &&
     "lifeSpan" in dogFilters &&
-    "page" in dogFilters
+    "page" in dogFilters &&
+    "sort" in dogFilters
   ) {
     const filters = {
       page: filtersParsers.page(dogFilters.page),
@@ -131,14 +167,15 @@ export const validateFilters = (dogFilters: unknown): DogFilters => {
       height: filtersParsers.heightAndWeight(dogFilters.height),
       weight: filtersParsers.heightAndWeight(dogFilters.weight),
       temperaments: filtersParsers.temperaments(dogFilters.temperaments),
-      breedGroup: filtersParsers.breedGroup(dogFilters.breedGroup),
+      breedGroups: filtersParsers.breedGroups(dogFilters.breedGroups),
       lifeSpan: filtersParsers.lifeSpan(dogFilters.lifeSpan),
+      sort: filtersParsers.sort(dogFilters.sort),
     };
     return filters;
   } else throw new Error("Incorrect or missing data");
 };
 
-export const validateDog = (dog: unknown): Omit<Dog, 'img'> => {
+export const validateDog = (dog: unknown): Omit<Dog, "img"> => {
   if (
     !dog ||
     typeof dog !== "object" ||
@@ -148,35 +185,35 @@ export const validateDog = (dog: unknown): Omit<Dog, 'img'> => {
     !("temperaments" in dog) ||
     !("breedGroup" in dog) ||
     !("lifeSpan" in dog) ||
-    !('userId' in dog)
+    !("userId" in dog)
   ) {
-    throw new Error("Incorrect or missing data falta algun datinho");
+    throw new Error("Incorrect or missing data");
   }
 
-  const Dog: Omit<Dog, 'img'> = {
+  const Dog: Omit<Dog, "img"> = {
     name: dogParsers.name(dog.name),
     height: dogParsers.heightAndWeight(dog.height),
     weight: dogParsers.heightAndWeight(dog.weight),
     lifeSpan: dogParsers.lifeSpan(dog.lifeSpan),
     temperaments: dogParsers.temperaments(dog.temperaments),
     breedGroup: dogParsers.breedGroup(dog.breedGroup),
-    userId: dogParsers.userId(dog.userId)
+    userId: dogParsers.userId(dog.userId),
   };
 
   return Dog;
 };
 
-export const hasMoreThanFourDogs = async (userId: Dog['userId']): Promise<boolean> => {
+export const hasFourDogs = async (userId: Dog["userId"]): Promise<boolean> => {
   const DogsCount: number = await DogModel.count({
     where: {
-      userId
-    }
-  })
+      userId,
+    },
+  });
   const pendingDogsCount: number = await DogPendingModel.count({
     where: {
-      userId
-    }
-  })
+      userId,
+    },
+  });
   if (DogsCount + pendingDogsCount >= 4) return true;
   else return false;
-}
+};

@@ -1,40 +1,65 @@
 import style from "./pendingDogCard.module.scss";
 import { useState } from "react";
 import { Dog } from "../../../types";
-import { Link } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ApproveIcon, DissaproveIcon } from "../../../assets/icons";
+import DisapproveModal from "../DisapproveModal/DisapproveModal";
+import { useAppContext } from "../../../hooks/contextHooks";
 
-interface Props extends Dog {
-  approveOrDisapprove: (dogId: Dog['id'], approve: boolean) => void;
+interface Props {
+  approveOrDisapprove: (dogId: Dog["id"], approve: boolean) => void;
+  id: Dog["id"];
+  img: Dog["img"];
+  name: Dog["name"];
+  breedGroup: Dog["breedGroup"];
 }
 
-const PendingDogCard = (props: Props) => {
+const PendingDogCard = ({
+  approveOrDisapprove,
+  id,
+  img,
+  name,
+  breedGroup,
+}: Props) => {
+  const { setBackRoute } = useAppContext();
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
   const [hover, setHover] = useState<boolean>(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+
+  const handleCardClick = () => {
+    setBackRoute(pathname);
+    navigate(`/pending-dog/${id}`);
+  };
 
   return (
     <div className={style.Container}>
       <section className={style.managePending}>
-        <ApproveIcon onClick={() => props?.approveOrDisapprove(props.id, true)} />
-        <DissaproveIcon onClick={() => props?.approveOrDisapprove(props.id, false)} />
+        <ApproveIcon onClick={() => approveOrDisapprove(id, true)} />
+        <DissaproveIcon
+          onClick={() => {
+            setModalOpen(true);
+          }}
+        />
       </section>
 
-      <Link className={style.card} to={`/pending-dog/${props.id}`}>
+      <div className={style.card} onClick={handleCardClick}>
         <section className={hover ? style.content_on : style.content}>
           <div className={style.blurImgContainer}>
-            <img src={props?.img} />
+            <img src={img} />
           </div>
           <div className={style.imgContainer}>
-            <img src={props?.img} alt="Imagen del perro" />
+            <img src={img} alt="Imagen del perro" />
           </div>
 
           <div className={style.Description}>
             <div>
               <h4>Nombre:</h4>
-              <p>{props?.name}</p>
+              <p>{name}</p>
             </div>
             <div>
               <h4>Raza:</h4>
-              <p>{props?.breedGroup}</p>
+              <p>{breedGroup}</p>
             </div>
           </div>
         </section>
@@ -51,7 +76,16 @@ const PendingDogCard = (props: Props) => {
             Click para ver mas
           </p>
         </section>
-      </Link>
+      </div>
+
+      {modalOpen && (
+        <DisapproveModal
+          confirm={() => {
+            approveOrDisapprove(id, false);
+          }}
+          setModalOpen={setModalOpen}
+        />
+      )}
     </div>
   );
 };

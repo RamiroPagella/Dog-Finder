@@ -25,7 +25,6 @@ export const GetUserInfo = async ({
     setIsAuthenticated(true);
     setUser(response.data);
     if (navigate) navigate("/");
-    console.log(response)
   } catch (error) {
     setIsAuthenticated(false);
     console.log(error);

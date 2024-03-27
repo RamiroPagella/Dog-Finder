@@ -12,7 +12,7 @@ const ImageAndName = ({
   handleNameChange,
   handleFileChange,
   handleDrop,
-  deleteImage
+  deleteImage,
 }: Props) => {
   const { createdDog } = useAppContext();
 
@@ -43,11 +43,19 @@ const ImageAndName = ({
           <>
             <img
               className={style.img}
-              src={URL.createObjectURL(createdDog.img)}
+              src={
+                typeof createdDog.img === "string"
+                  ? createdDog.img
+                  : URL.createObjectURL(createdDog.img)
+              }
             />
             <img
               className={style.blurImg}
-              src={URL.createObjectURL(createdDog.img)}
+              src={
+                typeof createdDog.img === "string"
+                  ? createdDog.img
+                  : URL.createObjectURL(createdDog.img)
+              }
             />
           </>
         )}
@@ -58,10 +66,7 @@ const ImageAndName = ({
           Seleccionar imagen
         </label>
       ) : (
-        <button
-          className={style.btn}
-          onClick={deleteImage}
-        >
+        <button className={style.btn} onClick={deleteImage}>
           Eliminar imagen
         </button>
       )}

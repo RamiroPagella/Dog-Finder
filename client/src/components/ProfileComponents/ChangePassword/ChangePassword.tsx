@@ -54,12 +54,12 @@ const ChangePassword = ({ setOpenChangePassword }: Props) => {
         <section className={style.form}>
           <label>
             <p>Contraseña actual</p>
-            <input type="text" name="actual" onChange={handleChange} />
+            <input type="password" name="actual" onChange={handleChange} />
           </label>
 
           <label>
             <p>Contraseña nueva</p>
-            <input type="text" name="new" onChange={handleChange} />
+            <input type="password" name="new" onChange={handleChange} />
           </label>
         </section>
 

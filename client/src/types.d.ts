@@ -23,13 +23,14 @@ export interface Dog {
 }
 
 export interface CreatedDog {
+  id?: Dog['id'];
   name: Dog["name"];
   height: Dog["height"];
   weight: Dog["weight"];
   temperaments: Dog["temperaments"];
   breedGroup: Dog["breedGroup"];
   lifeSpan: Dog["lifeSpan"];
-  img: File | null;
+  img: File | string | null;
   userId?: string;
 }
 
@@ -40,4 +41,6 @@ export interface Filters {
   temperaments: string[];
   breedGroups: string[];
   lifeSpan: string;
+  sort: "height asc" | "height desc" | "weight asc" | "weight desc" | "A-Z" | "Z-A";
+  onlyCreated: boolean;
 }

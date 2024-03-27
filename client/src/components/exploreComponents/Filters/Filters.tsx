@@ -8,7 +8,7 @@ import useFilters from "../../../hooks/useFilters";
 import { usePagingContext } from "../../../hooks/contextHooks";
 
 interface Props {
-  setFiltersOpen: (boolen: boolean) => void;
+  setFiltersOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Filters = ({ setFiltersOpen }: Props) => {

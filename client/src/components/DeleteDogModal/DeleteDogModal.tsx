@@ -8,11 +8,11 @@ import {
 } from "../../hooks/contextHooks";
 import { errorToast } from "../../toasts";
 import { Dog } from "../../types";
-import style from "./deleteDog.module.scss";
+import style from "./deleteDogModal.module.scss";
 import { createPortal } from "react-dom";
 import { getDogs } from "../../services/dogsServices";
 import { GetUserInfo } from "../../services/userServices";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   setOpenDelete: React.Dispatch<React.SetStateAction<boolean>>;
@@ -21,7 +21,7 @@ interface Props {
   isInDogDetail: boolean;
 }
 
-const DeleteDog = ({ setOpenDelete, id, isDogPending, isInDogDetail }: Props) => {
+const DeleteDogModal = ({ setOpenDelete, id, isDogPending, isInDogDetail }: Props) => {
   const rootElement = document.getElementById("root") as Element;
   const navigate = useNavigate();
   const { setDogs } = useAppContext();
@@ -32,8 +32,7 @@ const DeleteDog = ({ setOpenDelete, id, isDogPending, isInDogDetail }: Props) =>
   const handleDelete = async () => {
     try {
       const url = !isDogPending ? `/dog?id=${id}` : `/pending-dog?id=${id}`;
-      const response = await Axios.delete(url);
-      console.log(response);
+      await Axios.delete(url);
       const dogsData = await getDogs(currentPage, searchAndFilters);
       await GetUserInfo({ setIsAuthenticated, setUser });
       setDogs(dogsData.dogs);
@@ -61,4 +60,4 @@ const DeleteDog = ({ setOpenDelete, id, isDogPending, isInDogDetail }: Props) =>
   );
 };
 
-export default DeleteDog;
+export default DeleteDogModal;

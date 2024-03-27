@@ -2,10 +2,21 @@ import style from "./pendingDogsCards.module.scss";
 import { Loader } from "../../../assets/icons";
 import usePendingDogs from "../../../hooks/usePendingDogs";
 import PendingDogCard from "../PendingDogCard/PendingDogCard";
+import { useEffect } from "react";
 
 const PendingDogCards = () => {
-  const { isLoading, isError, error, data, approveOrDisapprove } =
+  const { data, isLoading, isError, approveOrDisapprove, error, resfresh } =
     usePendingDogs();
+
+  //arregar el bug este de que no se actualiza la variable data
+  useEffect(() => {
+    console.log(data.length ? "hay data" : "no hay data");
+    console.log("pendingDogCards", data);
+  }, [data]);
+
+  useEffect(() => {
+    console.log("se detecto el refresh", resfresh);
+  }, [resfresh]);
 
   return (
     <div className={style.PendingDogCards}>
@@ -15,17 +26,11 @@ const PendingDogCards = () => {
         (data.length ? (
           data.map((dog) => (
             <PendingDogCard
-              user={dog.user}
-              userId={dog.userId}
               approveOrDisapprove={approveOrDisapprove}
               key={dog.id}
               id={dog.id}
               img={dog.img}
               name={dog.name}
-              height={dog.height}
-              weight={dog.weight}
-              lifeSpan={dog.lifeSpan}
-              temperaments={dog.temperaments}
               breedGroup={dog.breedGroup}
             />
           ))
@@ -38,32 +43,3 @@ const PendingDogCards = () => {
 };
 
 export default PendingDogCards;
-
-{
-  /* <div className={style.PendingDogCards}>
-      {isLoading && <Loader />}
-      {!isLoading && !isError && data.length === 0 && (
-        <p>No hay perros pendientes</p>
-      )}
-      {isError ? (
-        <p>{error?.message}</p>
-      ) : (
-        data.map((dog) => (
-          <PendingDogCard
-            user={dog.user}
-            userId={dog.userId}
-            approveOrDisapprove={approveOrDisapprove}
-            key={dog.id}
-            id={dog.id}
-            img={dog.img}
-            name={dog.name}
-            height={dog.height}
-            weight={dog.weight}
-            lifeSpan={dog.lifeSpan}
-            temperaments={dog.temperaments}
-            breedGroup={dog.breedGroup}
-          />
-        ))
-      )}
-    </div> */
-}

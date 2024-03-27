@@ -79,14 +79,15 @@ const useFilters = () => {
   };
 
   const cleanFilters = () => {
-    setSearchAndFiltersLocal({
+    setSearchAndFiltersLocal(prev => ({
+      ...prev,
       search: "",
       height: "0 - 1000",
       weight: "0 - 1000",
       temperaments: [],
       breedGroups: [],
       lifeSpan: "0 - 1000",
-    });
+    }));
     setHeight({
       min: "",
       max: "",

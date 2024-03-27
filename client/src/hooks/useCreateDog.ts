@@ -2,14 +2,15 @@ import React, { useEffect } from "react";
 import { useAppContext, useUserContext } from "./contextHooks";
 import Axios from "../axios";
 import { useState } from "react";
-import { Dog } from "../types";
+import { Dog, User } from "../types";
 import { AxiosError, AxiosResponse } from "axios";
 import { errorToast } from "../toasts";
 import toast from "react-hot-toast";
 
 const useCreateDog = () => {
   const { User, setUser } = useUserContext();
-  const { createdDog, setCreatedDog } = useAppContext();
+  const { createdDog, setCreatedDog, modifying, setModifying } =
+    useAppContext();
   const [height, setHeight] = useState<{ min: string; max: string }>({
     min: "",
     max: "",
@@ -136,41 +137,7 @@ const useCreateDog = () => {
   };
 
   const sendDog = () => {
-    if (
-      createdDog.name === "" ||
-      createdDog.height === "" ||
-      createdDog.weight === "" ||
-      createdDog.temperaments.length === 0 ||
-      createdDog.breedGroup === "" ||
-      createdDog.lifeSpan === "" ||
-      createdDog.img === null
-    ) {
-      errorToast("Debes completar todos los campos");
-      return;
-    }
-
-    if (
-      height.min !== "" &&
-      height.max !== "" &&
-      Number(height.min) > Number(height.max)
-    ) {
-      errorToast("La altura minima no puede ser mayor a la maxima");
-      return;
-    } else if (
-      weight.min !== "" &&
-      weight.max !== "" &&
-      Number(weight.min) > Number(weight.max)
-    ) {
-      errorToast("El peso minimo no puede ser mayor al maximo");
-      return;
-    } else if (
-      lifeSpan.min !== "" &&
-      lifeSpan.max !== "" &&
-      Number(lifeSpan.min) > Number(lifeSpan.max)
-    ) {
-      errorToast("La esperanza de vida minima no puede ser mayor a la maxima");
-      return;
-    }
+    if (!dogValidations()) return;
 
     const newDog = {
       ...createdDog,
@@ -200,7 +167,8 @@ const useCreateDog = () => {
           let errorMsg = "Error";
           if (err instanceof AxiosError) {
             errorMsg = err.message;
-            if (err.status === 403) return "No puedes crear mas de 4 perros";
+            if (err.response && err.response.status === 403)
+              return "No puedes crear mas de 4 perros";
           }
           return errorMsg;
         },
@@ -213,6 +181,82 @@ const useCreateDog = () => {
         },
       },
     );
+  };
+
+  const modifyDog = () => {
+    const request = async () => {
+      const newDog = {
+        ...createdDog,
+        userId: User.id,
+        lifeSpan: `${createdDog.lifeSpan} years`,
+        user: undefined,
+      };
+      console.log("nuevo perro por ser enviado", newDog);
+
+      const response = await Axios.put<User>(`/dog?type=${modifying}`, newDog, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      return response;
+    };
+
+    toast.promise(request(), {
+      loading: "Modificando perro...",
+      success: (res) => {
+        setUser(res.data);
+        restoreDog();
+        setModifying(false);
+        return "Perro modificado con exito";
+      },
+      error: (err) => {
+        console.log(err);
+        return err instanceof AxiosError ? err.message : "Error";
+      },
+    });
+  };
+
+  const cancelModify = () => {
+    restoreDog();
+    setModifying(false);
+  };
+
+  const dogValidations = () => {
+    if (
+      createdDog.name === "" ||
+      createdDog.height === "" ||
+      createdDog.weight === "" ||
+      createdDog.temperaments.length === 0 ||
+      createdDog.breedGroup === "" ||
+      createdDog.lifeSpan === "" ||
+      createdDog.img === null
+    ) {
+      errorToast("Debes completar todos los campos");
+      return false;
+    }
+
+    if (
+      height.min !== "" &&
+      height.max !== "" &&
+      Number(height.min) > Number(height.max)
+    ) {
+      errorToast("La altura minima no puede ser mayor a la maxima");
+      return false;
+    } else if (
+      weight.min !== "" &&
+      weight.max !== "" &&
+      Number(weight.min) > Number(weight.max)
+    ) {
+      errorToast("El peso minimo no puede ser mayor al maximo");
+      return false;
+    } else if (
+      lifeSpan.min !== "" &&
+      lifeSpan.max !== "" &&
+      Number(lifeSpan.min) > Number(lifeSpan.max)
+    ) {
+      errorToast("La esperanza de vida minima no puede ser mayor a la maxima");
+      return false;
+    }
+
+    return true;
   };
 
   useEffect(() => {
@@ -271,8 +315,10 @@ const useCreateDog = () => {
     handleBgClick,
     deleteTemp,
     restoreDog,
+    cancelModify,
     sendDog,
     inputValues,
+    modifyDog,
   };
 };
 

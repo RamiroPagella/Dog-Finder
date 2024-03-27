@@ -12,11 +12,6 @@ const useDogs = () => {
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    console.log(currentPage);
-  }, [currentPage])
-  
-
-  useEffect(() => {
     setIsLoading(true);
     setIsError(false);
     setError(null);
@@ -24,6 +19,7 @@ const useDogs = () => {
     const controller = new AbortController();
     const { signal } = controller;
 
+    console.log('antes del getDogs', searchAndFilters);
 
     getDogs(currentPage, searchAndFilters, { signal })
       .then((data) => {

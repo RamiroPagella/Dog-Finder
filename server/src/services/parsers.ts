@@ -4,7 +4,7 @@ import { Dog, DogFilters } from "../types/dog.types";
 export const dogParsers = {
   name: (name: unknown): Dog["name"] => {
     if (!isString(name) || name.length > 30) throw new Error("Incorrect data");
-    return name;
+    return name.trim();
   },
   heightAndWeight: (heightOrWeight: unknown): Dog["height"] | Dog["weight"] => {
     if (
@@ -16,24 +16,24 @@ export const dogParsers = {
   },
   lifeSpan: (lifeSpan: unknown): Dog["lifeSpan"] => {
     if (!isString(lifeSpan) || !dogTypeGuards.isLifeSpan(lifeSpan))
-      throw new Error("Incorrect or missing data");
+      throw new Error("Incorrect data");
     return lifeSpan;
   },
   temperaments: (temperaments: unknown): Dog["temperaments"] => {
     if (!dogTypeGuards.isTemperaments(temperaments)) {
-      throw new Error("Incorrect or missing data");
+      throw new Error("Incorrect data");
     }
     return temperaments;
   },
   breedGroup: (breedGroup: unknown): Dog["breedGroup"] => {
     if (!isString(breedGroup) || !dogTypeGuards.isBreedGroup(breedGroup)) {
-      throw new Error("Incorrect or missing data");
+      throw new Error("Incorrect data");
     }
     return breedGroup;
   },
   userId: (userId: unknown): Dog["userId"] => {
     if (!isString(userId) || !isUuid(userId)) {
-      throw new Error("Incorrect or missing data");
+      throw new Error("Incorrect data");
     }
     return userId;
   },
@@ -57,21 +57,29 @@ export const filtersParsers = {
       return temp;
     });
   },
-  breedGroup: (breedGroup: unknown): DogFilters["breedGroup"] => {
-    if (breedGroup === "") return breedGroup;
-    if (!isString(breedGroup) || !dogTypeGuards.isBreedGroup(breedGroup))
-      throw new Error("Incorrect or missing data");
+  breedGroups: (breedGroup: unknown): DogFilters["breedGroups"] => {
+    if (
+      (breedGroup !== "" && !Array.isArray(breedGroup)) ||
+      !filtersTypeGuards.isBreedGroups(breedGroup)
+    )
+      throw new Error("Incorrect data");
     return breedGroup;
   },
-  lifeSpan: (lifeSpan: unknown) => {
+  lifeSpan: (lifeSpan: unknown): DogFilters["lifeSpan"] => {
     if (!isString(lifeSpan) || !filtersTypeGuards.isLifeSpan(lifeSpan))
       throw new Error("Incorrect data");
     return lifeSpan;
   },
-  page: (page: unknown) => {
+  page: (page: unknown): DogFilters["page"] => {
     if (!isString(page) || isNaN(Number(page)))
       throw new Error("Incorrect data");
     return Number(page);
+  },
+  sort: (sort: unknown): DogFilters["sort"] => {
+    if (!isString(sort) || !filtersTypeGuards.isSort(sort)) {
+      throw new Error("Incorrect data");
+    }
+    return sort;
   },
 };
 ////
@@ -143,6 +151,45 @@ const filtersTypeGuards = {
     const lifeSpanRegex = /^\d+ - \d+ years$/;
     if (!lifeSpanRegex.test(lifeSpan)) return true;
     else return false;
+  },
+  isBreedGroups: (
+    breedGroups: "" | any[],
+  ): breedGroups is DogFilters["breedGroups"] => {
+    if (breedGroups === "") return true;
+
+    const existingBreedGroups = [
+      "Toy",
+      "Hound",
+      "Unknown",
+      "Terrier",
+      "Working",
+      "Mixed",
+      "Non-Sporting",
+      "Sporting",
+      "Herding",
+    ];
+
+    for (let string of breedGroups) {
+      for (let bg of existingBreedGroups) {
+        if (string === bg) continue;
+      }
+      return false;
+    }
+
+    return true;
+  },
+  isSort: (sort: string): sort is DogFilters["sort"] => {
+    if (
+      sort !== "A-Z" &&
+      sort !== "Z-A" &&
+      sort !== "height asc" &&
+      sort !== "height desc" &&
+      sort !== "weight asc" &&
+      sort !== "weight desc"
+    ) {
+      return false;
+    }
+    return true;
   },
 };
 ////

@@ -40,7 +40,7 @@ const Accepted = () => {
           />
         ))
       ) : (
-        <p>No has creado ningun perro que haya sido aceptado.</p>
+        <p>No has creado ningun perro que haya sido aprobado.</p>
       )}
     </>
   );

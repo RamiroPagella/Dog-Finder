@@ -5,7 +5,7 @@ import {
   validateFilters,
   filterAndPageDogs,
   validateDog,
-  hasMoreThanFourDogs,
+  hasFourDogs,
 } from "../services/dogServices";
 import UserModel from "../models/User.model";
 import LikesModel from "../models/Likes.model";
@@ -19,8 +19,8 @@ interface ReqWithUser extends Request {
 }
 
 export const GetDogs: RequestHandler = async (req, res) => {
+  console.log("las query", req.query);
   const filters = validateFilters(req.query);
-
   try {
     const dogs: DogType[] = (await DogModel.findAll()).map(
       (dog) => dog.dataValues,
@@ -107,20 +107,83 @@ export const deleteDog: RequestHandler = async (req: ReqWithUser, res) => {
     const dog = await DogModel.findByPk(dogId);
     if (!dog) return res.status(400).send("Dog not found");
 
-    if (!isAdmin) {
-      if (dog.userId !== userId) {
-        return res.status(401).send("Unhautorized to delete this dog");
-      }
-      await dog.destroy();
-      return res.status(200).send("Dog deleted succesfully");
+    if (!isAdmin && dog.userId !== userId) {
+      return res.status(401).send("Unhautorized to delete this dog");
     }
 
+    cloudinary.uploader.destroy(dog.name);
     await dog.destroy();
     res.status(200).send("Dog deleted succesfully");
   } catch (error) {
     res
       .status(500)
       .json({ error: error instanceof Error ? error.message : error });
+  }
+};
+
+export const ModifyDog: RequestHandler = async (req: ReqWithUser, res) => {
+  try {
+    const userId = req.user?.id;
+    const multerImg = req.file;
+    const bodyImg = req.body.img;
+    const dogId = req.body.id;
+    const verifiedDog: Omit<DogType, "img"> = validateDog(req.body);
+    const type = req.query.type?.toString();
+
+    if (
+      typeof req.body.img === null ||
+      req.body.img === "" ||
+      !req.body.id ||
+      isNaN(Number(req.body.id)) ||
+      !dogId ||
+      isNaN(Number(dogId)) ||
+      (type !== "accepted" && type !== "pending")
+    ) {
+      return res.status(400).send("Incorrect or missing data");
+    }
+
+    const newDog: DogType = {
+      ...verifiedDog,
+      img: "",
+    };
+
+    const prevDog =
+      type === "accepted"
+        ? await DogModel.findByPk(dogId)
+        : await DogPendingModel.findByPk(dogId);
+
+    if (!prevDog) return res.status(400);
+    if (prevDog.userId !== userId) return res.status(401);
+
+    if (multerImg) {
+      await cloudinary.uploader.destroy(prevDog.name);
+      const imgAsString = multerImg?.buffer.toString("base64");
+      const result = await cloudinary.uploader.upload(
+        `data:image/png;base64,${imgAsString}`,
+        { public_id: verifiedDog.name.trim() },
+      );
+      newDog.img = result.url;
+    } else {
+      newDog.img = bodyImg;
+    }
+
+    await prevDog.destroy();
+    await DogPendingModel.create(newDog as Optional<DogType, "id">);
+
+    const newUser = await UserModel.findByPk(userId, {
+      include: [
+        { model: DogModel, as: "likes" },
+        { model: DogModel, as: "dogs" },
+        { model: DogPendingModel, as: "pendingDogs" },
+      ],
+      attributes: {
+        exclude: ["password"],
+      },
+    });
+
+    res.status(200).json(newUser);
+  } catch (error) {
+    console.log(error instanceof Error ? error.message : error);
   }
 };
 
@@ -136,10 +199,12 @@ export const cancelPendingDog: RequestHandler = async (
 
     const dog = await DogPendingModel.findByPk(dogId);
 
-    if (!dog) return res.status(400).send("Missing or invalid data");
+    if (!dog) return res.status(400).send("Dog not found");
     if (dog.userId !== userId) {
       return res.status(401).send("Unhautorized to delete this dog");
     }
+
+    cloudinary.uploader.destroy(dog.name);
     await dog.destroy();
 
     res.status(200).send("Dog deleted succesfully");
@@ -223,13 +288,28 @@ export const likeDog: RequestHandler = async (req: ReqWithUser, res) => {
 export const createDog: RequestHandler = async (req: ReqWithUser, res) => {
   try {
     const userId = req.user?.id;
-    if (await hasMoreThanFourDogs(userId)) {
-      return res.status(403).send("Already have more than four dogs");
+    const multerFile = req.file;
+    if (!multerFile) return res.status(400).send("Missing data");
+
+    if (await hasFourDogs(userId)) {
+      return res.status(403).send("Already have four dogs");
     }
 
     const createdDog: Omit<DogType, "img"> = validateDog(req.body);
 
-    const imageAsString = req.file?.buffer.toString("base64");
+    const dogWithSameName = await DogModel.findOne({
+      where: {
+        name: createdDog.name,
+      },
+    });
+    const pendingDogWithSameName = await DogPendingModel.findOne({
+      where: { name: createdDog.name },
+    });
+    if (dogWithSameName || pendingDogWithSameName) {
+      return res.status(409).send("Name already used");
+    }
+
+    const imageAsString = multerFile.buffer.toString("base64");
     const result = await cloudinary.uploader.upload(
       `data:image/png;base64,${imageAsString}`,
       { public_id: req.body.name.trim() },
@@ -364,7 +444,7 @@ export const getPendingDogById: RequestHandler = async (
   }
 };
 
-export const approveOrDissaprove: RequestHandler = async (req, res) => {
+export const approveOrDisapprove: RequestHandler = async (req, res) => {
   try {
     const id: DogType["id"] = req.body.id;
     const approve: boolean = req.body.approve;
@@ -379,6 +459,7 @@ export const approveOrDissaprove: RequestHandler = async (req, res) => {
       return res.status(404).json({ error: "Pending dog not found" });
     }
 
+    cloudinary.uploader.destroy(pendingDog.name);
     pendingDog?.destroy();
 
     if (!approve) return res.status(200).send("Dog disapproved succesfully");
@@ -422,6 +503,10 @@ export const approveOrDisapproveAll: RequestHandler = async (req, res) => {
       },
     });
 
+    pendingDogs.forEach((dog) => {
+      cloudinary.uploader.destroy(dog.name);
+      return dog;
+    });
     await Promise.all(
       pendingDogs.map(async (dog): Promise<void> => {
         dog.destroy();

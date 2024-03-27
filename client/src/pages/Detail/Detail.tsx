@@ -13,7 +13,7 @@ import {
 import DetailHeader from "../../components/DetailComponents/DetailHeader/DetailHeader";
 import useDogDetail from "../../hooks/useDogDetail";
 import { useUserContext } from "../../hooks/contextHooks";
-import DeleteDog from "../../components/DeleteDog/DeleteDog";
+import DeleteDog from "../../components/DeleteDogModal/DeleteDogModal";
 
 const Detail = () => {
   const params = useParams();
@@ -69,7 +69,7 @@ const Detail = () => {
                   </div>
                 ))}
 
-              {(User?.id === dog?.userId || User?.admin) && (
+              {(User?.id === dog?.userId || User?.admin && !isDogPending) && (
                 <div
                   className={style.deleteContainer}
                   onClick={() => setOpenDelete(true)}

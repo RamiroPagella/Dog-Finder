@@ -1,3 +1,3 @@
-const array: any = [];
+const arr = ['hola', 'como', 'estas'];
 
-console.log(array[0])
+console.log(arr.join(''))

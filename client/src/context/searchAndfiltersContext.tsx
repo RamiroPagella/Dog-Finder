@@ -25,13 +25,22 @@ export const SearchAndFiltersProvider = ({ children }: ProviderProps) => {
     temperaments: [],
     breedGroups: [],
     lifeSpan: "0 - 1000",
+    sort: "A-Z",
+    onlyCreated: false
   });
-  const [favSearch, setFavSearch] = useState<string>('');
-  const [pendingDogsSearch, setPendingDogsSearch] = useState<string>('');
+  const [favSearch, setFavSearch] = useState<string>("");
+  const [pendingDogsSearch, setPendingDogsSearch] = useState<string>("");
 
   return (
     <SearchAndfiltersContext.Provider
-      value={{ searchAndFilters, setSearchAndFilters, favSearch, setFavSearch, pendingDogsSearch, setPendingDogsSearch }}
+      value={{
+        searchAndFilters,
+        setSearchAndFilters,
+        favSearch,
+        setFavSearch,
+        pendingDogsSearch,
+        setPendingDogsSearch,
+      }}
     >
       {children}
     </SearchAndfiltersContext.Provider>

@@ -1,0 +1,91 @@
+@import "../../../style/mixins.scss";
+
+.Container {
+    @include flex(center, center);
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    z-index: 10;
+    background-color: var(--shadowBackground);
+
+    .sorting {
+        @include flex(flex-start, stretch, column);
+        width: 400px;
+        background-color: var(--color4);
+        border-radius: 15px;
+        position: relative;
+        animation: appear 0.3s;
+        padding: 20px;
+        padding-top: 10px;
+        z-index: 11;
+        gap: 15px;
+
+        h1 {
+            @include flex(space-between, center);
+            width: 100%;
+            border-bottom: solid var(--color7);
+            height: 65px;
+            padding-right: 10px;
+
+            .closeButton {
+                @include button();
+                @include flex(center, center);
+                height: 40px;
+                width: 40px;
+                padding: 10px;
+
+                svg {
+                    min-width: 100%;
+                    min-height: 100%;
+                }
+            }
+        }
+
+        section {
+            @include flex(space-between, center);
+            height: 80px;
+            width: 100%;
+            padding: 15px;
+            background-color: var(--color5);
+            border-radius: 15px;
+
+            h3 {
+                flex: 1;
+                text-align: center;
+            }
+
+            .buttons {
+                @include flex(center, stretch, column);
+                gap: 10px;
+                flex: 1;
+
+                button {
+                    @include button;
+                    padding: 5px 10px;
+                }
+                .selected {
+                    background-color: var(--color7);
+                    color: var(--color4);
+                }
+            }
+        }
+
+        .applyBtn {
+            @include button;
+            align-self: center;
+        }
+    }
+}
+
+@keyframes appear {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

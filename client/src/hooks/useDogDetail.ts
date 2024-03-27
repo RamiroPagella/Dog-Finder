@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react";
-import { Dog as DogType } from "../types";
+import { CreatedDog, Dog as DogType } from "../types";
 import Axios from "../axios";
 import { errorToast } from "../toasts";
-import { useUserContext } from "./contextHooks";
-import { favDog, getDogs } from "../services/dogsServices";
-import { useLocation } from "react-router-dom";
-import { isPending } from "@reduxjs/toolkit";
-import { GetUserInfo } from "../services/userServices";
-import { AxiosError } from "axios";
+import { useAppContext, useUserContext } from "./contextHooks";
+import { favDog } from "../services/dogsServices";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface Response {
   message: "string";
@@ -16,9 +13,10 @@ interface Response {
 }
 
 const useDogDetail = (id: DogType["id"]) => {
-  const { setIsAuthenticated, isAuthenticated, User, setUser } =
-    useUserContext();
   const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const { isAuthenticated, User, setUser } = useUserContext();
+  const { setCreatedDog, setModifying } = useAppContext();
   const [dog, setDog] = useState<DogType | null>(null);
   const [isError, setIsError] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
@@ -28,7 +26,8 @@ const useDogDetail = (id: DogType["id"]) => {
   });
   const [isFavLoading, setIsFavLoading] = useState<boolean>(false);
   const [isFav, setIsFav] = useState<boolean>(false);
-  const [isDogPending, setIsDogPending] = useState<boolean>(false);
+  const isDogPending = pathname.includes("/pending-dog/") ? true : false;
+
 
   const handleFav = async () => {
     if (!isAuthenticated) {
@@ -54,7 +53,12 @@ const useDogDetail = (id: DogType["id"]) => {
 
   const handleModify = () => {
     console.log(dog);
-  }
+    if (dog) {
+      setCreatedDog({ ...dog, lifeSpan: dog.lifeSpan.slice(0, -6) });
+    }
+    setModifying(isDogPending ? 'pending' : 'accepted');
+    navigate("/create-dog");
+  };
 
   useEffect(() => {
     setIsError(false);
@@ -64,7 +68,6 @@ const useDogDetail = (id: DogType["id"]) => {
     const controller = new AbortController();
     const { signal } = controller;
 
-    const isDogPending = pathname.includes("/pending-dog/") ? true : false;
     const url = isDogPending ? `/pending-dog/${id}` : `/dog/${id}`;
 
     Axios.get<Response>(url, { signal })
@@ -79,8 +82,6 @@ const useDogDetail = (id: DogType["id"]) => {
         setError(err);
         console.log(err);
       });
-
-    setIsDogPending(isDogPending);
 
     if (isAuthenticated && !isDogPending)
       User.likes?.map((dog) => {

@@ -13,11 +13,14 @@ export const getDogs = async (
   filters: Filters,
   options: AxiosRequestConfig = {},
 ): Promise<GetDogsResponse> => {
-  const { search, height, weight, temperaments, breedGroups, lifeSpan } =
-    filters;
-  const url = `/dogs?page=${pageNum}&search=${search}&height=${height}&weight=${weight}&temperaments=${temperaments.join()}&breedGroup=${breedGroups.join()}&lifeSpan=${lifeSpan}`;
 
-  const response = await Axios.get<GetDogsResponse>(url, options);
+  options.params = {
+    ...filters,
+    breedGroups: filters.breedGroups.join(),
+    temperaments: filters.temperaments.join(),
+    page: pageNum
+  }
+  const response = await Axios.get<GetDogsResponse>('/dogs', options);
   return response.data;
 };
 

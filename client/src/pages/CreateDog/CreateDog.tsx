@@ -20,8 +20,10 @@ export const CreateDog = () => {
     handleTempClick,
     deleteTemp,
     restoreDog,
+    cancelModify,
     sendDog,
     inputValues,
+    modifyDog
   } = useCreateDog();
 
   return (
@@ -30,7 +32,7 @@ export const CreateDog = () => {
         <NoSession path={"create-dog"} />
       ) : (
         <>
-          <CreateDogHeader restoreDog={restoreDog} sendDog={sendDog} />
+          <CreateDogHeader restoreDog={restoreDog} sendDog={sendDog} cancelModify={cancelModify} modifyDog={modifyDog}/>
 
           <div className={style.createDogContent}>
             <ImageAndName

@@ -29,6 +29,13 @@ export interface DogFilters {
   height: `${number} - ${number}` | "";
   weight: `${number} - ${number}` | "";
   temperaments: string[] | "";
-  breedGroup: breedGroup | "";
+  breedGroups: breedGroup[] | "";
   lifeSpan: `${number} - ${number} years` | `${number} years` | "";
+  sort:
+    | "height asc"
+    | "height desc"
+    | "weight asc"
+    | "weight desc"
+    | "A-Z"
+    | "Z-A";
 }
