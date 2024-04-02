@@ -2,8 +2,17 @@ import style from "./myDogsCards.module.scss";
 import { Route, Routes } from "react-router-dom";
 import { useUserContext } from "../../../hooks/contextHooks";
 import Card from "../../Card/Card";
+import { useEffect } from "react";
+import { GetUserInfo } from "../../../services/userServices";
 
 const MyDogsCards = () => {
+  const { setUser, setIsAuthenticated } = useUserContext();
+
+  useEffect(() => {
+    GetUserInfo({ setIsAuthenticated, setUser });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div className={style.MyDogsCards}>
       <Routes>

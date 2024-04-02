@@ -19,8 +19,6 @@ const usePendingDogs = () => {
   const { pendingsCurrentPage, setPendingsTotalPages } = usePagingContext();
   const { pendingDogsSearch } = useSearchAndFiltersContext();
 
-  const [resfresh, setRefresh] = useState<boolean>(false);
-
   useEffect(() => {
     setIsLoading(true);
     setIsError(false);
@@ -76,20 +74,23 @@ const usePendingDogs = () => {
         ids: dogIds,
         approve,
       });
+      setData([]);
       return response;
     };
 
     toast.promise(asyncFunction(), {
       loading: `${approve ? "Aprobando" : "Desaprobando"} perros...`,
-      success: () => {
-        setData([]);
-        return `Perros ${approve ? "aprobados" : "desaprobados"} con exito`;
-      },
+      success: () =>
+        `Perros ${approve ? "aprobados" : "desaprobados"} con exito`,
       error: (err) => {
         return err instanceof AxiosError ? err.message : "Error";
       },
     });
   };
+
+  useEffect(() => {
+    console.log(data)
+  }, [data])
 
   return {
     isLoading,
@@ -98,7 +99,6 @@ const usePendingDogs = () => {
     data,
     approveOrDisapprove,
     approveOrDisapproveAll,
-    resfresh
   };
 };
 

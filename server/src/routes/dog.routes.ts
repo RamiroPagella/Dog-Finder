@@ -12,6 +12,8 @@ import {
   getPendingDogs,
   getTempsAndBreedGroups,
   likeDog,
+  getOwnPendingDogById,
+  getOwnDogById,
 } from "../handlers/dogHandlers";
 import { verifyToken } from "../middlewares";
 import multer from "multer";
@@ -25,6 +27,8 @@ const dogRouter = Router();
 dogRouter.get("/dogs", GetDogs);
 
 dogRouter.get("/dog/:id", getDogById);
+
+dogRouter.get('/own-dog/:id', verifyToken, getOwnDogById);
 
 dogRouter.post("/dog", verifyToken, upload.single("img"), createDog);
 
@@ -41,6 +45,8 @@ dogRouter.put("/pending-dog", verifyToken, approveOrDisapprove);
 dogRouter.put("/pending-dog/all", verifyToken, approveOrDisapproveAll);
 
 dogRouter.get("/pending-dog/:id", verifyToken, getPendingDogById);
+
+dogRouter.get('/pending-dog/own/:id', verifyToken, getOwnPendingDogById)
 
 dogRouter.get("/temps-and-breedgroups", getTempsAndBreedGroups);
 

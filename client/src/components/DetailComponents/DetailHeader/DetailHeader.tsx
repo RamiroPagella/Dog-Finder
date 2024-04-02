@@ -15,20 +15,28 @@ const DetailHeader = ({ username, dogName, prevAndNext }: Props) => {
   const { backRoute, setBackRoute } = useAppContext();
 
   const prevHandler = () => {
-    if (!prevAndNext.prev) return;
-    navigate(
-      pathname.includes("/dog/")
-        ? `/dog/${prevAndNext.prev}`
-        : `/pending-dog/${prevAndNext.prev}`,
-    );
+    const { prev } = prevAndNext;
+    if (!prev) return;
+
+    let url: string = "";
+    if (pathname.includes("/dog/")) url = `/dog/${prev}`;
+    if (pathname.includes("/my-dog/")) url = `/my-dog/${prev}`;
+    if (pathname.includes("/my-dog/pending/")) url = `/my-dog/pending/${prev}`;
+    if (pathname.includes("/pending-dog/")) url = `/pending-dog/${prev}`;
+
+    navigate(url);
   };
   const nextHandler = () => {
-    if (!prevAndNext.next) return;
-    navigate(
-      pathname.includes("/dog/")
-        ? `/dog/${prevAndNext.next}`
-        : `/pending-dog/${prevAndNext.next}`,
-    );
+    const { next } = prevAndNext;
+    if (!next) return;
+
+    let url: string = "";
+    if (pathname.includes("/dog/")) url = `/dog/${next}`;
+    if (pathname.includes("/my-dog/")) url = `/my-dog/${next}`;
+    if (pathname.includes("/my-dog/pending/")) url = `/my-dog/pending/${next}`;
+    if (pathname.includes("/pending-dog/")) url = `/pending-dog/${next}`;
+
+    navigate(url);
   };
 
   return (

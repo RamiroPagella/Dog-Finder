@@ -37,6 +37,8 @@ const Detail = () => {
     setIsImageOpen(!isImageOpen);
   };
 
+  console.log(prevAndNext);
+
   return (
     <div className={style.Detail}>
       {isError ? (

@@ -20,6 +20,16 @@ const Card = (props: Dog) => {
   const [isFav, setIsFav] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [openDelete, setOpenDelete] = useState<boolean>(false);
+  const navTo =
+    pathname === "/"
+      ? `/dog/${props.id}`
+      : pathname.includes("accepted")
+        ? `/my-dog/${props.id}`
+        : `/my-dog/pending/${props.id}`;
+
+  const handleCardClick = () => {
+    setBackRoute(pathname);
+  };
 
   const handleFav = async (e: React.MouseEvent<SVGSVGElement>) => {
     e.preventDefault();
@@ -106,26 +116,25 @@ const Card = (props: Dog) => {
     </div>
   );
 
-  const handleCardClick = () => {
-    setBackRoute(pathname);
-  }
-
   return (
     <>
       <Link
         className={style.Card}
-        to={
-          pathname !== "/profile/my-dogs/pending"
-            ? `/dog/${props.id}`
-            : `/pending-dog/${props.id}`
-        }
+        to={navTo}
         onClick={handleCardClick}
       >
         {content}
         {hoverContent}
       </Link>
 
-      {openDelete && <DeleteDog setOpenDelete={setOpenDelete} id={props.id} isDogPending={pathname.includes("/pending")} isInDogDetail={false}/>}
+      {openDelete && (
+        <DeleteDog
+          setOpenDelete={setOpenDelete}
+          id={props.id}
+          isDogPending={pathname.includes("/pending")}
+          isInDogDetail={false}
+        />
+      )}
     </>
   );
 };

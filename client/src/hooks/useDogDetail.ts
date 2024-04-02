@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { CreatedDog, Dog as DogType } from "../types";
+import { Dog as DogType } from "../types";
 import Axios from "../axios";
 import { errorToast } from "../toasts";
 import { useAppContext, useUserContext } from "./contextHooks";
@@ -26,8 +26,7 @@ const useDogDetail = (id: DogType["id"]) => {
   });
   const [isFavLoading, setIsFavLoading] = useState<boolean>(false);
   const [isFav, setIsFav] = useState<boolean>(false);
-  const isDogPending = pathname.includes("/pending-dog/") ? true : false;
-
+  const isDogPending = pathname.includes('/pending');
 
   const handleFav = async () => {
     if (!isAuthenticated) {
@@ -56,7 +55,7 @@ const useDogDetail = (id: DogType["id"]) => {
     if (dog) {
       setCreatedDog({ ...dog, lifeSpan: dog.lifeSpan.slice(0, -6) });
     }
-    setModifying(isDogPending ? 'pending' : 'accepted');
+    setModifying(pathname.includes("/pending") ? "pending" : "accepted");
     navigate("/create-dog");
   };
 
@@ -68,9 +67,14 @@ const useDogDetail = (id: DogType["id"]) => {
     const controller = new AbortController();
     const { signal } = controller;
 
-    const url = isDogPending ? `/pending-dog/${id}` : `/dog/${id}`;
+    let url: string = "";
+    if (pathname.includes('/dog/')) url = `/dog/${id}`;
+    else if (pathname.includes("/my-dog/")) {
+      if (pathname.includes("/pending")) url = `/pending-dog/own/${id}`;
+      else url = `/own-dog/${id}`;
+    } else url = `/pending-dog/${id}`;
 
-    Axios.get<Response>(url, { signal })
+    Axios.get<Response>(url, { signal, params: { id } })
       .then((res) => {
         setDog(res.data.dog);
         console.log();

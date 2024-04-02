@@ -3,20 +3,29 @@ import { Loader } from "../../../assets/icons";
 import usePendingDogs from "../../../hooks/usePendingDogs";
 import PendingDogCard from "../PendingDogCard/PendingDogCard";
 import { useEffect } from "react";
+import { Dog } from "../../../types";
+import { AxiosError } from "axios";
 
-const PendingDogCards = () => {
-  const { data, isLoading, isError, approveOrDisapprove, error, resfresh } =
-    usePendingDogs();
+interface Props {
+  data: Dog[];
+  isLoading: boolean;
+  isError: boolean;
+  error: AxiosError | null;
+  approveOrDisapprove: (dogId: number, approve: boolean) => void;
+}
 
-  //arregar el bug este de que no se actualiza la variable data
+const PendingDogCards = ({
+  data,
+  isLoading,
+  isError,
+  error,
+  approveOrDisapprove,
+}: Props) => {
+  
   useEffect(() => {
     console.log(data.length ? "hay data" : "no hay data");
-    console.log("pendingDogCards", data);
+    console.log("cambio detectado en data", data);
   }, [data]);
-
-  useEffect(() => {
-    console.log("se detecto el refresh", resfresh);
-  }, [resfresh]);
 
   return (
     <div className={style.PendingDogCards}>

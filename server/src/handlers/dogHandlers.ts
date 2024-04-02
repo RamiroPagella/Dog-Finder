@@ -6,6 +6,9 @@ import {
   filterAndPageDogs,
   validateDog,
   hasFourDogs,
+  getOwnPendingDog,
+  getPendingDog,
+  getOwnDog,
 } from "../services/dogServices";
 import UserModel from "../models/User.model";
 import LikesModel from "../models/Likes.model";
@@ -58,7 +61,7 @@ export const getDogById: RequestHandler = async (req, res) => {
         },
       },
     });
-    if (!dog) return res.status(400).json({ error: "Dog not found" });
+    if (!dog) return res.status(404).json({ error: "Dog not found" });
 
     const prevDog: DogModel | null = await DogModel.findOne({
       where: {
@@ -91,6 +94,30 @@ export const getDogById: RequestHandler = async (req, res) => {
       .status(500)
       .json({ error: error instanceof Error ? error.message : error });
     console.log(error);
+  }
+};
+
+export const getOwnDogById: RequestHandler = async (req: ReqWithUser, res) => {
+  try {
+    const user = req.user;
+    const dogId = Number(req.params.id);
+    if (!user || !dogId) {
+      return res.status(400).send("Incorrect or missing data");
+    }
+    const { dog, prevAndNext } = await getOwnDog(dogId, user.id);
+    if (dog.userId !== user.id) return res.status(403);
+
+    return res.status(200).json({
+      dog,
+      prevAndNext,
+    });
+  } catch (error) {
+    let status: number = 500;
+    if (error instanceof Error && error.message === "Dog not found")
+      status = 404;
+    res
+      .status(status)
+      .json({ error: error instanceof Error ? error.message : error });
   }
 };
 
@@ -384,60 +411,64 @@ export const getPendingDogById: RequestHandler = async (
 ) => {
   try {
     const user = req.user;
-    if (!user) return res.status(401).send("Missing user data");
+    const dogId = Number(req.params.id);
+    const userId = user?.id;
+    const isAdmin = user?.admin;
 
-    const id = Number(req.params.id);
-    if (!id) res.status(400).json({ error: "Incorrect or missing data" });
+    if (!user || !userId) return res.status(401).send("Missing user data");
+    if (!dogId) res.status(400).json({ error: "Incorrect or missing data" });
 
-    const pendingDog = await DogPendingModel.findOne({
-      where: {
-        id,
-      },
-      include: {
-        model: UserModel,
-        as: "user",
-        attributes: { exclude: ["id", "email", "password", "admin"] },
-      },
-    });
-    if (!pendingDog) return res.status(404).send("Pending dog not found");
-
-    const prevPendingDog: DogPendingModel | null =
-      await DogPendingModel.findOne({
-        where: {
-          id: {
-            [Op.lt]: pendingDog.id,
-          },
-        },
-        order: [["id", "DESC"]],
-      });
-
-    const nextPendingDog: DogPendingModel | null =
-      await DogPendingModel.findOne({
-        where: {
-          id: {
-            [Op.gt]: pendingDog.id,
-          },
-        },
-        order: [["id", "ASC"]],
-      });
-
-    if (!user.admin && pendingDog.userId !== user.id) {
-      return res.status(403);
+    if (!isAdmin) {
+      res.status(403);
     }
 
-    const prevAndNext = {
-      prev: prevPendingDog ? prevPendingDog.id : null,
-      next: nextPendingDog ? nextPendingDog.id : null,
-    };
+    const { pendingDog, prevAndNext } = await getPendingDog(dogId);
 
     res.status(200).json({
-      message: "pending dog fetched succesfully",
       dog: pendingDog,
       prevAndNext,
     });
   } catch (error) {
+    const status: number = 500;
+    if (error instanceof Error && error.message === "Pending dog not found") {
+      status === 404;
+    }
     res
-      .status(500)
+      .status(status)
+      .json({ error: error instanceof Error ? error.message : error });
+    console.log(error);
+  }
+};
+
+export const getOwnPendingDogById: RequestHandler = async (
+  req: ReqWithUser,
+  res,
+) => {
+  try {
+    const user = req.user;
+    const userId = user?.id;
+    const dogId = Number(req.params.id);
+
+    if (!user || !userId) return res.status(401).send("Missing user data");
+    if (!dogId) res.status(400).send("Incorrect or missing data");
+
+    const { pendingDog, prevAndNext } = await getOwnPendingDog(dogId, userId);
+
+    if (pendingDog.userId !== userId) {
+      return res.status(403);
+    }
+
+    res.status(200).json({
+      dog: pendingDog,
+      prevAndNext,
+    });
+  } catch (error) {
+    const status: number = 500;
+    if (error instanceof Error && error.message === "Pending dog not found") {
+      status === 404;
+    }
+    res
+      .status(status)
       .json({ error: error instanceof Error ? error.message : error });
     console.log(error);
   }

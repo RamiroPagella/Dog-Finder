@@ -39,7 +39,10 @@ function App() {
         <Route path="/" element={<Explore />} />
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/create-dog" element={<CreateDog />} />
+        
         <Route path="/dog/:id" element={<Detail />} />
+        <Route path="/my-dog/:id" element={<Detail />} />
+        <Route path='my-dog/pending/:id' element={<Detail />} />
         <Route path="/pending-dog/:id" element={<Detail />}/>
 
         <Route path="/profile/*" element={<Profile />}/>

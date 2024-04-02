@@ -1,5 +1,7 @@
+import { Op } from "sequelize";
 import DogModel from "../models/Dog.model";
 import DogPendingModel from "../models/DogPending.model";
+import UserModel from "../models/User.model";
 import { Dog, DogFilters, Dog as DogType } from "../types/dog.types";
 import { dogParsers, filtersParsers } from "./parsers";
 
@@ -171,7 +173,7 @@ export const validateFilters = (dogFilters: unknown): DogFilters => {
     "breedGroups" in dogFilters &&
     "lifeSpan" in dogFilters &&
     "page" in dogFilters &&
-    "sort" in dogFilters && 
+    "sort" in dogFilters &&
     "onlyCreated" in dogFilters
   ) {
     const filters = {
@@ -183,7 +185,7 @@ export const validateFilters = (dogFilters: unknown): DogFilters => {
       breedGroups: filtersParsers.breedGroups(dogFilters.breedGroups),
       lifeSpan: filtersParsers.lifeSpan(dogFilters.lifeSpan),
       sort: filtersParsers.sort(dogFilters.sort),
-      onlyCreated: filtersParsers.onlyCreated(dogFilters.onlyCreated)
+      onlyCreated: filtersParsers.onlyCreated(dogFilters.onlyCreated),
     };
     return filters;
   } else throw new Error("Incorrect or missing data");
@@ -230,4 +232,147 @@ export const hasFourDogs = async (userId: Dog["userId"]): Promise<boolean> => {
   });
   if (DogsCount + pendingDogsCount >= 4) return true;
   else return false;
+};
+
+interface GetPendingDog {
+  prevAndNext: {
+    prev: number | null;
+    next: number | null;
+  };
+  pendingDog: DogPendingModel;
+}
+interface GetDog {
+  prevAndNext: {
+    prev: number | null;
+    next: number | null
+  };
+  dog: DogModel;
+}
+export const getOwnDog = async (
+  id: DogModel["id"],
+  userId: DogModel["userId"],
+): Promise<GetDog> => {
+  const dog = await DogModel.findByPk(id, {
+    include: {
+      model: UserModel,
+      as: "user",
+      attributes: { exclude: ["id", "email", "password", "admin"] },
+    },
+  });
+  if (!dog) throw new Error("Dog not found");
+
+  const prevDog: DogModel | null = await DogModel.findOne({
+    where: {
+      id: {
+        [Op.lt]: dog.id,
+      },
+      userId,
+    },
+    order: [["id", "DESC"]],
+  });
+
+  const nextDog: DogModel | null = await DogModel.findOne({
+    where: {
+      id: {
+        [Op.gt]: dog.id,
+      },
+      userId,
+    },
+    order: [["id", "ASC"]],
+  });
+
+  const prevAndNext = {
+    prev: prevDog ? prevDog.id : null,
+    next: nextDog ? nextDog.id : null,
+  };
+
+  return {
+    prevAndNext,
+    dog,
+  };
+};
+export const getOwnPendingDog = async (
+  id: DogPendingModel["id"],
+  userId: DogPendingModel["userId"],
+): Promise<GetPendingDog> => {
+  const pendingDog = await DogPendingModel.findByPk(id, {
+    include: {
+      model: UserModel,
+      as: "user",
+      attributes: { exclude: ["id", "email", "password", "admin"] },
+    },
+  });
+  if (!pendingDog) throw new Error("Pending dog not found");
+
+  const prevPendingDog: DogPendingModel | null = await DogPendingModel.findOne({
+    where: {
+      id: {
+        [Op.lt]: pendingDog.id,
+      },
+      userId,
+    },
+    order: [["id", "DESC"]],
+  });
+
+  const nextPendingDog: DogPendingModel | null = await DogPendingModel.findOne({
+    where: {
+      id: {
+        [Op.gt]: pendingDog.id,
+      },
+      userId,
+    },
+    order: [["id", "ASC"]],
+  });
+
+  const prevAndNext = {
+    prev: prevPendingDog ? prevPendingDog.id : null,
+    next: nextPendingDog ? nextPendingDog.id : null,
+  };
+
+  return {
+    prevAndNext,
+    pendingDog,
+  };
+};
+
+export const getPendingDog = async (id: DogPendingModel["id"]) => {
+  const pendingDog = await DogPendingModel.findOne({
+    where: {
+      id,
+    },
+    include: {
+      model: UserModel,
+      as: "user",
+      attributes: { exclude: ["id", "email", "password", "admin"] },
+    },
+  });
+  if (!pendingDog) throw new Error("Pending dog not found");
+
+  const prevPendingDog: DogPendingModel | null = await DogPendingModel.findOne({
+    where: {
+      id: {
+        [Op.lt]: pendingDog.id,
+      },
+    },
+    order: [["id", "DESC"]],
+  });
+
+  const nextPendingDog: DogPendingModel | null = await DogPendingModel.findOne({
+    where: {
+      id: {
+        [Op.gt]: pendingDog.id,
+      },
+    },
+    order: [["id", "ASC"]],
+  });
+
+  const prevAndNext = {
+    prev: prevPendingDog ? prevPendingDog.id : null,
+    next: nextPendingDog ? nextPendingDog.id : null,
+  };
+
+  return {
+    prevAndNext,
+    pendingDog,
+  };
 };
