@@ -1,4 +1,4 @@
-import React, { ReactNode, createContext, useState } from "react";
+import React, { ReactNode, createContext, useEffect, useState } from "react";
 import { Filters } from "../types";
 
 export interface SearchAndfiltersContextType {

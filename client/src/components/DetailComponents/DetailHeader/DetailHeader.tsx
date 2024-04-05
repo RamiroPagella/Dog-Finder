@@ -5,39 +5,22 @@ import { useAppContext } from "../../../hooks/contextHooks";
 
 interface Props {
   dogName: DogType["name"] | undefined;
-  prevAndNext: { prev: `${number}` | null; next: `${number}` | null };
+  prevAndNext: { prev: `${number}` | null; next: `${number}` | null } | {prev: boolean; next: boolean};
   username: User["username"] | undefined;
+  prevHandler: () => void;
+  nextHandler: () => void;
 }
 
-const DetailHeader = ({ username, dogName, prevAndNext }: Props) => {
+const DetailHeader = ({
+  username,
+  dogName,
+  prevAndNext,
+  prevHandler,
+  nextHandler,
+}: Props) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { backRoute, setBackRoute } = useAppContext();
-
-  const prevHandler = () => {
-    const { prev } = prevAndNext;
-    if (!prev) return;
-
-    let url: string = "";
-    if (pathname.includes("/dog/")) url = `/dog/${prev}`;
-    if (pathname.includes("/my-dog/")) url = `/my-dog/${prev}`;
-    if (pathname.includes("/my-dog/pending/")) url = `/my-dog/pending/${prev}`;
-    if (pathname.includes("/pending-dog/")) url = `/pending-dog/${prev}`;
-
-    navigate(url);
-  };
-  const nextHandler = () => {
-    const { next } = prevAndNext;
-    if (!next) return;
-
-    let url: string = "";
-    if (pathname.includes("/dog/")) url = `/dog/${next}`;
-    if (pathname.includes("/my-dog/")) url = `/my-dog/${next}`;
-    if (pathname.includes("/my-dog/pending/")) url = `/my-dog/pending/${next}`;
-    if (pathname.includes("/pending-dog/")) url = `/pending-dog/${next}`;
-
-    navigate(url);
-  };
 
   return (
     <div className={style.pageHeader}>

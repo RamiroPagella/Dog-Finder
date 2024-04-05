@@ -8,7 +8,6 @@ export interface AppContextType {
   setAllTemperaments: React.Dispatch<React.SetStateAction<string[]>>;
   setAllBreedGroups: React.Dispatch<React.SetStateAction<string[]>>;
   setCreatedDog: React.Dispatch<React.SetStateAction<CreatedDog>>;
-  dogs: Dog[];
   setDogs: React.Dispatch<React.SetStateAction<Dog[]>>;
   backRoute: string;
   setBackRoute: React.Dispatch<React.SetStateAction<string>>;
@@ -16,6 +15,7 @@ export interface AppContextType {
   setModifying: React.Dispatch<
     React.SetStateAction<"accepted" | "pending" | false>
   >;
+  dogs: Dog[];
 }
 
 export const AppContext = createContext<AppContextType | null>(null);
@@ -37,9 +37,9 @@ export const AppContextProvider = ({ children }: Props) => {
     lifeSpan: "",
     img: null,
   });
-  const [modifying, setModifying] = useState<AppContextType['modifying']>(
-    false,
-  );
+  const [modifying, setModifying] =
+    useState<AppContextType["modifying"]>(false);
+
 
   return (
     <AppContext.Provider
@@ -50,12 +50,12 @@ export const AppContextProvider = ({ children }: Props) => {
         setAllBreedGroups,
         createdDog,
         setCreatedDog,
-        dogs,
         setDogs,
         backRoute,
         setBackRoute,
         modifying,
         setModifying,
+        dogs
       }}
     >
       {children}

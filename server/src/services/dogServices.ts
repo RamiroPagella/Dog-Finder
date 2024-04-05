@@ -15,6 +15,7 @@ export const filterAndPageDogs = (dogs: DogType[], filters: DogFilters) => {
     lifeSpan,
     sort,
     onlyCreated,
+    page,
   } = filters;
 
   if (height !== "") {
@@ -157,7 +158,7 @@ export const filterAndPageDogs = (dogs: DogType[], filters: DogFilters) => {
   }
 
   return {
-    dogsPage: pagedDogs[filters.page - 1] ? pagedDogs[filters.page - 1] : [],
+    dogsPage: pagedDogs[page - 1] ? pagedDogs[page - 1] : [],
     totalPages: pagedDogs.length,
   };
 };
@@ -244,7 +245,7 @@ interface GetPendingDog {
 interface GetDog {
   prevAndNext: {
     prev: number | null;
-    next: number | null
+    next: number | null;
   };
   dog: DogModel;
 }

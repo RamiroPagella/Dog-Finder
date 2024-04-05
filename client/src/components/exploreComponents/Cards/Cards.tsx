@@ -1,11 +1,12 @@
 import style from "./cards.module.scss";
 import Card from "../../Card/Card";
-import useDogs from "../../../hooks/useDogs";
 import { Dog as DogType } from "../../../types";
 import { Loader } from "../../../assets/icons";
+import useDogs from "../../../hooks/useDogs";
 
 const Cards = () => {
   const { dogs, isLoading, isError, error } = useDogs();
+  
 
   return (
     <div className={style.Cards}>

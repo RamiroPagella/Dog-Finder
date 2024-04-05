@@ -1,4 +1,4 @@
-import { RequestHandler, Request, urlencoded } from "express";
+import { RequestHandler, Request } from "express";
 import DogModel from "../models/Dog.model";
 import { Dog as DogType } from "../types/dog.types";
 import {
@@ -15,7 +15,7 @@ import LikesModel from "../models/Likes.model";
 import { IdUser } from "../types/user.types";
 import { v2 as cloudinary } from "cloudinary";
 import DogPendingModel from "../models/DogPending.model";
-import { Op, Optional } from "sequelize";
+import { FindOptions, Op, Optional } from "sequelize";
 
 interface ReqWithUser extends Request {
   user?: IdUser;
@@ -31,6 +31,7 @@ export const GetDogs: RequestHandler = async (req, res) => {
     const { dogsPage, totalPages } = filterAndPageDogs(dogs, filters);
 
     //
+
     res.status(200).json({
       dogs: dogsPage,
       totalPages,
@@ -44,58 +45,82 @@ export const GetDogs: RequestHandler = async (req, res) => {
   }
 };
 
-export const getDogById: RequestHandler = async (req, res) => {
-  const id = Number(req.params.id);
+// const prevDogSeqConfig: FindOptions = {};
+// const nextDogSeqConfig: FindOptions = {};
 
-  if (!id || typeof id !== "number") {
-    return res.status(400).json({ error: "Incorrect or missing data" });
-  }
+// if (sort === "A-Z") {
+//   prevDogSeqConfig.where = {
+//     name: { [Op.lt]: dog.name },
+//   };
+//   prevDogSeqConfig.order = [["name", "DESC"]];
+//   nextDogSeqConfig.where = {
+//     name: { [Op.gt]: dog.name },
+//   };
+//   nextDogSeqConfig.order = [["name", "ASC"]];
+// } else if (sort === "Z-A") {
+//   prevDogSeqConfig.where = {
+//     name: { [Op.gt]: dog.name },
+//   };
+//   prevDogSeqConfig.order = [["name", "ASC"]];
+//   nextDogSeqConfig.where = {
+//     name: { [Op.lt]: dog.name },
+//   };
+//   nextDogSeqConfig.order = [["name", "DESC"]];
+// // }
+// export const getDogById: RequestHandler = async (req, res) => {
+//   const id = Number(req.params.id);
+//   const sort = req.query.sort?.toString();
 
-  try {
-    const dog: DogType | null = await DogModel.findByPk(id, {
-      include: {
-        model: UserModel,
-        as: "user",
-        attributes: {
-          exclude: ["admin", "password", "email", "id"],
-        },
-      },
-    });
-    if (!dog) return res.status(404).json({ error: "Dog not found" });
+//   if (!id || typeof id !== "number") {
+//     return res.status(400).json({ error: "Incorrect or missing data" });
+//   }
 
-    const prevDog: DogModel | null = await DogModel.findOne({
-      where: {
-        id: {
-          [Op.lt]: dog.id,
-        },
-      },
-      order: [["id", "DESC"]],
-    });
+//   try {
+//     const dog: DogType | null = await DogModel.findByPk(id, {
+//       include: {
+//         model: UserModel,
+//         as: "user",
+//         attributes: {
+//           exclude: ["admin", "password", "email", "id"],
+//         },
+//       },
+//     });
+//     if (!dog) return res.status(404).json({ error: "Dog not found" });
 
-    const nextDog: DogModel | null = await DogModel.findOne({
-      where: {
-        id: {
-          [Op.gt]: dog.id,
-        },
-      },
-      order: [["id", "ASC"]],
-    });
 
-    const prevAndNext = {
-      prev: prevDog ? prevDog.id : null,
-      next: nextDog ? nextDog.id : null,
-    };
+//     const prevDog: DogModel | null = await DogModel.findOne({
+//       where: {
+//         id: {
+//           [Op.lt]: dog.id,
+//         },
+//       },
+//       order: [["id", "DESC"]],
+//     });
 
-    return res
-      .status(200)
-      .json({ message: "Dog fetched succesfully", dog, prevAndNext });
-  } catch (error) {
-    res
-      .status(500)
-      .json({ error: error instanceof Error ? error.message : error });
-    console.log(error);
-  }
-};
+//     const nextDog: DogModel | null = await DogModel.findOne({
+//       where: {
+//         id: {
+//           [Op.gt]: dog.id,
+//         },
+//       },
+//       order: [["id", "ASC"]],
+//     });
+
+//     const prevAndNext = {
+//       prev: prevDog ? prevDog.id : null,
+//       next: nextDog ? nextDog.id : null,
+//     };
+
+//     return res
+//       .status(200)
+//       .json({ message: "Dog fetched succesfully", dog, prevAndNext });
+//   } catch (error) {
+//     res
+//       .status(500)
+//       .json({ error: error instanceof Error ? error.message : error });
+//     console.log(error);
+//   }
+// };
 
 export const getOwnDogById: RequestHandler = async (req: ReqWithUser, res) => {
   try {

@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 import { getDogs } from "../services/dogsServices";
-import { useAppContext, usePagingContext, useSearchAndFiltersContext } from "./contextHooks";
+import {
+  useAppContext,
+  usePagingContext,
+  useSearchAndFiltersContext,
+} from "./contextHooks";
 
 const useDogs = () => {
   const { setTotalPages, currentPage } = usePagingContext();
@@ -25,9 +29,9 @@ const useDogs = () => {
         setIsLoading(false);
         setTotalPages(data.totalPages);
       })
-      .catch((err) => {
-        setIsLoading(false);
+      .catch((err: Error) => {
         if (signal.aborted) return;
+        setIsLoading(false);
         setIsError(true);
         setError(err);
       });

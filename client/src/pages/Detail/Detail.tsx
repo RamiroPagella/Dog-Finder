@@ -29,6 +29,8 @@ const Detail = () => {
     isFav,
     isDogPending,
     isFavLoading,
+    prevHandler,
+    nextHandler
   } = useDogDetail(Number(params?.id));
   const [isImageOpen, setIsImageOpen] = useState<boolean>(false);
   const [openDelete, setOpenDelete] = useState<boolean>(false);
@@ -36,8 +38,6 @@ const Detail = () => {
   const handleClick = () => {
     setIsImageOpen(!isImageOpen);
   };
-
-  console.log(prevAndNext);
 
   return (
     <div className={style.Detail}>
@@ -49,6 +49,8 @@ const Detail = () => {
             dogName={dog?.name}
             prevAndNext={prevAndNext}
             username={dog?.user?.username}
+            prevHandler={prevHandler}
+            nextHandler={nextHandler}
           />
 
           <div className={style.content}>

@@ -88,10 +88,6 @@ const usePendingDogs = () => {
     });
   };
 
-  useEffect(() => {
-    console.log(data)
-  }, [data])
-
   return {
     isLoading,
     isError,
