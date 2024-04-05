@@ -7,7 +7,6 @@ import {
   cancelPendingDog,
   createDog,
   deleteDog,
-  getDogById,
   getPendingDogById,
   getPendingDogs,
   getTempsAndBreedGroups,
@@ -26,7 +25,7 @@ const dogRouter = Router();
 
 dogRouter.get("/dogs", GetDogs);
 
-dogRouter.get("/dog/:id", getDogById);
+// dogRouter.get("/dog/:id", getDogById);
 
 dogRouter.get('/own-dog/:id', verifyToken, getOwnDogById);
 
