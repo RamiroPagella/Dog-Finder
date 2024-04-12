@@ -5,3 +5,9 @@
     flex: 1;
     padding: 15px 35px;
 }
+
+@media screen and (max-width: 660px) {
+    .Profile {
+        padding: 0 15px;
+    }
+}

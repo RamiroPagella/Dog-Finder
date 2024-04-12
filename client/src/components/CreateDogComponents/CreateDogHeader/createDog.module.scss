@@ -5,6 +5,9 @@
     padding: 5px 0;
     margin-bottom: 20px;
     border-bottom: solid var(--color7) 3px;
+    flex: 1;
+    flex-wrap: wrap;
+    line-height: 2em;
 
     .buttons {
         @include flex(center, center);
@@ -12,6 +15,44 @@
 
         button {
             @include button;
+        }
+    }
+}
+
+@media screen and (max-width: 420px) {
+    .createDogHeader {
+
+        .buttons {
+            gap: 10px;
+        }
+    }
+}
+
+@media screen and (max-width: 390px) {
+    .createDogHeader {
+        .buttons {
+            display: grid;
+            width: 100%;
+            grid-template-columns: 50% 50%;
+            grid-template-rows: 50% 50%;
+            gap: 0;
+
+            :nth-child(1) {
+                grid-column: span 1;
+                margin: 3px;
+            }
+            :nth-child(2) {
+                grid-column: span 1;
+                margin: 3px;
+            }
+            :nth-child(3) {
+                grid-column: span 2;
+                margin: 3px;
+            }
+        }
+        .twoBtns {
+            display: flex;
+            width: auto;
         }
     }
 }

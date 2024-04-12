@@ -8,8 +8,6 @@
     color: var(--color8);
 }
 
-//
-
 .NavBar {
     @include flex(center, center, row);
     min-height: 70px;
@@ -18,12 +16,20 @@
     border-bottom: var(--containerBorder);
     box-shadow: var(--boxShadow);
     background-color: var(--color5);
+    position: relative;
 
     .Container1 {
         @include flex(center, center, row);
         flex: 1;
         height: 100%;
         gap: 50px;
+
+        .menuIcon {
+            height: 100%;
+            padding: 10px;
+            color: var(--color8);
+            cursor: pointer;
+        }
 
         .iconContainer {
             @include flex(center, center);
@@ -47,7 +53,6 @@
                 color: var(--color4);
                 background-color: var(--color7);
             }
-            
 
             p {
                 @include toolTip();
@@ -57,20 +62,9 @@
     }
 
     .Container2 {
-        @include flex(center, center, row);
+        @include flex(center, center);
         flex: 1;
         height: 100%;
-        gap: 35px;
-
-        .icon {
-            @include navBar_Icon(40px, 40px);
-            cursor: pointer;
-
-            &:hover {
-                color: var(--color4);
-                background-color: var(--color7);
-            }
-        }
     }
 
     .Container3 {
@@ -114,3 +108,41 @@
     }
 }
 
+@media screen and (max-width: 900px) {
+    .NavBar {
+        .Container1 {
+            gap: 25px;
+        }
+    }
+}
+
+@media screen and (max-width: 780px) {
+    .NavBar {
+        .Container1 {
+            width: 250px;
+            gap: 20px;
+            flex: none;
+            // flex: 1.3;
+        }
+        .Container2 {
+            // flex: 1.1;
+        }
+        .Container3 {
+            // flex: 0.6;
+        }
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .NavBar {
+        .Container1 {
+            flex: 2;
+        }
+        .Container2 {
+            flex: 8;
+        }
+        .Container3 {
+            display: none;
+        }
+    }
+}

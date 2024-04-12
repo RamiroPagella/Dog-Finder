@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import style from "./TmpAndBgPanel.module.scss";
 import TmpAndBgList from "../TmpAndBgList/TmpAndBgList";
 import { Dog } from "../../../types";
@@ -20,7 +20,8 @@ const TmpAndBgPanel = ({
 
   return (
     <div className={style.TmpAndBgPanel}>
-      <section className={style.toggleButtons}>
+      <section className={style.buttonsOrTitle}>
+        <h3>Temperamentos | grupos de razas</h3>
         <button
           className={selectedList === "tmp" ? style.selectedBtn : ""}
           onClick={() => {

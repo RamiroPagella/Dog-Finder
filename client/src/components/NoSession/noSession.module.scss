@@ -1,34 +1,62 @@
 @import "../../style/mixins.scss";
 
 .NoSession {
-  @include flex(space-evenly, center, column);
-  border: solid var(--color4) 1px;
-  box-shadow: var(--boxShadow);
-  height: 300px;
-  width: 650px;
-  border-radius: 15px;
-  background-color: var(--color5);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+    @include flex(space-evenly, center, column);
+    border: solid var(--color4) 1px;
+    box-shadow: var(--boxShadow);
+    min-height: 300px;
+    width: 650px;
+    border-radius: 15px;
+    background-color: var(--color5);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 15px;
 
-  .Title {
-    background-color: var(--color4);
-    border-radius: 100px;
-    width: 200px;
-    text-align: center;
-    position: relative;
+    .Title {
+        width: 200px;
+        position: relative;
+        
+        h3 {
+            background-color: var(--color4);
+            border-radius: 100px;
+            text-align: center;
+            padding: 0 10px;
+        }
 
-    .icon {
-      position: absolute;
-      right: -65px;
-      top: -11px;
-      height: 50px;
+        .icon {
+            position: absolute;
+            right: -65px;
+            top: -11px;
+            height: 50px;
+        }
     }
-  }
 
-  .button {
-    @include button();
-  }
+    p {
+        text-align: center;
+    }
+
+    .button {
+        @include button();
+    }
+}
+
+@media screen and (max-width: 725px) {
+    .NoSession {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 390px) {
+    .NoSession {
+        .Title {
+            @include flex(center, center, column);
+            gap: 20px;
+
+            .icon {
+                position: static;
+            }
+        }
+    }
 }

@@ -22,13 +22,12 @@ const ProfileInfo = () => {
       </div>
       <div className={style.buttons}>
         <button
-          className={style.button}
           onClick={() => setOpenLogOutModal(true)}
         >
           Cerrar sesión
         </button>
-        <button className={style.button} onClick={() => setOpenChangePassword(true)}>Cambiar contraseña</button>
-        <button className={style.button}>Eliminar cuenta</button>
+        <button onClick={() => setOpenChangePassword(true)}>Cambiar contraseña</button>
+        <button>Eliminar cuenta</button>
       </div>
       {openLogOutModal && (
         <LogOutModal setOpenLogOutModal={setOpenLogOutModal} />

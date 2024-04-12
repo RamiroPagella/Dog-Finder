@@ -6,6 +6,7 @@
     padding: 5px 0;
     width: 100%;
     border-bottom: solid var(--color7) 3px;
+    flex-wrap: wrap;
 
     .buttons {
         @include flex(center, center);
@@ -17,6 +18,33 @@
         .btnSelected {
             background-color: var(--color7);
             color: var(--color4);
+        }
+    }
+}
+
+@media screen and (max-width: 460px) {
+    .ProfileHeader {
+        .buttons {
+            gap: 5px;
+        }
+    }
+}
+
+@media screen and (max-width: 420px) {
+    .ProfileHeader {
+        .buttons {
+            display: grid;
+            grid-template-columns: 50% 50%;
+            grid-template-rows: 50% 50%;
+            width: 100%;
+            gap: 0;
+
+            a {
+                margin: 3px;
+            }
+            :nth-child(3) {
+                grid-column: span 2;
+            }
         }
     }
 }

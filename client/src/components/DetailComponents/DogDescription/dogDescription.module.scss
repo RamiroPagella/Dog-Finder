@@ -4,19 +4,23 @@
     @include flex(space-around, flex-start, column);
     border-radius: 15px;
     height: 100%;
-    width: 40%;
+    width: 380px;
     padding: 10px;
     background-color: var(--color6);
+    gap: 10px;
 
     .infoContainer {
         @include flex(space-around, flex-start, column);
         border: var(--containerBorder);
         background-color: var(--color5);
         border-radius: 15px;
-        height: 18%;
+        // height: 18%;
+        flex: 1;
         width: 100%;
         padding: 0 10px;
         box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.532);
+        padding: 5px;
+        gap: 5px;
 
         .propertyName {
             @include flex(center, center);
@@ -29,8 +33,33 @@
 
         .propertyValue {
             @extend .propertyName;
-            @include flex(center, center);
+            @include flex(center, flex-start);
             width: 100%;
+        }
+    }
+}
+
+@media screen and (max-width: 1060px) {
+    .DogDescription {
+        width: 40%;
+    }
+}
+
+@media screen and (max-width: 760px) {
+    .DogDescription {
+        height: auto;
+        width: 100%;
+
+        .infoContainer {
+            gap: 5px;
+            padding: 5px;
+            height: auto;
+            
+            .propertyValue {
+                height: fit-content;
+                max-height: auto;
+                overflow: auto;
+            }
         }
     }
 }

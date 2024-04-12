@@ -1,8 +1,6 @@
 @import "../../style/mixins.scss";
 
 .Card {
-    max-height: 300px;
-    max-width: 300px;
     height: 300px;
     width: 280px;
     position: relative;
@@ -67,6 +65,10 @@
                 padding: 0 5px;
                 background-color: var(--color4);
 
+                h4 {
+                    margin-right: 10px;
+                }
+
                 p {
                     max-width: 70%;
                     overflow: hidden;
@@ -126,5 +128,26 @@
     }
     to {
         transform: rotate(360deg);
+    }
+}
+
+@media screen and (max-width: 610px) {
+    .Card {
+        height: 260px;
+        width: 240px;
+    }
+}
+
+@media screen and (max-width: 525px) {
+    .Card {
+        height: 280px;
+        width: 260px;
+    }
+}
+
+@media screen and (max-width: 325px) {
+    .Card {
+        height: 260px;
+        width: 240px;
     }
 }

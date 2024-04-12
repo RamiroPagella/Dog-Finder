@@ -1,7 +1,7 @@
 @import "../../style/mixins.scss";
 
 .Favorites {
-    @include flex(flex-start, stretch, column);
+    @include flex(flex-start, center, column);
     flex: 1;
     animation: favorites-animation 0.2s;
     padding: 15px 35px;
@@ -11,34 +11,9 @@
         padding: 5px 0;
         margin-bottom: 20px;
         border-bottom: solid var(--color7) 3px;
+        align-self: stretch;
     }
 
-    .container {
-        @include flex(center, stretch, row);
-        border: solid black;
-        height: 200px;
-
-        .left,
-        .right {
-            @include flex(center, center);
-            width: 40px;
-        }
-
-        .center {
-            @include flex(flex-start, center, row);
-            border: solid blue;
-            overflow: hidden;
-            min-width: 550px;
-            max-width: 550px;
-
-            .pageNumber_container {
-                @include flex(center, center);
-                border: solid red 1px;
-                margin: 0 10px;
-                height: 30px;
-            }
-        }
-    }
 }
 
 @keyframes favorites-animation {
@@ -47,5 +22,11 @@
     }
     to {
         transform: translateX(0);
+    }
+}
+
+@media screen and (max-width: 660px) {
+    .Favorites {
+        padding: 15px;
     }
 }

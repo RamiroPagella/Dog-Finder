@@ -20,23 +20,18 @@ const useDogs = () => {
     setIsError(false);
     setError(null);
 
-    const controller = new AbortController();
-    const { signal } = controller;
-
-    getDogs(currentPage, searchAndFilters, { signal })
+    getDogs(currentPage, searchAndFilters)
       .then((data) => {
         setDogs(data.dogs);
         setIsLoading(false);
         setTotalPages(data.totalPages);
       })
       .catch((err: Error) => {
-        if (signal.aborted) return;
         setIsLoading(false);
         setIsError(true);
         setError(err);
       });
 
-    return () => controller.abort();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, searchAndFilters]);
 

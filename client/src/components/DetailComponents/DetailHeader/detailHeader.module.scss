@@ -1,23 +1,22 @@
 @import '../../../style/mixins.scss';
 
-.pageHeader {
-  @include flex (flex-start, flex-end);
+.DetailHeader {
+  @include flex (space-between, flex-end);
   position: relative;
   width: 100%;
   border-bottom: solid var(--color7);
-  height: 50px;
   margin-bottom: 10px;
   padding: 5px 0;
+  flex-wrap: wrap;
+  line-height: 2em;
 
-  h1 {
+  .title {
     margin-right: 15px;
   }
 
   .buttons {
     @include flex (space-between, center);
     gap: 20px;
-    position: absolute;
-    right: 0;
     
     .backButton {
       border-right: solid var(--color7);
@@ -34,6 +33,35 @@
     .btnDisabled {
       @include disabledButton;
     }
+  }
+}
 
+@media screen and (max-width: 390px) {
+  .DetailHeader {
+    .title {
+      padding: 5px 0;
+    }
+
+    .buttons {
+      flex-direction: column;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 50% 50%;
+      grid-template-rows: 50% 50%;
+      gap: 0;
+
+      button {
+        margin: 3px;
+      }
+
+      :nth-child(1) {
+        order: 3;
+        grid-column: span 2;
+      }
+
+      p {
+        display: none;
+      }
+    }
   }
 }

@@ -6,7 +6,6 @@ import useDogs from "../../../hooks/useDogs";
 
 const Cards = () => {
   const { dogs, isLoading, isError, error } = useDogs();
-  
 
   return (
     <div className={style.Cards}>

@@ -19,7 +19,7 @@ const CreateDogHeader = ({ restoreDog, sendDog, cancelModify, modifyDog }: Props
       </h1>
 
       {!modifying ? (
-        <section className={style.buttons}>
+        <section className={`${style.buttons} ${style.twoBtns}`}>
           <button onClick={sendDog}>Crear</button>
           <button onClick={restoreDog}>Restablecer</button>
         </section>

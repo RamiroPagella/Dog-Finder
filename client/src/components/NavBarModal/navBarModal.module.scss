@@ -1,0 +1,100 @@
+@import "../../style/mixins.scss";
+
+.Container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: var(--shadowBackground);
+    z-index: 100;
+    animation: openContainer 0.3s;
+    transition: background-color 0.3s;
+
+    .NavBarModal {
+        @include flex(flex-start, stretch, column);
+        position: absolute;
+        left: 0;
+        top: 0;
+        background-color: var(--color5);
+        padding: 15px;
+        gap: 15px;
+        border-bottom-right-radius: 15px;
+        z-index: 101;
+        animation: open 0.3s;
+        transition: transform 0.3s;
+
+        .probando {
+            height: 50px;
+            width: 50px;
+            position: fixed;
+            top: 200px;
+            left: 300px;
+        }
+
+        svg {
+            align-self: flex-end;
+            height: 40px;
+            width: 40px;
+            border-radius: 100px;
+            padding: 2px;
+            color: var(--color8);
+            cursor: pointer;
+        }
+
+        section {
+            @include flex(flex-start, center);
+            gap: 15px;
+            padding: 10px;
+            border-radius: 100px;
+            cursor: pointer;
+
+            p {
+                white-space: nowrap;
+                border-radius: 100px;
+                padding: 0 10px;
+                text-align: center;
+                color: var(--color3);
+                background-color: var(--color6);
+                pointer-events: none;
+            }
+        }
+        .selectedSection {
+            background-color: var(--color4);
+
+            svg {
+                color: var(--color4);
+                background-color: var(--color7);
+            }
+
+            p {
+                background-color: var(--color8);
+            }
+        }
+    }
+}
+.Container_closing {
+    background-color: transparent;
+
+    .NavBarModal {
+        transform: translateX(-100%);
+    }
+}
+
+@keyframes openContainer {
+    from {
+        background-color: transparent;
+    }
+    to {
+        background-color: var(--shadowBackground);
+    }
+}
+
+@keyframes open {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}

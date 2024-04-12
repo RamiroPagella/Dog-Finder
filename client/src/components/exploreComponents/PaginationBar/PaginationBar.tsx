@@ -1,12 +1,12 @@
 import style from "./paginationBar.module.scss";
 import { ArrowLeft, ArrowRight } from "../../../assets/icons";
 import { usePagingContext } from "../../../hooks/contextHooks";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const PaginationBar = () => {
   const { currentPage, setCurrentPage, totalPages } = usePagingContext();
+  const [visiblePages, setVisiblePages] = useState<number>(9);
 
-  const visiblePages = 9;
   const halfVisiblePages = Math.floor(visiblePages / 2);
 
   const startPage = Math.max(1, currentPage - halfVisiblePages);
@@ -17,6 +17,13 @@ const PaginationBar = () => {
     (_, i) => i + startPage,
   );
 
+  const scrollToBottom = () => {
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: "auto",
+    });
+  };
+
   const handleBack = () => {
     if (currentPage <= 1) return;
     setCurrentPage(currentPage - 1);
@@ -25,6 +32,25 @@ const PaginationBar = () => {
     if (currentPage >= totalPages) return;
     setCurrentPage(currentPage + 1);
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      const { innerWidth } = window;
+      if (innerWidth <= 770 && innerWidth > 400) {
+        setVisiblePages(5);
+      } else if (innerWidth <= 400) {
+        setVisiblePages(3);
+      } else {
+        setVisiblePages(9);
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <div className={style.PaginationBar}>
@@ -38,6 +64,7 @@ const PaginationBar = () => {
             className={`${style.pageNumber} ${page === currentPage ? style.pageNumber_on : ""}`}
             onClick={() => {
               setCurrentPage(page);
+              scrollToBottom();
             }}
           >
             {page}

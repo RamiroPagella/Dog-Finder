@@ -14,13 +14,14 @@ import { GetUserInfo } from "./services/userServices";
 import { GetTempsAndBreedGroups } from "./services/appServices";
 import { useAppContext, useUserContext } from "./hooks/contextHooks";
 import Profile from "./Pages/Profile/Profile";
-
+import useDogs from "./hooks/useDogs";
 
 function App() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { setIsAuthenticated, setUser } = useUserContext();
   const { setAllBreedGroups, setAllTemperaments } = useAppContext();
+  useDogs();
 
   useEffect(() => {
     GetUserInfo({ setIsAuthenticated, setUser, navigate });

@@ -20,7 +20,8 @@ interface Response {
 const useDogDetail = (id: DogType["id"]) => {
   const { isAuthenticated, User, setUser } = useUserContext();
   const { setCreatedDog, setModifying, dogs, setDogs } = useAppContext();
-  const { currentPage, totalPages, setTotalPages, setCurrentPage } = usePagingContext();
+  const { currentPage, totalPages, setTotalPages, setCurrentPage } =
+    usePagingContext();
   const { searchAndFilters } = useSearchAndFiltersContext();
   const { pathname } = useLocation();
   const navigate = useNavigate();
@@ -81,10 +82,9 @@ const useDogDetail = (id: DogType["id"]) => {
         const newDogs = await getDogs(currentPage - 1, searchAndFilters);
         setTotalPages(newDogs.totalPages);
         setDogs(newDogs.dogs);
-        url = `/dog/${newDogs.dogs[newDogs.dogs.length - 1].id}`
-      }
-      else {
-        url = `/dog/${dogs[actualIndex - 1].id}`
+        url = `/dog/${newDogs.dogs[newDogs.dogs.length - 1].id}`;
+      } else {
+        url = `/dog/${dogs[actualIndex - 1].id}`;
       }
     }
     if (pathname.includes("/my-dog/")) url = `/my-dog/${prev}`;
@@ -100,10 +100,9 @@ const useDogDetail = (id: DogType["id"]) => {
 
     let url: string = "";
     if (pathname.includes("/dog/") && actualIndex !== undefined) {
-    
       if (actualIndex >= dogs.length - 1) {
         setDogs([]);
-        setCurrentPage(currentPage + 1)
+        setCurrentPage(currentPage + 1);
         const newDogs = await getDogs(currentPage + 1, searchAndFilters);
         setTotalPages(newDogs.totalPages);
         setDogs(newDogs.dogs);
@@ -169,7 +168,7 @@ const useDogDetail = (id: DogType["id"]) => {
 
     return () => controller.abort();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  }, [id, dogs]);
 
   return {
     dog,

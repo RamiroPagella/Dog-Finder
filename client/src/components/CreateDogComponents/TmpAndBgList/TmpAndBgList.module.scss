@@ -2,16 +2,12 @@
 
 .List {
     @include flex(flex-start, stretch, column);
-    flex: 9;
-    padding: 10px 20px;
+    max-height: 90%;
+    min-height: 90%;
+    padding: 10px 15px;
     border-radius: 15px;
     gap: 10px;
-
-    .title {
-        border-bottom: solid var(--color7) 2px;
-        padding-bottom: 5px;
-    }
-
+    
     input {
         @include input;
         height: 25px;
@@ -22,15 +18,16 @@
     section {
         @include flex(flex-start, stretch, column);
         overflow-y: scroll;
-        gap: 5px;
-        flex: 1;
-        max-height: 480px;
         background-color: transparent;
+        flex: 1;
+        gap: 5px;
+        border-top: solid var(--color7) 1px;
+        border-bottom: solid var(--color7) 1px;
 
         .item {
             @include button;
             position: relative;
-            height: 30px;
+            min-height: 30px;
             box-shadow: none;
             user-select: none;
 
@@ -43,6 +40,30 @@
         .selected {
             background-color: var(--color7);
             color: var(--color4);
+        }
+    }
+}
+
+@media screen and (max-width: 1130px) {
+    .List {
+        flex-direction: row;
+    }
+}
+
+@media screen and (max-width: 460px) {
+    .List {
+        flex-direction: column;
+    }
+}
+
+@media screen and (max-width: 305px) {
+    .List {
+        height: auto;
+        min-height: auto;
+
+        section {
+            min-height: 315px;
+            max-height: 315px;
         }
     }
 }

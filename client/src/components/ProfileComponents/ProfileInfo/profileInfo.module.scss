@@ -6,9 +6,8 @@
     flex: 1;
     position: relative;
 
-    .h2 {
-        position: absolute;
-        top: -30px;
+    h2 {
+        text-align: center;
     }
     .info {
         @include flex(center, stretch, column);
@@ -30,16 +29,71 @@
         p {
             @extend h3;
             width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
     }
 
     .buttons {
-        @include flex(center, center);
-        gap: 80px;
+        @include flex(space-between, center);
+        width: 630px;
         margin-top: 20px;
 
-        .button {
+        button {
             @include button;
         }
     }
 }
+
+@media screen and (max-width: 730px) {
+    .ProfileInfo {
+
+        .info {
+            width: 100%;
+        }
+
+        .buttons {
+            width: 100%;
+        }
+    }
+}
+
+@media screen and (max-width: 610px) {
+    .ProfileInfo {
+
+        .buttons {
+            display: grid;
+            grid-template-columns: 50% 50%;
+            grid-template-rows: 50% 50%;
+            gap: 5px;
+            align-content: center;
+
+
+            :nth-child(3) {
+                grid-column: span 2;
+            }
+        }
+
+    }
+}
+
+@media screen and (max-width: 396px) {
+    .ProfileInfo {
+        .buttons {
+            button {
+                padding: 5px 10px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 360px) {
+    .ProfileInfo {
+        .buttons {
+            @include flex (center, stretch, column);
+
+        }
+    }
+}
+

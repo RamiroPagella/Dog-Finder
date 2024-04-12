@@ -16,3 +16,16 @@
     transform: translateX(0px);
   }
 }
+
+@media screen and (max-width: 660px) {
+  .Explore {
+    padding: 0 15px;
+  }
+}
+
+@media screen and (max-width: 300px) {
+  .Explore {
+    padding: 8px;
+  }
+}
+

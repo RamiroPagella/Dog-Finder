@@ -1,5 +1,5 @@
 import style from "./TmpAndBgList.module.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppContext } from "../../../hooks/contextHooks";
 import { Dog } from "../../../types";
 import { Checkbox, CheckboxChecked } from "../../../assets/icons";
@@ -9,7 +9,7 @@ interface Props {
   selectedTemps: Dog["temperaments"];
   selectedBreedGroup: Dog["breedGroup"];
   handleBgClick: (breedGroup: string) => void;
-  handleTempClick: (temp: string, selectedTemps: Dog['temperaments']) => void;
+  handleTempClick: (temp: string, selectedTemps: Dog["temperaments"]) => void;
 }
 
 const TmpAndBgList = ({
@@ -17,13 +17,29 @@ const TmpAndBgList = ({
   selectedTemps,
   selectedBreedGroup,
   handleBgClick,
-  handleTempClick
+  handleTempClick,
 }: Props) => {
   const { allTemperaments, allBreedGroups } = useAppContext();
   const [inputValue, setInputValue] = useState<string>("");
+  const [vwLowerThan1130, setVwLowerThan1130] = useState<boolean>(false);
+  const [vwLowerThan460, setVwLoerThan460] = useState<boolean>(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const { innerWidth } = window;
+      if (innerWidth <= 1130) setVwLowerThan1130(true);
+      else setVwLowerThan1130(false);
+
+      if (innerWidth <= 460) setVwLoerThan460(true);
+      else setVwLoerThan460(false);
+    };
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+  }, []);
 
   const TemperamentsList = (
-    <div className={style.List}>
+    <>
       <input
         onChange={(e) => setInputValue(e.target.value)}
         value={inputValue}
@@ -53,28 +69,50 @@ const TmpAndBgList = ({
           else return item;
         })}
       </section>
-    </div>
+    </>
   );
 
   const breedGroupList = (
-    <div className={style.List}>
-      <section style={{justifyContent: 'space-evenly'}}>
-        {allBreedGroups.map((bg, i) => (
-          <div
-            key={i}
-            className={`${style.item} ${bg === selectedBreedGroup ? style.selected : ""}`}
-            onClick={() => handleBgClick(bg)}
-          >
-            {bg}
+    <section>
+      {allBreedGroups.map((bg, i) => (
+        <div
+          key={i}
+          className={`${style.item} ${bg === selectedBreedGroup ? style.selected : ""}`}
+          onClick={() => handleBgClick(bg)}
+        >
+          {bg}
 
-            {bg === selectedBreedGroup ? <CheckboxChecked /> : <Checkbox />}
-          </div>
-        ))}
-      </section>
-    </div>
+          {bg === selectedBreedGroup ? <CheckboxChecked /> : <Checkbox />}
+        </div>
+      ))}
+    </section>
   );
 
-  return selectedList === "tmp" ? TemperamentsList : breedGroupList;
+  return (
+    <div className={style.List}>
+      {!vwLowerThan1130 || vwLowerThan460 ? (
+        selectedList === "tmp" ? (
+          TemperamentsList
+        ) : (
+          breedGroupList
+        )
+      ) : (
+        <>
+          <div
+            style={{
+              flex: 1,
+              display: "flex",
+              flexDirection: "column",
+              gap: "10px",
+            }}
+          >
+            {TemperamentsList}
+          </div>
+          {breedGroupList}
+        </>
+      )}
+    </div>
+  );
 };
 
 export default TmpAndBgList;
