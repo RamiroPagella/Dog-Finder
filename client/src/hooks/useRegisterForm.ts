@@ -42,7 +42,9 @@ const useRegisterForm = () => {
     setRegisterForm({ ...registerForm, [name]: value });
   };
 
-  const handleClick = (): void => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+
     const { email, username, password } = registerForm;
     if (!email || !username || !password || btnDisabled) return;
 
@@ -61,7 +63,7 @@ const useRegisterForm = () => {
       .catch((error) => console.log(error));
   };
 
-  return { handleClick, handleChange, registerForm, validations, btnDisabled}
+  return { handleSubmit, handleChange, registerForm, validations, btnDisabled}
 
 }
 

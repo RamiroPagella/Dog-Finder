@@ -42,7 +42,7 @@ export const Register: RequestHandler = async (req, res) => {
     if (error instanceof Error) {
       const { message } = error;
       if (message === "Email already in use") status = 409;
-      //falta if (message === 'Error encrypting password'), porque en ese caso status seguiria siendo 500
+
       errorMsg = error.message;
     }
 

@@ -23,12 +23,15 @@ const Card = (props: Dog) => {
   const navTo =
     pathname === "/"
       ? `/dog/${props.id}`
-      : pathname.includes("accepted")
-        ? `/my-dog/${props.id}`
-        : `/my-dog/pending/${props.id}`;
+      : pathname.includes("/favorites")
+        ? `/favorite/${props.id}`
+        : pathname.includes("accepted")
+          ? `/my-dog/${props.id}`
+          : `/my-dog/pending/${props.id}`;
 
   const handleCardClick = () => {
     setBackRoute(pathname);
+    console.log(navTo);
   };
 
   const handleFav = async (e: React.MouseEvent<SVGSVGElement>) => {
@@ -118,11 +121,7 @@ const Card = (props: Dog) => {
 
   return (
     <>
-      <Link
-        className={style.Card}
-        to={navTo}
-        onClick={handleCardClick}
-      >
+      <Link className={style.Card} to={navTo} onClick={handleCardClick}>
         {content}
         {hoverContent}
       </Link>

@@ -1,6 +1,5 @@
 import style from "./pendingDogsCards.module.scss";
 import { Loader } from "../../../assets/icons";
-import usePendingDogs from "../../../hooks/usePendingDogs";
 import PendingDogCard from "../PendingDogCard/PendingDogCard";
 import { useEffect } from "react";
 import { Dog } from "../../../types";

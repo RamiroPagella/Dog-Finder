@@ -48,7 +48,9 @@ const NavBar = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      window.innerWidth <= responsiveWidth ? setResponsive(true) : setResponsive(false);
+      window.innerWidth <= responsiveWidth
+        ? setResponsive(true)
+        : setResponsive(false);
     };
     handleResize();
 
@@ -78,7 +80,7 @@ const NavBar = () => {
                   selectedPath.createDog ? style.icon_on : ""
                 }`}
               />
-              {showTooltip.createDog ? <p>Crear perro</p> : null}
+              {showTooltip.createDog && <p>Crear perro</p>}
             </div>
 
             <div
@@ -91,7 +93,7 @@ const NavBar = () => {
               <DogHouse
                 className={`${style.icon} ${selectedPath.explore ? style.icon_on : ""}`}
               />
-              {showTooltip.explore ? <p>Explorar</p> : null}
+              {showTooltip.explore && <p>Explorar</p>}
             </div>
 
             <div
@@ -106,7 +108,7 @@ const NavBar = () => {
                   selectedPath.favorites ? style.icon_on : ""
                 }`}
               />
-              {showTooltip.favorites ? <p>Favoritos</p> : null}
+              {showTooltip.favorites && <p>Favoritos</p>}
             </div>
           </>
         )}

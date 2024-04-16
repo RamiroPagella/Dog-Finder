@@ -71,6 +71,10 @@
                 background-color: var(--color8);
             }
         }
+
+        a {
+            @include button;
+        }
     }
 }
 .Container_closing {

@@ -20,15 +20,6 @@
             background-color: var(--color7);
             color: var(--color4);
         }
-
-        svg {
-            @include button;
-            padding: 5px;
-            position: absolute;
-            height: 40px;
-            width: 40px;
-            left: -80px;
-        }
         .animation {
             animation: refresh ease-in-out 0.3s;
         }
@@ -41,5 +32,21 @@
     }
     to {
         transform: rotate(360deg);
+    }
+}
+
+@media screen and (max-width: 350px) {
+    .MyDogs {
+        .buttons {
+            justify-content: space-around;
+            gap: 0;
+            width: 100%;
+            padding: 0;
+
+            a {
+                width: auto;
+                padding: 0 15px;
+            }
+        }
     }
 }

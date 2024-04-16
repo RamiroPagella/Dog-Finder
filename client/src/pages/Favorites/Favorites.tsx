@@ -9,7 +9,9 @@ const Favorites = () => {
 
   return (
     <div className={style.Favorites}>
-      <h1 className={style.favHeader}>Favoritos</h1>
+      <div className={style.favHeader}>
+        <h1>Favoritos</h1>
+      </div>
 
       {!isAuthenticated ? (
         <NoSession path="favorites" />

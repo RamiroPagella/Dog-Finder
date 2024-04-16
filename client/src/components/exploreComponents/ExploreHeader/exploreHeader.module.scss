@@ -1,17 +1,16 @@
 @import "../../../style/mixins.scss";
 
 .ExploreHeader {
+    @include flex (space-between, flex-end);
     position: relative;
     width: 100%;
-    padding-bottom: 5px;
+    padding: 5px 0;
     margin-bottom: 20px;
     border-bottom: solid var(--color7) 3px;
+    line-height: 2em;
 
     .buttons {
         @include flex(center, center);
-        position: absolute;
-        bottom: 5px;
-        right: 0;
         gap: 25px;
 
         button {
@@ -38,7 +37,6 @@
         @include flex(flex-start, flex-start, column);
 
         .buttons {
-            position: static;
             gap: 20px;
 
             button {

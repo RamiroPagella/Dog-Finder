@@ -29,7 +29,7 @@ const useLoginForm = () => {
     email: false,
     password: false,
   });
-  const btnDisabled: boolean = !(
+  const isBtnDisabled: boolean = !(
     /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(loginForm.email) &&
     loginForm.password.length >= 6
   );
@@ -43,7 +43,8 @@ const useLoginForm = () => {
     });
   };
 
-  const handleClick = () => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setShowError({
       email: false,
       password: false,
@@ -65,10 +66,14 @@ const useLoginForm = () => {
         console.log(err);
         if (err instanceof AxiosError) {
           if (err.response) {
-            if (err.response.status === 404)
+            if (err.response.status === 404) {
               setShowError({ email: true, password: false });
-            if (err.response.status === 401)
+              errorToast("No existe ningun usuario con ese correo");
+            }
+            if (err.response.status === 401) {
               setShowError({ email: false, password: true });
+              errorToast("Contraseña incorrecta");
+            }
           }
           if (err.message === "Network Error") {
             errorToast("Error al conectarse con el servidor");
@@ -77,7 +82,7 @@ const useLoginForm = () => {
       });
   };
 
-  return { handleClick, handleChange, showError, btnDisabled, loginForm };
+  return { handleSubmit, handleChange, showError, isBtnDisabled, loginForm };
 };
 
 export default useLoginForm;

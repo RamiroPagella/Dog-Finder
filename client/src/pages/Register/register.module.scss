@@ -45,7 +45,8 @@
                 position: absolute;
                 height: 2em;
                 right: -50px;
-                top: 27px;
+                // top: 22px;
+                top: 45%;
                 user-select: none;
 
                 svg {
@@ -61,7 +62,6 @@
 
         button {
             @include button();
-            width: 26%;
             height: 30px;
             transition:
                 color,
@@ -80,20 +80,21 @@
     .bottomButtons {
         @include flex(center, center);
         gap: 40px;
-        
+        flex-wrap: wrap;
+
         a {
             @include button();
             transition:
                 color,
                 background-color 0.3s;
-    
+            text-wrap: nowrap;
+
             &:hover {
                 background-color: var(--color8);
                 color: var(--color4);
             }
         }
     }
-
 }
 
 @keyframes move {
@@ -105,5 +106,42 @@
     to {
         transform: translate(0px);
         opacity: 1;
+    }
+}
+
+@media screen and (max-width: 560px) {
+    .Register {
+        padding: 0 15px;
+
+        .Form {
+            width: 100%;
+        }
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .Register {
+
+        .Form {
+            padding: 0 25px;
+
+            label {
+                width: 100%;
+                max-width: 325px;
+
+                .iconContainer {
+                    top: -10px;
+                    right: 5px;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 350px) {
+    .Register {
+        .bottomButtons {
+            gap: 20px;
+        }
     }
 }

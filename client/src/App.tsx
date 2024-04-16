@@ -26,7 +26,6 @@ function App() {
   useEffect(() => {
     GetUserInfo({ setIsAuthenticated, setUser, navigate });
     GetTempsAndBreedGroups({ setAllBreedGroups, setAllTemperaments });
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -42,6 +41,7 @@ function App() {
         <Route path="/create-dog" element={<CreateDog />} />
         
         <Route path="/dog/:id" element={<Detail />} />
+        <Route path='/favorite/:id' element={<Detail />} />
         <Route path="/my-dog/:id" element={<Detail />} />
         <Route path='my-dog/pending/:id' element={<Detail />} />
         <Route path="/pending-dog/:id" element={<Detail />}/>

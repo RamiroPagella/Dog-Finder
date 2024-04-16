@@ -5,7 +5,7 @@ import useLoginForm from "../../hooks/useLoginForm";
 import { useState } from "react";
 
 const Login = () => {
-  const { handleClick, handleChange, btnDisabled, showError, loginForm } =
+  const { handleSubmit, handleChange, isBtnDisabled, showError, loginForm } =
     useLoginForm();
   const [showToolTip, setShowToolTip] = useState({
     email: false,
@@ -17,7 +17,7 @@ const Login = () => {
       <div className={style.Login}>
         <h1 className={style.Title}>DOG - FINDER</h1>
 
-        <div className={style.Form}>
+        <form className={style.Form} onSubmit={handleSubmit}>
           <label>
             <p className={style.InputTitle}>Correo Electronico</p>
             <input
@@ -27,7 +27,7 @@ const Login = () => {
               onChange={handleChange}
             />
 
-            {showError.email ? (
+            {showError.email && (
               <div
                 className={style.IconContainer}
                 onMouseEnter={() => {
@@ -38,9 +38,9 @@ const Login = () => {
                 }}
               >
                 <ErrorIcon className={style.icon} />
-                {showToolTip.email ? <p>No existe ese usuario</p> : null}
+                {showToolTip.email && <p >No existe ningun usuario con este correo electronico</p>}
               </div>
-            ) : null}
+            )}
           </label>
 
           <label>
@@ -51,7 +51,7 @@ const Login = () => {
               value={loginForm.password}
               onChange={handleChange}
             />
-            {showError.password ? (
+            {showError.password && (
               <div
                 className={style.IconContainer}
                 onMouseEnter={() => {
@@ -62,27 +62,23 @@ const Login = () => {
                 }}
               >
                 <ErrorIcon className={style.icon} />
-                {showToolTip.password ? <p>Contraseña incorrecta</p> : null}
+                {showToolTip.password && <p>Contraseña incorrecta</p>}
               </div>
-            ) : null}
+            )}
           </label>
 
           <button
-            disabled={btnDisabled}
-            onClick={handleClick}
-            className={`${style.button} ${btnDisabled ? style.button_disabled : ""}`}
+            disabled={isBtnDisabled}
+            className={`${isBtnDisabled ? style.button_disabled : ""}`}
+            type="submit"
           >
             Iniciar sesión
           </button>
-        </div>
+        </form>
 
         <div className={style.bottomButtons}>
-          <Link to={"/register"} className={style.bottomButton}>
-            Registrarse
-          </Link>
-          <Link to={"/"} className={style.bottomButton}>
-            Volver al inicio
-          </Link>
+          <Link to={"/register"}>Registrarse</Link>
+          <Link to={"/"}>Volver al inicio</Link>
         </div>
       </div>
     </>

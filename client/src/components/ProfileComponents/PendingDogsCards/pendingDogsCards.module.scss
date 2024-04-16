@@ -2,7 +2,33 @@
 
 .PendingDogCards {
     @include flex(center, center);
-    height: 450px;
+    min-height: 450px;
     flex-wrap: wrap;
     gap: 30px;
+}
+
+@media screen and (max-width: 1280px) {
+    .PendingDogCards {
+        display: grid;
+        grid-template-columns: 50% 50%;
+        grid-template-rows: 50% 50%;
+        place-content: center;
+        gap: 0;
+    }
+    .PendingDogCards > :nth-child(odd) {
+        align-self: flex-end;
+        justify-self: flex-end;
+        margin: 15px;
+    }
+    .PendingDogCards > :nth-child(even) {
+        align-self: flex-end;
+        justify-self: flex-start;
+        margin: 15px;
+    }
+}
+
+@media screen and (max-width: 570px) {
+    .PendingDogCards {
+        @include flex (center, center, column);
+    }
 }

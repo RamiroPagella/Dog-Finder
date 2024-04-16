@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import {
   CloseButton,
   DogHouse,
@@ -8,6 +8,7 @@ import {
 } from "../../assets/icons";
 import style from "./navBarModal.module.scss";
 import { useState } from "react";
+import { useUserContext } from "../../hooks/contextHooks";
 
 interface Props {
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -15,6 +16,7 @@ interface Props {
 
 const NavBarModal = ({ setOpenModal }: Props) => {
   const { pathname } = useLocation();
+  const { isAuthenticated } = useUserContext();
   const [closingModal, setClosingModal] = useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -57,13 +59,20 @@ const NavBarModal = ({ setOpenModal }: Props) => {
           <Heart />
           <p>Favoritos</p>
         </section>
-        <section
-          className={pathname === "/profile" ? style.selectedSection : ""}
-          onClick={() => handleClick("/profile")}
-        >
-          <Profile />
-          <p>Mi cuenta</p>
-        </section>
+
+        {isAuthenticated ? (
+          <section
+            className={pathname === "/profile" ? style.selectedSection : ""}
+            onClick={() => handleClick("/profile")}
+          >
+            <Profile />
+            <p>Mi cuenta</p>
+          </section>
+        ) : (
+          <NavLink to="/login">
+            Iniciar sesión
+          </NavLink>
+        )}
       </div>
     </div>
   );

@@ -1,117 +1,176 @@
-@import '../../style/mixins.scss';
+@import "../../style/mixins.scss";
 
 .Login {
-  @include flex(center, center, column);
-  height: 100%;
-  width: 100%;
-  gap: 60px;
-  
+    @include flex(center, center, column);
+    height: 100%;
+    width: 100%;
+    gap: 60px;
 
-  .Title {
-    text-align: center;
-    text-shadow: 1px 1px 1px white;
-    cursor: default;
-    user-select: none;
-    border: solid black 1px;
-    border-radius: 15px;
-    padding: 20px;
-    color: white;
-    background-color: var(--color6);
-    box-shadow: var(--boxShadow)
-  }
+    .Title {
+        text-align: center;
+        text-shadow: 1px 1px 1px white;
+        cursor: default;
+        user-select: none;
+        border: solid black 1px;
+        border-radius: 15px;
+        padding: 20px;
+        color: white;
+        background-color: var(--color6);
+        box-shadow: var(--boxShadow);
+    }
 
-  .Form {
-    @include flex(space-evenly, center, column);
-    height: 40%;
-    width: 550px;
-    border-radius: 15px;
-    background: none;
-    box-shadow: var(--boxShadow);
-    background-color: var(--color5);
-    border: var(--containerBorder);
-    animation: move;
-    animation-duration: 0.7s;
+    .Form {
+        @include flex(space-evenly, center, column);
+        height: 40%;
+        width: 550px;
+        border-radius: 15px;
+        background: none;
+        box-shadow: var(--boxShadow);
+        background-color: var(--color5);
+        border: var(--containerBorder);
+        animation: move;
+        animation-duration: 0.7s;
 
+        label {
+            @include flex(space-around, stretch, column);
+            width: 70%;
+            height: 20%;
+            position: relative;
 
-    label {
-      @include flex(space-around, stretch, column);
-      width: 70%;
-      height: 20%;
-      position: relative;
+            input {
+                @include input();
+            }
 
-      input {
-        @include input();
-      }
+            .IconContainer {
+                @include flex(center, center);
+                position: absolute;
+                height: 35px;
+                width: 35px;
+                right: -60px;
+                // top: 22px;
+                top: 45%;
 
-      .IconContainer {
+                .icon {
+                    height: 100%;
+                    width: 100%;
+                }
+
+                p {
+                    @include toolTip();
+                    top: -30px;
+                    
+                }
+            }
+        }
+
+        button {
+            @include button();
+            height: 30px;
+            transition:
+                color,
+                background-color 0.2s;
+            width: 135px;
+        }
+        .button_disabled {
+            @include disabledButton;
+        }
+        button:hover {
+            background-color: var(--color8);
+            color: var(--color4);
+        }
+    }
+
+    .bottomButtons {
         @include flex(center, center);
+        gap: 40px;
+        flex-wrap: wrap;
+
+        a {
+            @include button();
+            text-wrap: nowrap;
+        }
+    }
+
+    &::after {
+        content: "";
         position: absolute;
-        height: 35px;
-        width: 35px;
-        right: -60px;
-        top: 27px;
-
-        .icon {
-          height: 100%;
-          width: 100%;
-        }
-
-        p {
-          @include toolTip ();
-          top: -30px;
-        }
-      }
+        max-height: 100vh;
+        max-width: 100vw;
+        height: 100vh;
+        width: 100vw;
+        top: 0;
+        right: 0;
+        background-image: url(../../assets/images/loginBackground.jpeg);
+        z-index: -10;
+        filter: brightness(80%);
     }
-
-    .button {
-      @include button();
-      width: 26%;
-      height: 30px;
-      transition: color, background-color 0.2s;
-    }
-    .button_disabled {
-      @include disabledButton;
-    }
-    button:hover {
-      background-color: var(--color8);
-      color: var(--color4)
-    }
-
-  }
-
-  .bottomButtons {
-    @include flex (center, center);
-    gap: 40px;
-  }
-
-  .bottomButton {
-    @include button();
-  }
-}
-
-.Login::after {
-  content: '';
-  position: absolute;
-  max-height: 100vh;
-  max-width: 100vw;
-  height: 100vh;
-  width: 100vw;
-  top: 0;
-  right: 0;
-  background-image: url(../../assets/images/loginBackground.jpeg);
-  z-index: -10;
-  filter: brightness(80%);
 }
 
 @keyframes move {
-  from {
-    transform: translateY(-100px);
-    opacity: 0;
-  }
+    from {
+        transform: translateY(-100px);
+        opacity: 0;
+    }
 
-  to {
-    transform: translate(0px);
-    opacity: 1;
-  }
+    to {
+        transform: translate(0px);
+        opacity: 1;
+    }
 }
 
+@media screen and (max-width: 900px) {
+    .Login {
+        .Form {
+            label {
+                .IconContainer {
+                    border: solid blue;
+                    p {
+                        border: solid red 1px;
+                        
+                        top: -100%;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 560px) {
+    .Login {
+        padding: 0 15px;
+
+        .Form {
+            width: 100%;
+
+            
+        }
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .Login {
+
+        .Form {
+            padding: 0 25px;
+
+            label {
+                width: 100%;
+                max-width: 325px;
+
+                .IconContainer {
+                    top: -10px;
+                    right: 5px;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 350px) {
+    .Login {
+
+        .bottomButtons {
+            gap: 20px;
+        }
+    }
+}

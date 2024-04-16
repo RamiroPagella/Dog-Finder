@@ -20,6 +20,9 @@ interface Response {
 const useDogDetail = (id: DogType["id"]) => {
   const { isAuthenticated, User, setUser } = useUserContext();
   const { setCreatedDog, setModifying, dogs, setDogs } = useAppContext();
+  const {
+    User: { likes },
+  } = useUserContext();
   const { currentPage, totalPages, setTotalPages, setCurrentPage } =
     usePagingContext();
   const { searchAndFilters } = useSearchAndFiltersContext();
@@ -72,10 +75,10 @@ const useDogDetail = (id: DogType["id"]) => {
 
   const prevHandler = async () => {
     const { prev } = prevAndNext;
-    if (!prev) return;
+    if (!prev || typeof actualIndex !== "number") return;
 
     let url: string = "";
-    if (pathname.includes("/dog/") && actualIndex !== undefined) {
+    if (pathname.includes("/dog/")) {
       if (actualIndex <= 0) {
         setDogs([]);
         setCurrentPage(currentPage - 1);
@@ -86,20 +89,22 @@ const useDogDetail = (id: DogType["id"]) => {
       } else {
         url = `/dog/${dogs[actualIndex - 1].id}`;
       }
-    }
-    if (pathname.includes("/my-dog/")) url = `/my-dog/${prev}`;
-    if (pathname.includes("/my-dog/pending/")) url = `/my-dog/pending/${prev}`;
-    if (pathname.includes("/pending-dog/")) url = `/pending-dog/${prev}`;
+    } else if (pathname.includes("/favorite"))
+      url = `/favorite/${likes[actualIndex - 1].id}`;
+    else if (pathname.includes("/my-dog/")) url = `/my-dog/${prev}`;
+    else if (pathname.includes("/my-dog/pending/"))
+      url = `/my-dog/pending/${prev}`;
+    else if (pathname.includes("/pending-dog/")) url = `/pending-dog/${prev}`;
 
     navigate(url);
   };
 
   const nextHandler = async () => {
     const { next } = prevAndNext;
-    if (!next) return;
+    if (!next || typeof actualIndex !== "number") return;
 
     let url: string = "";
-    if (pathname.includes("/dog/") && actualIndex !== undefined) {
+    if (pathname.includes("/dog/")) {
       if (actualIndex >= dogs.length - 1) {
         setDogs([]);
         setCurrentPage(currentPage + 1);
@@ -110,10 +115,12 @@ const useDogDetail = (id: DogType["id"]) => {
       } else {
         url = `/dog/${dogs[actualIndex + 1].id}`;
       }
-    }
-    if (pathname.includes("/my-dog/")) url = `/my-dog/${next}`;
-    if (pathname.includes("/my-dog/pending/")) url = `/my-dog/pending/${next}`;
-    if (pathname.includes("/pending-dog/")) url = `/pending-dog/${next}`;
+    } else if (pathname.includes("/favorite"))
+      url = `/favorite/${likes[actualIndex + 1].id}`;
+    else if (pathname.includes("/my-dog/")) url = `/my-dog/${next}`;
+    else if (pathname.includes("/my-dog/pending/"))
+      url = `/my-dog/pending/${next}`;
+    else if (pathname.includes("/pending-dog/")) url = `/pending-dog/${next}`;
 
     navigate(url);
   };
@@ -129,13 +136,22 @@ const useDogDetail = (id: DogType["id"]) => {
     let backendUrl: string = "";
 
     if (pathname.includes("/dog/")) {
-      const dogIndex = dogs.findIndex((dog) => dog.id === id);
-      setActualIndex(dogIndex);
-      dogIndex >= 0 && setDog(dogs[dogIndex]);
+      const dogActualIndex = dogs.findIndex((dog) => dog.id === id);
+      setActualIndex(dogActualIndex);
+      dogActualIndex >= 0 && setDog(dogs[dogActualIndex]);
 
       setPrevAndNext({
-        prev: currentPage > 1 || dogIndex > 0,
-        next: currentPage < totalPages || dogIndex < dogs.length - 1,
+        prev: currentPage > 1 || dogActualIndex > 0,
+        next: currentPage < totalPages || dogActualIndex < dogs.length - 1,
+      });
+    } else if (pathname.includes("/favorite/")) {
+      const dogActualIndex = likes.findIndex((dog) => dog.id === id);
+      setActualIndex(dogActualIndex);
+      setDog(likes[dogActualIndex]);
+
+      setPrevAndNext({
+        prev: dogActualIndex > 0,
+        next: dogActualIndex < likes.length - 1,
       });
     } else if (pathname.includes("/my-dog/")) {
       if (pathname.includes("/pending")) backendUrl = `/pending-dog/own/${id}`;
@@ -145,6 +161,7 @@ const useDogDetail = (id: DogType["id"]) => {
     }
 
     if (backendUrl !== "") {
+      console.log(backendUrl);
       Axios.get<Response>(backendUrl, {
         signal,
         params: { sort: searchAndFilters.sort },
@@ -161,10 +178,13 @@ const useDogDetail = (id: DogType["id"]) => {
         });
     }
 
-    if (isAuthenticated && !isDogPending)
+    if (isAuthenticated && !isDogPending) {
+      let isFav: boolean = false;
       User.likes?.map((dog) => {
-        if (Number(dog.id) === Number(id)) setIsFav(true);
+        if (Number(dog.id) === Number(id)) isFav = true;
       });
+      setIsFav(isFav);
+    }
 
     return () => controller.abort();
     // eslint-disable-next-line react-hooks/exhaustive-deps

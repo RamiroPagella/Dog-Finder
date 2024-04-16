@@ -40,3 +40,20 @@
         transform: rotate(360deg);
     }
 }
+
+@media screen and (max-width: 420px) {
+    .PendingDogs {
+        .buttons {
+            gap: 0;
+            width: 100%;
+            justify-content: space-around;
+            padding: 0;
+
+            button {
+                padding: 0px 10px;
+                height: auto;
+                min-height: 28px;
+            }
+        }
+    }
+}

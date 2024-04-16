@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { IdUser } from './types/user.types';
+import { IdUser } from "./types/user.types";
 
 interface CustomRequest extends Request {
   user?: IdUser;
@@ -9,7 +9,7 @@ interface CustomRequest extends Request {
 export const verifyToken = async (
   req: CustomRequest,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     const token: string | undefined = req.header("Authorization");

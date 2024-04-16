@@ -5,7 +5,7 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 const Register = () => {
-  const { handleClick, handleChange, registerForm, validations, btnDisabled } =
+  const { handleSubmit, handleChange, registerForm, validations, btnDisabled } =
     useRegisterForm();
   const [showTooltip, setShwowTooltip] = useState<string>("");
 
@@ -13,9 +13,9 @@ const Register = () => {
     <div className={style.Register}>
       <h1 className={style.Title}>Registrarse</h1>
 
-      <div className={style.Form}>
+      <form className={style.Form} onSubmit={handleSubmit}>
         <label>
-          Nombre de usuario
+          <p>Nombre de usuario</p>
           <input
             type="text"
             name="username"
@@ -36,7 +36,7 @@ const Register = () => {
           ) : null}
         </label>
         <label>
-          Correo electronico
+          <p>Correo electronico</p>
           <input
             type="text"
             name="email"
@@ -59,7 +59,7 @@ const Register = () => {
           ) : null}
         </label>
         <label>
-          Contraseña
+          <p>Contraseña</p>
           <input
             type="password"
             name="password"
@@ -83,17 +83,17 @@ const Register = () => {
         </label>
 
         <button
-          onClick={handleClick}
+          type="submit"
           disabled={btnDisabled}
           className={btnDisabled ? style.btnDisabled : ""}
         >
           Confirmar
         </button>
-      </div>
+      </form>
 
       <div className={style.bottomButtons}>
         <NavLink to={"/login"}>Iniciar sesión</NavLink>
-        <NavLink to={'/'}>Volver al inicio</NavLink>
+        <NavLink to={"/"}>Volver al inicio</NavLink>
       </div>
     </div>
   );
