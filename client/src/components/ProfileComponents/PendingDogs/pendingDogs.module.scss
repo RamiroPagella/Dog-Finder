@@ -1,7 +1,7 @@
 @import "../../../style/mixins.scss";
 
 .PendingDogs {
-    @include flex(flex-start, stretch, column);
+    @include flex(flex-start, center, column);
     gap: 20px;
 
     .buttons {

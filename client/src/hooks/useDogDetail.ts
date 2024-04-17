@@ -75,10 +75,10 @@ const useDogDetail = (id: DogType["id"]) => {
 
   const prevHandler = async () => {
     const { prev } = prevAndNext;
-    if (!prev || typeof actualIndex !== "number") return;
+    if (!prev) return;
 
     let url: string = "";
-    if (pathname.includes("/dog/")) {
+    if (pathname.includes("/dog/") && typeof actualIndex === 'number') {
       if (actualIndex <= 0) {
         setDogs([]);
         setCurrentPage(currentPage - 1);
@@ -89,7 +89,7 @@ const useDogDetail = (id: DogType["id"]) => {
       } else {
         url = `/dog/${dogs[actualIndex - 1].id}`;
       }
-    } else if (pathname.includes("/favorite"))
+    } else if (pathname.includes("/favorite") && typeof actualIndex === 'number')
       url = `/favorite/${likes[actualIndex - 1].id}`;
     else if (pathname.includes("/my-dog/")) url = `/my-dog/${prev}`;
     else if (pathname.includes("/my-dog/pending/"))
@@ -101,10 +101,11 @@ const useDogDetail = (id: DogType["id"]) => {
 
   const nextHandler = async () => {
     const { next } = prevAndNext;
-    if (!next || typeof actualIndex !== "number") return;
+    if (!next) return;
+
 
     let url: string = "";
-    if (pathname.includes("/dog/")) {
+    if (pathname.includes("/dog/") && typeof actualIndex === "number") {
       if (actualIndex >= dogs.length - 1) {
         setDogs([]);
         setCurrentPage(currentPage + 1);
@@ -115,7 +116,7 @@ const useDogDetail = (id: DogType["id"]) => {
       } else {
         url = `/dog/${dogs[actualIndex + 1].id}`;
       }
-    } else if (pathname.includes("/favorite"))
+    } else if (pathname.includes("/favorite") && typeof actualIndex === 'number')
       url = `/favorite/${likes[actualIndex + 1].id}`;
     else if (pathname.includes("/my-dog/")) url = `/my-dog/${next}`;
     else if (pathname.includes("/my-dog/pending/"))

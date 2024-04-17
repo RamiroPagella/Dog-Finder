@@ -2,8 +2,8 @@
 
 .Profile {
     @include flex(flex-start, stretch, column);
-    flex: 1;
     padding: 15px 35px;
+    flex: 1;
 }
 
 @media screen and (max-width: 660px) {

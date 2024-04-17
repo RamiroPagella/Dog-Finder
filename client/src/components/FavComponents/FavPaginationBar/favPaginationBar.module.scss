@@ -3,7 +3,7 @@
 .PaginationBar {
     @include flex(center, center, row);
     height: 65px;
-    margin: 25px;
+    margin: 15px;
     user-select: none;
 
     .arrowButton {

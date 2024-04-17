@@ -8,6 +8,7 @@
     flex: 1;
     flex-wrap: wrap;
     line-height: 2em;
+    gap: 5px;
 
     .buttons {
         @include flex(center, center);

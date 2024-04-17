@@ -4,6 +4,8 @@
     @include flex(center, center, row);
     height: 65px;
     user-select: none;
+    margin: 15px;
+    
 
     .arrowButton {
         border-radius: 100px;

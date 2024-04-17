@@ -8,6 +8,7 @@
     border-bottom: solid var(--color7) 3px;
     flex-wrap: wrap;
     line-height: 2em;
+    gap: 5px;
 
     .buttons {
         @include flex(center, center);
