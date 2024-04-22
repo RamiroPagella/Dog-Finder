@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import style from "./TmpAndBgPanel.module.scss";
 import TmpAndBgList from "../TmpAndBgList/TmpAndBgList";
 import { Dog } from "../../../types";

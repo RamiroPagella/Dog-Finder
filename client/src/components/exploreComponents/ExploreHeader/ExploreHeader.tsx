@@ -46,9 +46,9 @@ const ExploreHeader = () => {
           Solo creados por usuarios
           {searchAndFilters.onlyCreated ? <CheckboxChecked /> : <Checkbox />}
         </button>
-        <button onClick={() => setSortingOpen(true)}>Filtrar</button>
+        <button onClick={() => setSortingOpen(true)}>Ordenar</button>
         <button onClick={() => setFiltersOpen(true)}>
-          Ordenar
+          Filtrar
           {filtersUsed && <div className={style.point}></div>}
         </button>
       </div>

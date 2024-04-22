@@ -13,15 +13,17 @@
     .ChangePassword {
         @include flex(center, stretch, column);
         animation: appear 0.5s;
-        width: 400px;
+        width: 95%;
+        max-width: 400px;
         padding: 20px;
-        gap: 15px;
+        gap: 25px;
         background-color: var(--color4);
         border-radius: 15px;
         border: var(--containerBorder);
 
         h2 {
             text-align: center;
+            line-height: 1em;
         }
 
         .form {
@@ -34,18 +36,22 @@
                 input {
                     @include input;
                     height: 25px;
-                    width: 70%;
+                    width: 100%;
+                    max-width: 250px;
                 }
             }
         }
 
         .buttons {
-            @include flex(center, center);
-            gap: 25px;
+            @include flex(space-between, center);
+            width: 95%;
+            max-width: 210px;
             margin-top: 20px;
+            align-self: center;
 
             button {
                 @include button;
+                padding: 5px 15px;
             }
         }
     }

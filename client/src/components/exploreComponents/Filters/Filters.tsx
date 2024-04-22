@@ -5,7 +5,6 @@ import { useState } from "react";
 import BreedGroupsPanel from "../BreedGroupsPanel/BreedGroupsPanel";
 import TemperamentsPanel from "../TemperamentsPanel/TemperamentsPanel";
 import useFilters from "../../../hooks/useFilters";
-import { usePagingContext } from "../../../hooks/contextHooks";
 
 interface Props {
   setFiltersOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -120,7 +119,7 @@ const Filters = ({ setFiltersOpen }: Props) => {
               <div className={style.content}>
                 {searchAndFiltersLocal.breedGroups.map((bg) => (
                   <div
-                    className={style.breedGroupItem}
+                    className={style.item}
                     onClick={() => {
                       setSearchAndFiltersLocal({
                         ...searchAndFiltersLocal,
@@ -147,10 +146,11 @@ const Filters = ({ setFiltersOpen }: Props) => {
                   }}
                 />
               </h3>
+              
               <div className={style.content}>
                 {searchAndFiltersLocal.temperaments.map((temperament) => (
                   <div
-                    className={style.temperamentItem}
+                    className={style.item}
                     onClick={() =>
                       setSearchAndFiltersLocal({
                         ...searchAndFiltersLocal,

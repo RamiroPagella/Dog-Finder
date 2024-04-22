@@ -27,7 +27,6 @@ const ProfileInfo = () => {
           Cerrar sesión
         </button>
         <button onClick={() => setOpenChangePassword(true)}>Cambiar contraseña</button>
-        <button>Eliminar cuenta</button>
       </div>
       {openLogOutModal && (
         <LogOutModal setOpenLogOutModal={setOpenLogOutModal} />

@@ -14,7 +14,7 @@
 .filters {
     @include flex(flex-start, stretch, column);
     height: 80%;
-    width: 40%;
+    width: 530px;
     background-color: var(--color4);
     border-radius: 15px;
     position: relative;
@@ -32,12 +32,13 @@
         border-bottom: solid var(--color7);
         height: 65px;
         padding-right: 10px;
+        line-height: 0.9em;
 
         .closeButton {
             @include button();
             @include flex(center, center);
-            height: 40px;
-            width: 40px;
+            min-height: 40px;
+            min-width: 40px;
             padding: 10px;
 
             svg {
@@ -98,21 +99,20 @@
         .title {
             svg {
                 @include button;
-                height: 40px;
-                width: 40px;
+                height: 95%;
+                max-height: 40px;
                 padding: 0;
                 position: absolute;
                 right: 5%;
             }
         }
-
         .content {
             padding: 0 30px;
             justify-content: flex-start;
             gap: 5px;
             overflow: scroll;
 
-            .breedGroupItem {
+            .item {
                 @include button;
                 padding: 0 10px;
                 gap: 5px;
@@ -126,34 +126,7 @@
     }
 
     .temperamentsSection {
-
-        .title {
-            svg {
-                @include button;
-                height: 40px;
-                width: 40px;
-                padding: 0;
-                position: absolute;
-                right: 5%;
-            }
-        }
-        .content {
-            padding: 0 30px;
-            justify-content: flex-start;
-            gap: 5px;
-            overflow: scroll;
-
-            .temperamentItem {
-                @include button;
-                padding: 0 10px;
-                gap: 5px;
-                text-wrap: nowrap;
-
-                svg {
-                    max-height: 15px;
-                }
-            }
-        }
+        @extend .breedGroupsSection;
     }
 
     button {
@@ -171,5 +144,52 @@
     to {
         transform: translateY(0);
         opacity: 1;
+    }
+}
+
+@media screen and (max-width: 570px) {
+    .filters {
+        width: 95%;
+        padding: 10px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .filters {
+
+        section {
+            .title {
+                width: 90%;
+            }
+            .content {
+                input {
+                    width: 40%;
+                }
+            }
+        }
+
+        .temperamentsSection, .breedGroupsSection {
+            .title {
+                justify-content: space-between;
+
+                svg {
+                    position: static;
+                    height: 30px;
+                    width: 30px;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .filters {
+        section {
+            .content {
+                input {
+                    width: 45%;
+                }
+            }
+        }
     }
 }

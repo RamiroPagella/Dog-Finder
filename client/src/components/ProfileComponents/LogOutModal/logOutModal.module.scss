@@ -12,7 +12,8 @@
 
     .modal {
         @include flex(space-evenly, center, column);
-        width: 300px;
+        width: 95%;
+        max-width: 300px;
         background-color: var(--color4);
         border: var(--containerBorder);
         height: 100px;

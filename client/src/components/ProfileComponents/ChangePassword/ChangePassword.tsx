@@ -4,7 +4,6 @@ import Axios from "../../../axios";
 import { useState } from "react";
 import { errorToast, succesToast } from "../../../toasts";
 import { AxiosError } from "axios";
-import { useUserContext } from "../../../hooks/contextHooks";
 
 interface Props {
   setOpenChangePassword: React.Dispatch<React.SetStateAction<boolean>>;

@@ -8,6 +8,7 @@
 
     h2 {
         text-align: center;
+        line-height: 1em;
     }
     .info {
         @include flex(center, stretch, column);
@@ -36,7 +37,7 @@
     }
 
     .buttons {
-        @include flex(space-between, center);
+        @include flex(space-evenly, center);
         width: 630px;
         margin-top: 20px;
 
@@ -59,25 +60,6 @@
     }
 }
 
-@media screen and (max-width: 610px) {
-    .ProfileInfo {
-
-        .buttons {
-            display: grid;
-            grid-template-columns: 50% 50%;
-            grid-template-rows: 50% 50%;
-            gap: 5px;
-            align-content: center;
-
-
-            :nth-child(3) {
-                grid-column: span 2;
-            }
-        }
-
-    }
-}
-
 @media screen and (max-width: 396px) {
     .ProfileInfo {
         .buttons {
@@ -88,11 +70,12 @@
     }
 }
 
-@media screen and (max-width: 360px) {
+@media screen and (max-width: 330px) {
     .ProfileInfo {
         .buttons {
-            @include flex (center, stretch, column);
-
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
         }
     }
 }
