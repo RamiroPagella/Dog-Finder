@@ -1,6 +1,6 @@
 import "./style/App.css";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
-import Landing from "./Pages/Login/Login";
+import Login from "./Pages/Login/Login";
 import Register from "./Pages/Register/Register";
 import Explore from "./Pages/Explore/Explore";
 import { useEffect } from "react";
@@ -50,7 +50,7 @@ function App() {
 
 
         <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Landing />} />
+        <Route path="/login" element={<Login />} />
         
         <Route path="*" element={<NotFound />} />
       </Routes>
