@@ -1,0 +1,27 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const dogHandlers_1 = require("../handlers/dogHandlers");
+const middlewares_1 = require("../middlewares");
+const multer_1 = __importDefault(require("multer"));
+const storage = multer_1.default.memoryStorage();
+const upload = (0, multer_1.default)({ storage });
+const dogRouter = (0, express_1.Router)();
+dogRouter.get("/dogs", dogHandlers_1.GetDogs);
+// dogRouter.get("/dog/:id", getDogById);
+dogRouter.get('/own-dog/:id', middlewares_1.verifyToken, dogHandlers_1.getOwnDogById);
+dogRouter.post("/dog", middlewares_1.verifyToken, upload.single("img"), dogHandlers_1.createDog);
+dogRouter.put("/dog", middlewares_1.verifyToken, upload.single("img"), dogHandlers_1.ModifyDog);
+dogRouter.delete("/dog", middlewares_1.verifyToken, dogHandlers_1.deleteDog);
+dogRouter.delete("/pending-dog", middlewares_1.verifyToken, dogHandlers_1.cancelPendingDog);
+dogRouter.get("/dogs/pending", middlewares_1.verifyToken, dogHandlers_1.getPendingDogs);
+dogRouter.put("/pending-dog", middlewares_1.verifyToken, dogHandlers_1.approveOrDisapprove);
+dogRouter.put("/pending-dog/all", middlewares_1.verifyToken, dogHandlers_1.approveOrDisapproveAll);
+dogRouter.get("/pending-dog/:id", middlewares_1.verifyToken, dogHandlers_1.getPendingDogById);
+dogRouter.get('/pending-dog/own/:id', middlewares_1.verifyToken, dogHandlers_1.getOwnPendingDogById);
+dogRouter.get("/temps-and-breedgroups", dogHandlers_1.getTempsAndBreedGroups);
+dogRouter.post("/like", middlewares_1.verifyToken, dogHandlers_1.likeDog);
+exports.default = dogRouter;
