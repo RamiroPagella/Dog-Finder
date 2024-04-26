@@ -21,7 +21,7 @@ server.use(express.urlencoded({ extended: false }));
 server.use(express.json());
 server.use("/", userRouter, dogRouter);
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 const initialize = async () => {
   try {

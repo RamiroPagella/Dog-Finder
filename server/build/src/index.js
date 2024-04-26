@@ -31,7 +31,7 @@ server.use((0, morgan_1.default)("dev"));
 server.use(express_1.default.urlencoded({ extended: false }));
 server.use(express_1.default.json());
 server.use("/", user_routes_1.default, dog_routes_1.default);
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const initialize = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield db_1.default.sync();
