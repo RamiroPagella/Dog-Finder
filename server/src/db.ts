@@ -22,7 +22,7 @@ const conn = new Sequelize({
   dialect: "postgres",
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
-  database: "dog-finder-database",
+  database: "dog_finder_database",
   logging: false,
   models: [DogModel, UserModel, LikesModel, DogPendingModel],
 });
