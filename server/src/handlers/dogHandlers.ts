@@ -15,7 +15,7 @@ import LikesModel from "../models/Likes.model";
 import { IdUser } from "../types/user.types";
 import { v2 as cloudinary } from "cloudinary";
 import DogPendingModel from "../models/DogPending.model";
-import { FindOptions, Op, Optional } from "sequelize";
+import { Optional } from "sequelize";
 
 interface ReqWithUser extends Request {
   user?: IdUser;
@@ -44,83 +44,6 @@ export const GetDogs: RequestHandler = async (req, res) => {
     console.log(error);
   }
 };
-
-// const prevDogSeqConfig: FindOptions = {};
-// const nextDogSeqConfig: FindOptions = {};
-
-// if (sort === "A-Z") {
-//   prevDogSeqConfig.where = {
-//     name: { [Op.lt]: dog.name },
-//   };
-//   prevDogSeqConfig.order = [["name", "DESC"]];
-//   nextDogSeqConfig.where = {
-//     name: { [Op.gt]: dog.name },
-//   };
-//   nextDogSeqConfig.order = [["name", "ASC"]];
-// } else if (sort === "Z-A") {
-//   prevDogSeqConfig.where = {
-//     name: { [Op.gt]: dog.name },
-//   };
-//   prevDogSeqConfig.order = [["name", "ASC"]];
-//   nextDogSeqConfig.where = {
-//     name: { [Op.lt]: dog.name },
-//   };
-//   nextDogSeqConfig.order = [["name", "DESC"]];
-// // }
-// export const getDogById: RequestHandler = async (req, res) => {
-//   const id = Number(req.params.id);
-//   const sort = req.query.sort?.toString();
-
-//   if (!id || typeof id !== "number") {
-//     return res.status(400).json({ error: "Incorrect or missing data" });
-//   }
-
-//   try {
-//     const dog: DogType | null = await DogModel.findByPk(id, {
-//       include: {
-//         model: UserModel,
-//         as: "user",
-//         attributes: {
-//           exclude: ["admin", "password", "email", "id"],
-//         },
-//       },
-//     });
-//     if (!dog) return res.status(404).json({ error: "Dog not found" });
-
-
-//     const prevDog: DogModel | null = await DogModel.findOne({
-//       where: {
-//         id: {
-//           [Op.lt]: dog.id,
-//         },
-//       },
-//       order: [["id", "DESC"]],
-//     });
-
-//     const nextDog: DogModel | null = await DogModel.findOne({
-//       where: {
-//         id: {
-//           [Op.gt]: dog.id,
-//         },
-//       },
-//       order: [["id", "ASC"]],
-//     });
-
-//     const prevAndNext = {
-//       prev: prevDog ? prevDog.id : null,
-//       next: nextDog ? nextDog.id : null,
-//     };
-
-//     return res
-//       .status(200)
-//       .json({ message: "Dog fetched succesfully", dog, prevAndNext });
-//   } catch (error) {
-//     res
-//       .status(500)
-//       .json({ error: error instanceof Error ? error.message : error });
-//     console.log(error);
-//   }
-// };
 
 export const getOwnDogById: RequestHandler = async (req: ReqWithUser, res) => {
   try {
