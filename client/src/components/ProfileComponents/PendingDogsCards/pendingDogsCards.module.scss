@@ -1,34 +1,91 @@
 @import '../../../style/mixins.scss';
 
+@import '../../../style/mixins.scss';
+
 .PendingDogCards {
-    @include flex(center, center);
-    min-height: 450px;
-    flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, 25%);
+  grid-template-rows: repeat(2, 50%);
+  place-items: center;
+  width: 100%;
+  min-height: 650px;
+  flex-wrap: wrap;
+  transition: transform 0.2s;
+  position: relative;
+
+  .loaderContainer {
+    @include flex (center, center);
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+}
+
+@media screen and (max-width: 1250px) {
+  .PendingDogCards {
+    @include flex (center, center);
     gap: 30px;
+  }
 }
 
-@media screen and (max-width: 1280px) {
-    .PendingDogCards {
-        display: grid;
-        grid-template-columns: 50% 50%;
-        grid-template-rows: 50% 50%;
-        place-content: center;
-        gap: 0;
-    }
-    .PendingDogCards > :nth-child(odd) {
-        align-self: flex-end;
-        justify-self: flex-end;
-        margin: 15px;
-    }
-    .PendingDogCards > :nth-child(even) {
-        align-self: flex-end;
-        justify-self: flex-start;
-        margin: 15px;
-    }
+@media screen and (max-width: 700px) {
+  .PendingDogCards {
+    gap: 15px;
+  }
 }
 
-@media screen and (max-width: 570px) {
-    .PendingDogCards {
-        @include flex (center, center, column);
-    }
-}
+// .PendingDogCards {
+//     @include flex(center, center);
+//     min-height: 450px;
+//     flex-wrap: wrap;
+//     gap: 30px;
+//     position: relative;
+
+//     .text {
+
+//     }
+
+//     .loaderContainer {
+//         position: absolute;
+//         top: 50%;
+//         left: 50%;
+//         transform: translate(-50%, -50%);
+//     }
+// }
+
+// @media screen and (max-width: 1280px) {
+//     .PendingDogCards {
+//         display: grid;
+//         grid-template-columns: 50% 50%;
+//         grid-template-rows: 50% 50%;
+//         place-content: center;
+//         gap: 0;
+//     }
+//     .PendingDogCards > :nth-child(odd) {
+//         align-self: flex-end;
+//         justify-self: flex-end;
+//         margin: 15px;
+//     }
+//     .PendingDogCards > :nth-child(even) {
+//         align-self: flex-end;
+//         justify-self: flex-start;
+//         margin: 15px;
+//     }
+// }
+
+// @media screen and (max-width: 570px) {
+//     .PendingDogCards {
+//         @include flex (center, center, column);
+//     }
+// }

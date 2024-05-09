@@ -1,18 +1,33 @@
-@import '../../../style/mixins.scss';
+@import "../../../style/mixins.scss";
 
 .FavCards {
-  @include flex (center, center);
-  flex: 1;
-  gap: 30px;
-  min-width: 100%;
-  max-width: 100%;
-  min-height: 650px;
-  flex-wrap: wrap;
-  transition: transform 0.2s;
+    display: grid;
+    grid-template-columns: repeat(4, 25%);
+    grid-template-rows: repeat(2, 50%);
+    place-items: center;
+    width: 100%;
+    min-height: 650px;
+    flex-wrap: wrap;
+    transition: transform 0.2s;
+    position: relative;
+
+    .text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+
+@media screen and (max-width: 1250px) {
+    .FavCards {
+        @include flex(center, center);
+        gap: 30px;
+    }
 }
 
 @media screen and (max-width: 700px) {
-  .FavCards {
-    gap: 15px;
-  }
+    .FavCards {
+        gap: 15px;
+    }
 }

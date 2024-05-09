@@ -20,7 +20,6 @@ const PendingDogCards = ({
   error,
   approveOrDisapprove,
 }: Props) => {
-  
   useEffect(() => {
     console.log(data.length ? "hay data" : "no hay data");
     console.log("cambio detectado en data", data);
@@ -28,7 +27,11 @@ const PendingDogCards = ({
 
   return (
     <div className={style.PendingDogCards}>
-      {isLoading && <Loader />}
+      {isLoading && (
+        <div className={style.loaderContainer}>
+          <Loader />
+        </div>
+      )}
       {!isLoading &&
         !isError &&
         (data.length ? (
@@ -43,9 +46,9 @@ const PendingDogCards = ({
             />
           ))
         ) : (
-          <p>No hay perros pendientes</p>
+          <p className={style.text}>No hay perros pendientes</p>
         ))}
-      {isError && <p>{error?.message}</p>}
+      {isError && <p className={style.text}>{error?.message}</p>}
     </div>
   );
 };

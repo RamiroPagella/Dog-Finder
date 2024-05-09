@@ -62,7 +62,7 @@ const FavCards = () => {
           />
         ))
       ) : (
-        <h3>No hay perros en favoritos</h3>
+        <p className={style.text}>No hay perros en favoritos</p>
       )}
     </div>
   );

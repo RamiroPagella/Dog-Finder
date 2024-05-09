@@ -1,12 +1,10 @@
 @import '../../../style/mixins.scss';
 
 .Cards {
-  // @include flex (center, center);
   display: grid;
   grid-template-columns: repeat(4, 25%);
   grid-template-rows: repeat(2, 50%);
   place-items: center;
-  // gap: 30px;
   width: 100%;
   min-height: 650px;
   flex-wrap: wrap;

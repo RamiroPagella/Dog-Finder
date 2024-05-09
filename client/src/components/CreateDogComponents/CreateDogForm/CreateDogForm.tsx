@@ -34,8 +34,8 @@ const CreateDogForm = ({
             className={style.title}
             style={{ justifyContent: "space-between", padding: "0 10%" }}
           >
-            <h3> Altura </h3>
-            <h3> Peso </h3>
+            <h3> Altura (cm) </h3>
+            <h3> Peso (kg) </h3>
           </div>
 
           <div className={style.content}>
