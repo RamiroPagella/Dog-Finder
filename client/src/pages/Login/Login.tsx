@@ -2,7 +2,7 @@ import style from "./login.module.scss";
 import { Link } from "react-router-dom";
 import { FormValidationError as ErrorIcon } from "../../assets/icons";
 import useLoginForm from "../../hooks/useLoginForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Login = () => {
   const { handleSubmit, handleChange, isBtnDisabled, showError, loginForm } =
@@ -11,6 +11,16 @@ const Login = () => {
     email: false,
     password: false,
   });
+  const [vwLowerThan790, setVwLowerThan790] = useState<boolean>(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 790) setVwLowerThan790(true);
+      else setVwLowerThan790(false);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+  }, []);
 
   return (
     <>
@@ -20,51 +30,60 @@ const Login = () => {
         <form className={style.Form} onSubmit={handleSubmit}>
           <label>
             <p className={style.InputTitle}>Correo Electronico</p>
-            <input
-              type="text"
-              name="email"
-              value={loginForm.email}
-              onChange={handleChange}
-            />
+            <div className={style.inputContainer}>
+              <input
+                type="text"
+                name="email"
+                value={loginForm.email}
+                onChange={handleChange}
+              />
 
-            {showError.email && (
-              <div
-                className={style.IconContainer}
-                onMouseEnter={() => {
-                  setShowToolTip({ ...showToolTip, email: true });
-                }}
-                onMouseLeave={() => {
-                  setShowToolTip({ ...showToolTip, email: false });
-                }}
-              >
-                <ErrorIcon className={style.icon} />
-                {showToolTip.email && <p >No existe ningun usuario con este correo electronico</p>}
-              </div>
-            )}
+              {showError.email && (
+                <div
+                  className={style.iconContainer}
+                  onMouseEnter={() => {
+                    setShowToolTip({ ...showToolTip, email: true });
+                  }}
+                  onMouseLeave={() => {
+                    setShowToolTip({ ...showToolTip, email: false });
+                  }}
+                >
+                  <ErrorIcon className={style.icon} />
+                  {(showToolTip.email || vwLowerThan790) && (
+                    <p>Usuario no encontrado</p>
+                  )}
+                </div>
+              )}
+            </div>
           </label>
 
           <label>
             <p className={style.InputTitle}>Contraseña</p>
-            <input
-              type="password"
-              name="password"
-              value={loginForm.password}
-              onChange={handleChange}
-            />
-            {showError.password && (
-              <div
-                className={style.IconContainer}
-                onMouseEnter={() => {
-                  setShowToolTip({ ...showToolTip, password: true });
-                }}
-                onMouseLeave={() => {
-                  setShowToolTip({ ...showToolTip, password: false });
-                }}
-              >
-                <ErrorIcon className={style.icon} />
-                {showToolTip.password && <p>Contraseña incorrecta</p>}
-              </div>
-            )}
+
+            <div className={style.inputContainer}>
+              <input
+                type="password"
+                name="password"
+                value={loginForm.password}
+                onChange={handleChange}
+              />
+              {showError.password && (
+                <div
+                  className={style.iconContainer}
+                  onMouseEnter={() => {
+                    setShowToolTip({ ...showToolTip, password: true });
+                  }}
+                  onMouseLeave={() => {
+                    setShowToolTip({ ...showToolTip, password: false });
+                  }}
+                >
+                  <ErrorIcon className={style.icon} />
+                  {(showToolTip.password || vwLowerThan790) && (
+                    <p>Contraseña incorrecta</p>
+                  )}
+                </div>
+              )}
+            </div>
           </label>
 
           <button

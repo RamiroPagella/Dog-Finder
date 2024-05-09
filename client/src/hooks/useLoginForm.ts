@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useUserContext } from "./contextHooks";
 import { User } from "../types";
 import { AxiosError } from "axios";
-import { errorToast } from "../toasts";
+import useToasts from "./useToasts";
 
 interface LoginForm {
   email: "";
@@ -18,6 +18,7 @@ interface LoginResponse {
 }
 
 const useLoginForm = () => {
+  const { errorToast } = useToasts();
   const navigate = useNavigate();
   const { setUser, setIsAuthenticated } = useUserContext();
 
@@ -68,7 +69,7 @@ const useLoginForm = () => {
           if (err.response) {
             if (err.response.status === 404) {
               setShowError({ email: true, password: false });
-              errorToast("No existe ningun usuario con ese correo");
+              errorToast("Usuario no encontrado");
             }
             if (err.response.status === 401) {
               setShowError({ email: false, password: true });

@@ -25,7 +25,6 @@ const CreateDogForm = ({
   handleInputChange,
   inputValues,
 }: Props) => {
-  // const { height, weight, lifeSpan } = inputValues;
 
   return (
     <div className={style.CreateDogForm}>

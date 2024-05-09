@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Dog as DogType } from "../types";
 import Axios from "../axios";
-import { errorToast } from "../toasts";
+import useToasts from "./useToasts";
 import {
   useAppContext,
   usePagingContext,
@@ -18,6 +18,7 @@ interface Response {
 }
 
 const useDogDetail = (id: DogType["id"]) => {
+  const { errorToast } = useToasts();
   const { isAuthenticated, User, setUser } = useUserContext();
   const { setCreatedDog, setModifying, dogs, setDogs } = useAppContext();
   const {

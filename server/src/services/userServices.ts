@@ -6,15 +6,17 @@ import { Op } from "sequelize";
 import DogModel from "../models/Dog.model";
 
 export const validateUser = (
-  user: Omit<PwdUser, "admin">,
+  user: Omit<PwdUser, "admin">
 ): Omit<PwdUser, "admin"> => {
   const { email, username, password } = user;
-  if (!email || !username || !password) throw new Error("Missing data"); 
+  if (!email || !username || !password) throw new Error("Missing data");
 
   const validations = {
-    email: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(email),
-    username: username !== "",
-    password: password.length >= 6,
+    email:
+      /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(email) &&
+      email.length <= 100,
+    username: username !== "" && username.length <= 25,
+    password: password.length >= 6 && password.length <= 50,
   };
   if (!validations.email || !validations.username || !validations.password)
     throw new Error("Invalid data");
@@ -22,7 +24,9 @@ export const validateUser = (
   return user;
 };
 
-export const registerUser = async (user: Omit<PwdUser, 'admin'>): Promise<IdUser> => {
+export const registerUser = async (
+  user: Omit<PwdUser, "admin">
+): Promise<IdUser> => {
   try {
     const hashedPwd = await bcrypt.hash(user.password, 10);
 
@@ -50,7 +54,7 @@ export const registerUser = async (user: Omit<PwdUser, 'admin'>): Promise<IdUser
       email: User.email,
       id: User.id,
       admin: false,
-      likes: []
+      likes: [],
     };
   } catch (error) {
     console.log(error);
@@ -59,7 +63,7 @@ export const registerUser = async (user: Omit<PwdUser, 'admin'>): Promise<IdUser
 };
 
 export const LogUser = async (
-  user: Omit<PwdUser, "username" | "admin">,
+  user: Omit<PwdUser, "username" | "admin">
 ): Promise<IdUser> => {
   const { email, password } = user;
 
@@ -88,7 +92,10 @@ export const LogUser = async (
   return userWithId;
 };
 
-export const generateToken = (info: {id: User['id'], admin: User['admin']}) => {
+export const generateToken = (info: {
+  id: User["id"];
+  admin: User["admin"];
+}) => {
   const secretKey = process.env.SECRET as string;
   const token = jwt.sign(info, secretKey, { expiresIn: "1d" });
   return token;

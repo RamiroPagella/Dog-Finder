@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { usePagingContext, useSearchAndFiltersContext } from "./contextHooks";
 import { Filters } from "../types";
-import { errorToast } from "../toasts";
+import useToasts from "./useToasts";
 
 const useFilters = () => {
+  const { errorToast } = useToasts();
   const { searchAndFilters, setSearchAndFilters } = useSearchAndFiltersContext();
   const { setCurrentPage } = usePagingContext();
-
   const [searchAndFiltersLocal, setSearchAndFiltersLocal] = useState<Filters>({
     ...searchAndFilters,
     search: "",

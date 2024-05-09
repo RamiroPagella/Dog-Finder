@@ -6,7 +6,7 @@ import {
   useSearchAndFiltersContext,
   useUserContext,
 } from "../../hooks/contextHooks";
-import { errorToast } from "../../toasts";
+import useToasts from "../../hooks/useToasts";
 import { Dog } from "../../types";
 import style from "./deleteDogModal.module.scss";
 import { createPortal } from "react-dom";
@@ -23,6 +23,7 @@ interface Props {
 
 const DeleteDogModal = ({ setOpenDelete, id, isDogPending, isInDogDetail }: Props) => {
   const rootElement = document.getElementById("root") as Element;
+  const { errorToast } = useToasts();
   const navigate = useNavigate();
   const { setDogs } = useAppContext();
   const { setIsAuthenticated, setUser } = useUserContext();

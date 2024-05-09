@@ -5,10 +5,11 @@ import { useAppContext, useUserContext } from "../../hooks/contextHooks";
 import { Dog } from "../../types";
 import { Link, useLocation } from "react-router-dom";
 import { favDog } from "../../services/dogsServices";
-import { errorToast } from "../../toasts";
+import useToasts from "../../hooks/useToasts";
 import DeleteDog from "../DeleteDogModal/DeleteDogModal";
 
 const Card = (props: Dog) => {
+  const { errorToast } = useToasts();
   const { pathname } = useLocation();
   const { setBackRoute } = useAppContext();
   const [hover, setHover] = useState<boolean>(false);

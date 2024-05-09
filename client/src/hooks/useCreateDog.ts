@@ -4,11 +4,12 @@ import Axios from "../axios";
 import { useState } from "react";
 import { Dog, User } from "../types";
 import { AxiosError, AxiosResponse } from "axios";
-import { errorToast } from "../toasts";
+import useToasts from "./useToasts";
 import toast from "react-hot-toast";
 
 const useCreateDog = () => {
   const { User, setUser } = useUserContext();
+  const { errorToast } = useToasts();
   const { createdDog, setCreatedDog, modifying, setModifying } =
     useAppContext();
   const [height, setHeight] = useState<{ min: string; max: string }>({
@@ -31,6 +32,7 @@ const useCreateDog = () => {
   const [isFirstRender, setIsFirstRender] = useState<boolean>(true);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (Number(e.target.value) > 1000) return;
     const { name, value } = e.target;
 
     if (isNaN(Number(value))) {
@@ -51,7 +53,6 @@ const useCreateDog = () => {
   const handleDrop = (e: React.DragEvent<HTMLElement>) => {
     e.preventDefault();
     const file = e.dataTransfer.files[0];
-    // setSelectedImage(image);
     setCreatedDog((prev) => ({ ...prev, img: file }));
   };
 
@@ -63,7 +64,6 @@ const useCreateDog = () => {
         errorToast("El archivo debe ser una imagen");
         return;
       }
-
       setCreatedDog((prev) => ({ ...prev, img: file }));
     }
   };
@@ -78,8 +78,8 @@ const useCreateDog = () => {
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    if (value.length > 30) {
-      errorToast("El nombre debe ser menor a 30 caracteres");
+    if (value.length > 25) {
+      errorToast("El nombre debe ser menor a 25 caracteres");
       return;
     }
     setCreatedDog((prev) => ({ ...prev, name: value }));
@@ -158,6 +158,7 @@ const useCreateDog = () => {
         loading: "Enviando perro...",
         success: (response) => {
           const newDog: Dog = response.data;
+          console.log(User);
           setUser({ ...User, pendingDogs: [...User.pendingDogs, newDog] });
           restoreDog();
           return "Perro creado con exito";

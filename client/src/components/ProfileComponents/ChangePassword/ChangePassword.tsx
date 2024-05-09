@@ -2,7 +2,7 @@ import { createPortal } from "react-dom";
 import style from "./changePasword.module.scss";
 import Axios from "../../../axios";
 import { useState } from "react";
-import { errorToast, succesToast } from "../../../toasts";
+import useToasts from "../../../hooks/useToasts";
 import { AxiosError } from "axios";
 
 interface Props {
@@ -16,6 +16,7 @@ interface changePwdForm {
 
 const ChangePassword = ({ setOpenChangePassword }: Props) => {
   const rootElement = document.getElementById("root") as Element;
+  const {successToast, errorToast} = useToasts();
   const [form, setForm] = useState<changePwdForm>({
     actual: "",
     new: "",
@@ -35,7 +36,7 @@ const ChangePassword = ({ setOpenChangePassword }: Props) => {
         actualPwd: form.actual,
         newPwd: form.new,
       });
-      succesToast("Contraseña modificada correctamente");
+      successToast("Contraseña modificada correctamente");
       setOpenChangePassword(false);
     } catch (error) {
       if (error instanceof AxiosError && error.response?.status === 403) {

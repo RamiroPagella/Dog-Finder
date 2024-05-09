@@ -39,6 +39,9 @@ const useRegisterForm = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
+    if (name === 'username' && value.length >= 25) return;
+    if (name === 'email' && value.length >= 100) return;
+    if (name === 'password' && value.length >= 50) return;
     setRegisterForm({ ...registerForm, [name]: value });
   };
 
