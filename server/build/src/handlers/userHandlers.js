@@ -125,7 +125,7 @@ const changePassword = (req, res) => __awaiter(void 0, void 0, void 0, function*
                 id: userId,
             },
         });
-        res.status(200).send("Password changed succesfully");
+        res.status(200).send("Password changed successfully");
     }
     catch (error) {
         res

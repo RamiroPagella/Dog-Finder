@@ -35,7 +35,7 @@ export const GetDogs: RequestHandler = async (req, res) => {
     res.status(200).json({
       dogs: dogsPage,
       totalPages,
-      message: "Data fetched succesfully",
+      message: "Data fetched successfully",
     });
   } catch (error) {
     res
@@ -87,7 +87,7 @@ export const deleteDog: RequestHandler = async (req: ReqWithUser, res) => {
 
     cloudinary.uploader.destroy(dog.name);
     await dog.destroy();
-    res.status(200).send("Dog deleted succesfully");
+    res.status(200).send("Dog deleted successfully");
   } catch (error) {
     res
       .status(500)
@@ -181,7 +181,7 @@ export const cancelPendingDog: RequestHandler = async (
     cloudinary.uploader.destroy(dog.name);
     await dog.destroy();
 
-    res.status(200).send("Dog deleted succesfully");
+    res.status(200).send("Dog deleted successfully");
   } catch (error) {
     res
       .status(500)
@@ -440,7 +440,7 @@ export const approveOrDisapprove: RequestHandler = async (req, res) => {
     cloudinary.uploader.destroy(pendingDog.name);
     pendingDog?.destroy();
 
-    if (!approve) return res.status(200).send("Dog disapproved succesfully");
+    if (!approve) return res.status(200).send("Dog disapproved successfully");
 
     await DogModel.create({
       name: pendingDog.name,
@@ -453,7 +453,7 @@ export const approveOrDisapprove: RequestHandler = async (req, res) => {
       userId: pendingDog.userId,
     });
 
-    res.status(200).send("Dog approved succesfully");
+    res.status(200).send("Dog approved successfully");
   } catch (error) {
     res
       .status(500)
@@ -491,6 +491,8 @@ export const approveOrDisapproveAll: RequestHandler = async (req, res) => {
       }),
     );
 
+    if (!approve) return res.status(200).send('Dogs disapproved successfully')
+
     await DogModel.bulkCreate(
       pendingDogs.map((dog) => ({
         name: dog.name,
@@ -504,7 +506,7 @@ export const approveOrDisapproveAll: RequestHandler = async (req, res) => {
       })),
     );
 
-    res.status(200).send("Dogs approved succesfully");
+    res.status(200).send("Dogs approved successfully");
   } catch (error) {
     console.log(error);
     res

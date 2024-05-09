@@ -138,7 +138,7 @@ export const changePassword: RequestHandler = async (req: ReqWithUser, res) => {
       },
     );
 
-    res.status(200).send("Password changed succesfully");
+    res.status(200).send("Password changed successfully");
   } catch (error) {
     res
       .status(500)

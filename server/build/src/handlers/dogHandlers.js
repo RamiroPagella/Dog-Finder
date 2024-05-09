@@ -28,7 +28,7 @@ const GetDogs = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.status(200).json({
             dogs: dogsPage,
             totalPages,
-            message: "Data fetched succesfully",
+            message: "Data fetched successfully",
         });
     }
     catch (error) {
@@ -99,7 +99,7 @@ exports.GetDogs = GetDogs;
 //     };
 //     return res
 //       .status(200)
-//       .json({ message: "Dog fetched succesfully", dog, prevAndNext });
+//       .json({ message: "Dog fetched successfully", dog, prevAndNext });
 //   } catch (error) {
 //     res
 //       .status(500)
@@ -148,7 +148,7 @@ const deleteDog = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         cloudinary_1.v2.uploader.destroy(dog.name);
         yield dog.destroy();
-        res.status(200).send("Dog deleted succesfully");
+        res.status(200).send("Dog deleted successfully");
     }
     catch (error) {
         res
@@ -226,7 +226,7 @@ const cancelPendingDog = (req, res) => __awaiter(void 0, void 0, void 0, functio
         }
         cloudinary_1.v2.uploader.destroy(dog.name);
         yield dog.destroy();
-        res.status(200).send("Dog deleted succesfully");
+        res.status(200).send("Dog deleted successfully");
     }
     catch (error) {
         res
@@ -455,7 +455,7 @@ const approveOrDisapprove = (req, res) => __awaiter(void 0, void 0, void 0, func
         cloudinary_1.v2.uploader.destroy(pendingDog.name);
         pendingDog === null || pendingDog === void 0 ? void 0 : pendingDog.destroy();
         if (!approve)
-            return res.status(200).send("Dog disapproved succesfully");
+            return res.status(200).send("Dog disapproved successfully");
         yield Dog_model_1.default.create({
             name: pendingDog.name,
             height: pendingDog.height,
@@ -466,7 +466,7 @@ const approveOrDisapprove = (req, res) => __awaiter(void 0, void 0, void 0, func
             img: pendingDog.img,
             userId: pendingDog.userId,
         });
-        res.status(200).send("Dog approved succesfully");
+        res.status(200).send("Dog approved successfully");
     }
     catch (error) {
         res
@@ -509,7 +509,7 @@ const approveOrDisapproveAll = (req, res) => __awaiter(void 0, void 0, void 0, f
             img: dog.img,
             userId: dog.userId,
         })));
-        res.status(200).send("Dogs approved succesfully");
+        res.status(200).send("Dogs approved successfully");
     }
     catch (error) {
         console.log(error);
