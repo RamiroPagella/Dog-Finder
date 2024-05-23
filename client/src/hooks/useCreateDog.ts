@@ -32,8 +32,8 @@ const useCreateDog = () => {
   const [isFirstRender, setIsFirstRender] = useState<boolean>(true);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (Number(e.target.value) > 1000) return;
     const { name, value } = e.target;
+    if (value.toString().length > 4) return;
 
     if (isNaN(Number(value))) {
       errorToast("Debes ingresar un numero");
